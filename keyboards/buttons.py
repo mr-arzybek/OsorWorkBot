@@ -7,16 +7,30 @@ basic_markup = ReplyKeyboardMarkup(
     row_width=2
 )
 
+data_recording_button = KeyboardButton('/data_rec')
+pull_data_button = KeyboardButton('/pull_data')
 info_reg_button = KeyboardButton('/info')
+
+basic_markup.add(data_recording_button, pull_data_button, info_reg_button)
+# ===========================================================================
+data_recording_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
 products_reg_button = KeyboardButton('/fill_products')
 bookings_reg_button = KeyboardButton('/fill_booking')
 reg_staff_reg_button = KeyboardButton('/reg_staff')
 control_reg_button = KeyboardButton('/control')
+back_button = KeyboardButton('/<-back')
 
-basic_markup.add(info_reg_button, products_reg_button, bookings_reg_button, reg_staff_reg_button, control_reg_button)
-
+data_recording_markup.add(products_reg_button, bookings_reg_button, reg_staff_reg_button, control_reg_button,
+                          back_button)
 # ===========================================================================
+pull_data_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=1)
 
+# Здесь команды, которые будут вытаскивать данные из базы!
+error_button = KeyboardButton('Здесь пока ничего нет!')
+back_button = KeyboardButton('/<-back')
+
+pull_data_markup.add(error_button, back_button)
+# ===========================================================================
 cancel_button = KeyboardButton('Отмена')
 cancel_markup = ReplyKeyboardMarkup(resize_keyboard=True,
                                     one_time_keyboard=True,

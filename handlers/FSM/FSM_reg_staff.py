@@ -2,7 +2,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
-from keyboards.buttons import cancel_markup, basic_markup, submit_markup, city_markup
+from keyboards.buttons import cancel_markup, data_recording_markup, submit_markup, city_markup
 # from db.orm import
 
 
@@ -61,10 +61,10 @@ async def load_city(message: types.Message, state: FSMContext):
 async def load_submit(message: types.Message, state: FSMContext):
     if message.text.lower() == 'да':
         # await sql_product_insert(state)  # запись в базу
-        await message.answer('Готово!', reply_markup=basic_markup)
+        await message.answer('Готово!', reply_markup=data_recording_markup)
         await state.finish()
     elif message.text.lower() == 'нет':
-        await message.answer('Хорошо, отменено', reply_markup=basic_markup)
+        await message.answer('Хорошо, отменено', reply_markup=data_recording_markup)
         await state.finish()
 
 
@@ -72,7 +72,7 @@ async def cancel_reg(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is not None:
         await state.finish()
-        await message.answer('Отменено!', reply_markup=basic_markup)
+        await message.answer('Отменено!', reply_markup=data_recording_markup)
 
 
 def register_staff(dp: Dispatcher):
