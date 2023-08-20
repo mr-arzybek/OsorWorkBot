@@ -1,18 +1,15 @@
 import sqlite3
-import sql_queries
+from . import sql_queries
+
+db = sqlite3.connect("test.db")
+cursor = db.cursor()
 
 
-def db_connect():
-    global db, cursor
-
-    with sqlite3.connect("bish.db") as db:
-        cursor = db.cursor()
-
-        if db:
-            print("Database connected")
-            db.execute(sql_queries.CREATE_PRODUCT_TABLE_QUERY)
-
-        db.commit()
+def sql_create():
+    if db:
+        print("Database connected")
+    cursor.execute(sql_queries.CREATE_PRODUCT_TABLE_QUERY)
+    db.commit()
 
 
 async def sql_product_insert(state):

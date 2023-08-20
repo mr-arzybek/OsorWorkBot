@@ -1,7 +1,7 @@
 CREATE_PRODUCT_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS products
     (id INTEGER PRIMARY KEY,
-    name VARCHAR(255),
+    name_ VARCHAR(255),
     date_coming VARCHAR(15),
     date_care VARCHAR(15),
     city VARCHAR(30) 
@@ -9,5 +9,5 @@ CREATE_PRODUCT_TABLE_QUERY = """
 """
 
 PRODUCT_INSERT_QUERY = """
-    INSERT OR IGNORE INTO products VALUES (?,?,?,?,?)
+    INSERT OR IGNORE INTO products (name_, date_coming, date_care, city) VALUES (?,?,?,?)
 """
