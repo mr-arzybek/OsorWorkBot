@@ -11,7 +11,10 @@ class fsm_booking(StatesGroup):
     start_of_armor = State()  # Дата началы брони
     end_of_armor = State()  # Дата конца брони
     name_customer = State()
+    phone = State()
     name_salesman = State()
+    price = State()
+    discount = State()
     city = State()
     submit = State()
 
@@ -46,16 +49,43 @@ async def load_name_customer(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name_customer'] = message.text
     await fsm_booking.next()
+    await message.answer('Номер телефона заказчика? \n'
+                         '+996 или +7')
+
+async def load_phone_customer(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['phone_customer'] = message.text
+    await fsm_booking.next()
     await message.answer('Имя продавца?')
+
 
 
 async def load_name_salesman(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name_salesman'] = message.text
     await fsm_booking.next()
+    await message.answer('Цена?\n'
+                         '(Без скидки)')
+
+
+async def load_price(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['price'] = message.text
+    await fsm_booking.next()
+    await message.answer('Скидка?'
+                         '(Сумму скидки!)')
+
+
+async def load_discount(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['discount'] = message.text
+        data['calculation'] = int(data['price']) - int(data['discount'])
+
+    await fsm_booking.next()
     await message.answer('Город?\n'
                          'Если Москва, то указать какой филиал!',
                          reply_markup=city_markup)
+
 
 async def load_city(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
@@ -65,7 +95,11 @@ async def load_city(message: types.Message, state: FSMContext):
                              f"Начало брони: {data['start_of_armor']}\n"
                              f"Конец брони: {data['end_of_armor']}\n"
                              f"Заказчик: {data['name_customer']}\n"
+                             f"Номер телефона заказчика: {data['phone_customer']}\n"
                              f"Продацев: {data['name_salesman']}\n"
+                             f"Цена: {data['price']}\n"
+                             f"Скидка: {data['discount']}\n"
+                             f"Итоговая цена: {data['calculation']}\n"
                              f"Город: {data['city']}")
 
     await fsm_booking.next()
@@ -96,6 +130,9 @@ def register_booking(dp: Dispatcher):
     dp.register_message_handler(load_start_of_armor, state=fsm_booking.start_of_armor)
     dp.register_message_handler(load_end_of_armor, state=fsm_booking.end_of_armor)
     dp.register_message_handler(load_name_customer, state=fsm_booking.name_customer)
+    dp.register_message_handler(load_phone_customer, state=fsm_booking.phone)
     dp.register_message_handler(load_name_salesman, state=fsm_booking.name_salesman)
+    dp.register_message_handler(load_price, state=fsm_booking.price)
+    dp.register_message_handler(load_discount, state=fsm_booking.discount)
     dp.register_message_handler(load_city, state=fsm_booking.city)
     dp.register_message_handler(load_submit, state=fsm_booking.submit)

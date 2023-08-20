@@ -8,8 +8,9 @@ basic_markup = ReplyKeyboardMarkup(
 )
 
 products_reg_button = KeyboardButton('/fill_products')
+bookings_reg_button = KeyboardButton('/fill_booking')
 
-basic_markup.add(products_reg_button)
+basic_markup.add(products_reg_button, bookings_reg_button)
 
 # ===========================================================================
 
