@@ -1,7 +1,8 @@
 from aiogram.utils import executor
 import logging
 from config import dp
-from handlers import commands, FSM_products
+from handlers import commands
+from handlers.FSM import FSM_products
 from db.orm import sql_create
 
 
