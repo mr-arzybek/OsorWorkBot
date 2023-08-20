@@ -77,7 +77,7 @@ async def load_price(message: types.Message, state: FSMContext):
 async def load_discount(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['discount'] = message.text
-        data['calculation'] = int(data['price']) - int(data['discount'])
+        data['total_price'] = int(data['price']) - int(data['discount'])
 
     await fsm_products.next()
     await message.answer('Город?\n'
@@ -97,7 +97,7 @@ async def load_city(message: types.Message, state: FSMContext):
                              f"Продацев: {data['name_salesman']}\n"
                              f"Цена: {data['price']}\n"
                              f"Скидка: {data['discount']}\n"
-                             f"Итоговая цена: {data['calculation']}\n"
+                             f"Итоговая цена: {data['total_price']}\n"
                              f"Город: {data['city']}")
 
     await fsm_products.next()
