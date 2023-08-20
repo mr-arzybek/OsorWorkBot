@@ -2,7 +2,7 @@ from aiogram.utils import executor
 import logging
 from config import dp
 from handlers import commands
-from handlers.FSM import FSM_products, FSM_booking
+from handlers.FSM import FSM_products, FSM_booking, FSM_reg_staff
 from db.orm import sql_create
 
 
@@ -13,6 +13,7 @@ async def on_startup(_):
 commands.register_commands(dp)
 FSM_products.register_products(dp)
 FSM_booking.register_booking(dp)
+FSM_reg_staff.register_staff(dp)
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

@@ -4,13 +4,15 @@ from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 basic_markup = ReplyKeyboardMarkup(
     resize_keyboard=True,
     one_time_keyboard=False,
-    row_width=3
+    row_width=2
 )
 
+info_reg_button = KeyboardButton('/info')
 products_reg_button = KeyboardButton('/fill_products')
 bookings_reg_button = KeyboardButton('/fill_booking')
+reg_staff_reg_button = KeyboardButton('/reg_staff')
 
-basic_markup.add(products_reg_button, bookings_reg_button)
+basic_markup.add(info_reg_button, products_reg_button, bookings_reg_button, reg_staff_reg_button)
 
 # ===========================================================================
 
