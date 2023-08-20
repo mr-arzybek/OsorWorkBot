@@ -3,7 +3,7 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards.buttons import cancel_markup, basic_markup, submit_markup, city_markup
-from db.orm import sql_product_insert
+from db.orm import sql_booking_insert
 
 
 class fsm_booking(StatesGroup):
@@ -74,7 +74,7 @@ async def load_city(message: types.Message, state: FSMContext):
 
 async def load_submit(message: types.Message, state: FSMContext):
     if message.text.lower() == 'да':
-        # await sql_product_insert(state)  # запись в базу
+        await sql_booking_insert(state)  # запись в базу
         await message.answer('Готово!', reply_markup=basic_markup)
         await state.finish()
     elif message.text.lower() == 'нет':
