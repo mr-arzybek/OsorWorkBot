@@ -28,12 +28,15 @@ async def load_full_name(message: types.Message, state: FSMContext):
 
 
 async def load_phone_staff(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['phone'] = message.text
-    await fsm_reg_staff.next()
-    await message.answer('График сотрудника?\n'
-                         '(Во сколько начинается его рабочий день)\n'
-                         'Образец: 9:00 - 17:00')
+    if message.text.find("+"):
+        await message.answer('Начните с +')
+    else:
+        async with state.proxy() as data:
+            data['phone'] = message.text
+        await fsm_reg_staff.next()
+        await message.answer('График сотрудника?\n'
+                             '(Во сколько начинается его рабочий день)\n'
+                             'Образец: 9:00 - 17:00')
 
 
 async def load_schedule(message: types.Message, state: FSMContext):
@@ -41,7 +44,8 @@ async def load_schedule(message: types.Message, state: FSMContext):
         data['schedule'] = message.text
     await fsm_reg_staff.next()
     await message.answer('Город?\n'
-                         'Если Москва, то указать какой филиал!',
+                         'Если Москва, то указать какой филиал!\n'
+                         'Выберите снизу по кнопкам, какой город!',
                          reply_markup=city_markup)
 
 

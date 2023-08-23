@@ -35,12 +35,17 @@ async def load_data(message: types.Message, state: FSMContext):
                          'Образец: 9:34')
 
 
+
+
 async def load_time(message: types.Message, state: FSMContext):
+    # Вот здесь прописать логику, если челик опоздал, то отправить ему сообщение
+    # Либо для всех установить одно время и, если он опоздал, то сказать что он опоздал
     async with state.proxy() as data:
         data['time'] = message.text
     await fsm_control.next()
     await message.answer('Город?\n'
-                         'Если Москва, то указать какой филиал!',
+                         'Если Москва, то указать какой филиал!\n'
+                         'Выберите снизу по кнопкам, какой город!',
                          reply_markup=city_markup)
 
 

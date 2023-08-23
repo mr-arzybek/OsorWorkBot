@@ -10,12 +10,12 @@ class fsm_booking(StatesGroup):
     name_product = State()  # Название товара
     start_of_armor = State()  # Дата началы брони
     end_of_armor = State()  # Дата конца брони
-    name_customer = State()
-    phone = State()
-    name_salesman = State()
-    price = State()
-    discount = State()
-    city = State()
+    name_customer = State()  # Имя заказчика
+    phone = State()  # Номер телефона заказчика
+    name_salesman = State()  # Имя продавца
+    price = State()  # Цена
+    discount = State()  # Скидка
+    city = State()  # Итоговая цена
     submit = State()
 
 
@@ -28,14 +28,16 @@ async def load_name_product(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name_product'] = message.text
     await fsm_booking.next()
-    await message.answer('Начало брони?')
+    await message.answer('Начало брони?\n'
+                         'Образец: 12.09.23')
 
 
 async def load_start_of_armor(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['start_of_armor'] = message.text
     await fsm_booking.next()
-    await message.answer('Конец брони?')
+    await message.answer('Конец брони?\n'
+                         'Образец: 12.09.23')
 
 
 async def load_end_of_armor(message: types.Message, state: FSMContext):
@@ -52,12 +54,15 @@ async def load_name_customer(message: types.Message, state: FSMContext):
     await message.answer('Номер телефона заказчика? \n'
                          '+996 или +7')
 
-async def load_phone_customer(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['phone_customer'] = message.text
-    await fsm_booking.next()
-    await message.answer('Имя продавца?')
 
+async def load_phone_customer(message: types.Message, state: FSMContext):
+    if message.text.find("+"):
+        await message.answer('Начните с +')
+    else:
+        async with state.proxy() as data:
+            data['phone_customer'] = message.text
+        await fsm_booking.next()
+        await message.answer('Имя продавца?')
 
 
 async def load_name_salesman(message: types.Message, state: FSMContext):
@@ -69,11 +74,15 @@ async def load_name_salesman(message: types.Message, state: FSMContext):
 
 
 async def load_price(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['price'] = message.text
-    await fsm_booking.next()
-    await message.answer('Скидка?'
-                         '(Сумму скидки!)')
+    try:
+        async with state.proxy() as data:
+            data['price'] = message.text
+        await fsm_booking.next()
+        await message.answer('Скидка?'
+                             '(Сумму скидки!)')
+
+    except ValueError:
+        await message.answer('Укажите цифрами!')
 
 
 async def load_discount(message: types.Message, state: FSMContext):
@@ -83,14 +92,15 @@ async def load_discount(message: types.Message, state: FSMContext):
 
     await fsm_booking.next()
     await message.answer('Город?\n'
-                         'Если Москва, то указать какой филиал!',
+                         'Если Москва, то указать какой филиал!\n'
+                         'Выберите снизу по кнопкам, какой город!',
                          reply_markup=city_markup)
 
 
 async def load_city(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['city'] = message.text
-        await message.answer(f"Данные: \n"
+        await message.answer(f"Данные брони: \n"
                              f"Название товара: {data['name_product']}\n"
                              f"Начало брони: {data['start_of_armor']}\n"
                              f"Конец брони: {data['end_of_armor']}\n"
@@ -125,7 +135,9 @@ async def cancel_reg(message: types.Message, state: FSMContext):
 
 def register_booking(dp: Dispatcher):
     dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
+
     dp.register_message_handler(fsm_start, commands=['fill_booking'])
+
     dp.register_message_handler(load_name_product, state=fsm_booking.name_product)
     dp.register_message_handler(load_start_of_armor, state=fsm_booking.start_of_armor)
     dp.register_message_handler(load_end_of_armor, state=fsm_booking.end_of_armor)

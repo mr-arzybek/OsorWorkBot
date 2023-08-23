@@ -54,10 +54,13 @@ async def load_name_customer(message: types.Message, state: FSMContext):
 
 
 async def load_phone_customer(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['phone_customer'] = message.text
-    await fsm_products.next()
-    await message.answer('Имя продавца?')
+    if message.text.find("+"):
+        await message.answer('Начните с +')
+    else:
+        async with state.proxy() as data:
+            data['phone_customer'] = message.text
+        await fsm_products.next()
+        await message.answer('Имя продавца?')
 
 
 async def load_name_salesman(message: types.Message, state: FSMContext):
@@ -81,7 +84,8 @@ async def load_discount(message: types.Message, state: FSMContext):
 
     await fsm_products.next()
     await message.answer('Город?\n'
-                         'Если Москва, то указать какой филиал!',
+                         'Если Москва, то указать какой филиал!\n'
+                         'Выберите снизу по кнопкам, какой город!',
                          reply_markup=city_markup)
 
 
