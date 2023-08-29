@@ -4,6 +4,7 @@ CREATE_PRODUCT_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS products
     (id INTEGER PRIMARY KEY,
     name_ VARCHAR(255),
+    info_product VARCHAR(255),
     date_coming VARCHAR(15),
     date_care VARCHAR(15),
     name_customer VARCHAR(255),
@@ -12,14 +13,17 @@ CREATE_PRODUCT_TABLE_QUERY = """
     price DECIMAL(10, 2),
     discount INTEGER,
     total_price INTEGER,
-    city VARCHAR(50)
+    city VARCHAR(50), 
+    photo TEXT,
+    creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """
 
 PRODUCT_INSERT_QUERY = """
     INSERT OR IGNORE INTO products 
-    (name_, date_coming, date_care, name_customer, phone, name_salesman, price, discount, total_price, city)
-    VALUES (?,?,?,?,?,?,?,?,?,?)
+    (name_, info_coming, date_coming, date_care, name_customer, phone, name_salesman, price, discount, total_price, city, photo, 
+    creation_time)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 """
 
 # =======================================================================================================================
@@ -35,14 +39,16 @@ CREATE_BOOKING_TABLE_QUERY = """
     price DECIMAL(10, 2),
     discount INTEGER,
     total_price INTEGER,
-    city VARCHAR(50)
-    )
+    city VARCHAR(50),
+    photo TEXT,
+    creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP)
 """
 
 BOOKING_INSERT_QUERY = """
     INSERT OR IGNORE INTO booking  
-    (name_product, start_of_armor, end_of_armor, name_customer, phone, name_salesman, price, discount, total_price, city)
-    VALUES (?,?,?,?,?,?,?,?,?, ?)
+    (name_product, start_of_armor, end_of_armor, name_customer, phone, name_salesman, price, discount, total_price, city, photo,
+    creation_time)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
 """
 
 # =======================================================================================================================
@@ -51,15 +57,18 @@ CREATE_STAFF_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS staff
     (full_name_staff VARCHAR(255),
     phone_staff VARCHAR(50) UNIQUE,
+    info_staff VARCHAR(255),
     schedule_staff VARCHAR(255),
-    city_staff VARCHAR(50)
+    city_staff VARCHAR(50),
+    photo TEXT,
+    creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """
 
 STAFF_INSERT_QUERY = """
     INSERT OR IGNORE INTO staff  
-    (full_name_staff, phone_staff, schedule_staff, city_staff)
-    VALUES (?,?,?,?)
+    (full_name_staff, phone_staff, info_staff, schedule_staff, city_staff, photo, creation_time)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
 """
 
 # =======================================================================================================================
@@ -69,12 +78,13 @@ CREATE_BEING_LATE_TABLE_QUERY = """
     (full_name VARCHAR(255),
     date_ VARCHAR(50),
     time_ VARCHAR(255),
-    city VARCHAR(50)
+    city VARCHAR(50),
+    creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """
 
 BEING_LATE_INSERT_QUERY = """
     INSERT OR IGNORE INTO being_late  
-    (full_name, date_, time_, city)
-    VALUES (?,?,?,?)
+    (full_name, date_, time_, city, creation_time)
+    VALUES (?,?,?,?,?)
 """

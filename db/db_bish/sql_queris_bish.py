@@ -4,6 +4,7 @@ CREATE_PRODUCT_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS products
     (id INTEGER PRIMARY KEY,
     name_ VARCHAR(255),
+    info_product VARCHAR(255),
     date_coming VARCHAR(15),
     date_care VARCHAR(15),
     name_customer VARCHAR(255),
@@ -13,14 +14,16 @@ CREATE_PRODUCT_TABLE_QUERY = """
     discount INTEGER,
     total_price INTEGER,
     city VARCHAR(50), 
+    photo TEXT,
     creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """
 
 PRODUCT_INSERT_QUERY = """
     INSERT OR IGNORE INTO products 
-    (name_, date_coming, date_care, name_customer, phone, name_salesman, price, discount, total_price, city, creation_time)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?)
+    (name_, info_coming, date_coming, date_care, name_customer, phone, name_salesman, price, discount, total_price, city, photo, 
+    creation_time)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 """
 
 # =======================================================================================================================
@@ -54,16 +57,18 @@ CREATE_STAFF_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS staff
     (full_name_staff VARCHAR(255),
     phone_staff VARCHAR(50) UNIQUE,
+    info_staff VARCHAR(255),
     schedule_staff VARCHAR(255),
     city_staff VARCHAR(50),
+    photo TEXT,
     creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """
 
 STAFF_INSERT_QUERY = """
     INSERT OR IGNORE INTO staff  
-    (full_name_staff, phone_staff, schedule_staff, city_staff, creation_time)
-    VALUES (?, ?, ?, ?, ?)
+    (full_name_staff, phone_staff, info_staff, schedule_staff, city_staff, photo, creation_time)
+    VALUES (?, ?, ?, ?, ?, ?, ?)
 """
 
 # =======================================================================================================================
