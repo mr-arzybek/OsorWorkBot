@@ -1,21 +1,38 @@
 from aiogram.utils import executor
 import logging
-from config import dp
+from config import dp, bot, Admins
 from handlers import commands
 from handlers.FSM import FSM_products, FSM_booking, FSM_reg_staff, FSM_being_late
-from db.orm import sql_create
+
+from db.db_bish.ORM_Bish import sql_create_bish
+from db.db_osh.ORM_Osh import sql_create_osh
+from db.db_moscow_1.ORM_Moscow_1 import sql_create_moscow_1
+from db.db_moscow_2.ORM_Moscow_2 import sql_create_moscow_2
+
+from db.sql_commands import get_products, get_booking, get_staff
+from keyboards.buttons import start_markup
 
 
+# ===========================================================================
 async def on_startup(_):
-    sql_create()
+    await bot.send_message(chat_id=Admins[0], text="Бот запущен!", reply_markup=start_markup)
+    sql_create_bish()
+    sql_create_osh()
+    sql_create_moscow_1()
+    sql_create_moscow_2()
 
 
+# ===========================================================================
 commands.register_commands(dp)
 FSM_products.register_products(dp)
 FSM_booking.register_booking(dp)
 FSM_reg_staff.register_staff(dp)
 FSM_being_late.register_control(dp)
-
+# =====================================================
+get_products.register_sql_commands(dp)
+get_booking.register_sql_commands(dp)
+get_staff.register_sql_commands(dp)
+# ===========================================================================
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     executor.start_polling(dp, skip_updates=True, on_startup=on_startup)

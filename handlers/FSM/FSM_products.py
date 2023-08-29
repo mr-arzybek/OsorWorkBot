@@ -1,10 +1,17 @@
+# =======================================================================================================================
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards.buttons import cancel_markup, data_recording_markup, submit_markup, city_markup
-from db.orm import sql_product_insert
 
+from db.db_bish.ORM_Bish import bish_sql_product_insert
+from db.db_osh.ORM_Osh import osh_sql_product_insert
+from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_insert
+from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_insert
+
+
+# =======================================================================================================================
 
 class fsm_products(StatesGroup):
     name = State()  # Название товара
@@ -69,24 +76,31 @@ async def load_name_salesman(message: types.Message, state: FSMContext):
     await fsm_products.next()
     await message.answer('Цена?')
 
+
 async def load_price(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['price'] = message.text
-    await fsm_products.next()
-    await message.answer('Скидка?'
-                         '(Сумму скидки!)')
+    if message.text.isdigit():
+        async with state.proxy() as data:
+            data['price'] = message.text
+        await fsm_products.next()
+        await message.answer('Скидка?\n'
+                             '(Сумму скидки!)')
+    else:
+        await message.answer('Укажите цифрами!')
 
 
 async def load_discount(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['discount'] = message.text
-        data['total_price'] = int(data['price']) - int(data['discount'])
+    if message.text.isdigit():
+        async with state.proxy() as data:
+            data['discount'] = message.text
+            data['calculation'] = int(data['price']) - int(data['discount'])
 
-    await fsm_products.next()
-    await message.answer('Город?\n'
-                         'Если Москва, то указать какой филиал!\n'
-                         'Выберите снизу по кнопкам, какой город!',
-                         reply_markup=city_markup)
+        await fsm_products.next()
+        await message.answer('Город?\n'
+                             'Если Москва, то указать какой филиал!\n'
+                             'Выберите снизу по кнопкам, какой город!',
+                             reply_markup=city_markup)
+    else:
+        await message.answer('Укажите цифрами!')
 
 
 async def load_city(message: types.Message, state: FSMContext):
@@ -97,11 +111,11 @@ async def load_city(message: types.Message, state: FSMContext):
                              f"Дата прихода: {data['date_coming']}\n"
                              f"Дата ухода: {data['date_care']}\n"
                              f"Заказчик: {data['name_customer']}\n"
-                              f"Номер телефона заказчика: {data['phone_customer']}\n"
+                             f"Номер телефона заказчика: {data['phone_customer']}\n"
                              f"Продацев: {data['name_salesman']}\n"
                              f"Цена: {data['price']}\n"
                              f"Скидка: {data['discount']}\n"
-                             f"Итоговая цена: {data['total_price']}\n"
+                             f"Итоговая цена: {data['calculation']}\n"
                              f"Город: {data['city']}")
 
     await fsm_products.next()
@@ -109,13 +123,31 @@ async def load_city(message: types.Message, state: FSMContext):
 
 
 async def load_submit(message: types.Message, state: FSMContext):
-    if message.text.lower() == 'да':
-        await sql_product_insert(state)  # запись в базу
-        await message.answer('Готово!', reply_markup=data_recording_markup)
-        await state.finish()
-    elif message.text.lower() == 'нет':
-        await message.answer('Хорошо, отменено', reply_markup=data_recording_markup)
-        await state.finish()
+    async with state.proxy() as data:
+        if message.text.lower() == 'да':
+            if data['city'] == 'Бишкек':
+                await bish_sql_product_insert(state)
+                await message.answer('Готово!', reply_markup=data_recording_markup)
+                await state.finish()
+
+            elif data['city'] == 'ОШ':
+                await osh_sql_product_insert(state)
+                await message.answer('Готово!', reply_markup=data_recording_markup)
+                await state.finish()
+
+            elif data['city'] == 'Москва 1-филиал':
+                await moscow_1_sql_product_insert(state)
+                await message.answer('Готово!', reply_markup=data_recording_markup)
+                await state.finish()
+
+            elif data['city'] == 'Москва 2-филиал':
+                await moscow_2_sql_product_insert(state)
+                await message.answer('Готово!', reply_markup=data_recording_markup)
+                await state.finish()
+
+        elif message.text.lower() == 'нет':
+            await message.answer('Хорошо, отменено', reply_markup=data_recording_markup)
+            await state.finish()
 
 
 async def cancel_reg(message: types.Message, state: FSMContext):
@@ -125,9 +157,11 @@ async def cancel_reg(message: types.Message, state: FSMContext):
         await message.answer('Отменено!', reply_markup=data_recording_markup)
 
 
+# =======================================================================================================================
+
 def register_products(dp: Dispatcher):
     dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
-    dp.register_message_handler(fsm_start, commands=['fill_products'])
+    dp.register_message_handler(fsm_start, commands=['запись_товаров'])
     dp.register_message_handler(load_name, state=fsm_products.name)
     dp.register_message_handler(load_date_coming, state=fsm_products.date_coming)
     dp.register_message_handler(load_date_care, state=fsm_products.date_care)

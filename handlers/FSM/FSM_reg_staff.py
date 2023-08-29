@@ -1,10 +1,17 @@
+# =======================================================================================================================
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
-from keyboards.buttons import cancel_markup, data_recording_markup, submit_markup, city_markup
-# from db.orm import
+from keyboards.buttons import cancel_markup, staff_markup, submit_markup, city_markup
 
+from db.db_bish.ORM_Bish import bish_sql_staff_insert
+from db.db_osh.ORM_Osh import osh_sql_staff_insert
+from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_staff_insert
+from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_staff_insert
+
+
+# =======================================================================================================================
 
 class fsm_reg_staff(StatesGroup):
     full_name_staff = State()
@@ -43,7 +50,7 @@ async def load_schedule(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['schedule'] = message.text
     await fsm_reg_staff.next()
-    await message.answer('Город?\n'
+    await message.answer('Сотрудник какого филиала?\n'
                          'Если Москва, то указать какой филиал!\n'
                          'Выберите снизу по кнопкам, какой город!',
                          reply_markup=city_markup)
@@ -63,26 +70,46 @@ async def load_city(message: types.Message, state: FSMContext):
 
 
 async def load_submit(message: types.Message, state: FSMContext):
-    if message.text.lower() == 'да':
-        # await sql_product_insert(state)  # запись в базу
-        await message.answer('Готово!', reply_markup=data_recording_markup)
-        await state.finish()
-    elif message.text.lower() == 'нет':
-        await message.answer('Хорошо, отменено', reply_markup=data_recording_markup)
-        await state.finish()
+    async with state.proxy() as data:
+        if message.text.lower() == 'да':
+            if data['city'] == 'Бишкек':
+                await bish_sql_staff_insert(state)
+                await message.answer('Готово!', reply_markup=staff_markup)
+                await state.finish()
+
+            elif data['city'] == 'ОШ':
+                await osh_sql_staff_insert(state)
+                await message.answer('Готово!', reply_markup=staff_markup)
+                await state.finish()
+
+            elif data['city'] == 'Москва 1-филиал':
+                await moscow_1_sql_staff_insert(state)
+                await message.answer('Готово!', reply_markup=staff_markup)
+                await state.finish()
+
+            elif data['city'] == 'Москва 2-филиал':
+                await moscow_2_sql_staff_insert(state)
+                await message.answer('Готово!', reply_markup=staff_markup)
+                await state.finish()
+
+        elif message.text.lower() == 'нет':
+            await message.answer('Хорошо, отменено', reply_markup=staff_markup)
+            await state.finish()
 
 
 async def cancel_reg(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is not None:
         await state.finish()
-        await message.answer('Отменено!', reply_markup=data_recording_markup)
+        await message.answer('Отменено!', reply_markup=staff_markup)
 
+
+# =======================================================================================================================
 
 def register_staff(dp: Dispatcher):
     dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
 
-    dp.register_message_handler(fsm_start, commands=['reg_staff'])
+    dp.register_message_handler(fsm_start, commands=['регистрация_сотрудников'])
     dp.register_message_handler(load_full_name, state=fsm_reg_staff.full_name_staff)
     dp.register_message_handler(load_phone_staff, state=fsm_reg_staff.phone_staff)
     dp.register_message_handler(load_schedule, state=fsm_reg_staff.schedule_staff)
