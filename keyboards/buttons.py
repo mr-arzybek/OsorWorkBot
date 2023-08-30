@@ -21,9 +21,20 @@ products_button = KeyboardButton("/Товары")
 staff_button = KeyboardButton("/Сотрудники")
 
 start_markup.add(finance_button, products_button, staff_button)
-
 # ===========================================================================
 
+
+# ===========================================================================
+finance_markup = ReplyKeyboardMarkup(
+    resize_keyboard=True,
+    one_time_keyboard=False,
+    row_width=1
+)
+error_button = KeyboardButton('Здесь пока ничего нет!')
+
+finance_markup.add(error_button, back_button)
+
+# ===========================================================================
 
 products_markup = ReplyKeyboardMarkup(
     resize_keyboard=True,

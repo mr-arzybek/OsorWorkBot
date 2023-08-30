@@ -2,7 +2,8 @@ from aiogram.utils import executor
 import logging
 from config import dp, bot, Admins
 from handlers import commands
-from handlers.FSM import FSM_start_products,FSM_care_products, FSM_start_booking,FSM_care_booking, FSM_reg_staff, FSM_being_late
+from handlers.FSM import (FSM_start_products, FSM_care_products, FSM_start_booking,FSM_care_booking,
+                          FSM_reg_staff, FSM_being_late)
 
 from db.db_bish.ORM_Bish import sql_create_bish
 from db.db_osh.ORM_Osh import sql_create_osh
