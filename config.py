@@ -3,10 +3,11 @@ from decouple import config
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 
 
-storege = MemoryStorage()
+storage = MemoryStorage()
 
 TOKEN = config('TOKEN')
 
 bot = Bot(TOKEN)
-dp = Dispatcher(bot=bot, storage=storege)
+dp = Dispatcher(bot=bot, storage=storage)
+
 Admins = (995712956, )

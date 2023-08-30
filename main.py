@@ -11,12 +11,12 @@ from db.db_moscow_1.ORM_Moscow_1 import sql_create_moscow_1
 from db.db_moscow_2.ORM_Moscow_2 import sql_create_moscow_2
 
 from db.sql_commands import get_products, get_booking, get_staff
-from keyboards.buttons import start_markup
+from keyboards import buttons
 
 
 # ===========================================================================
 async def on_startup(_):
-    await bot.send_message(chat_id=Admins[0], text="Бот запущен!", reply_markup=start_markup)
+    await bot.send_message(chat_id=Admins[0], text="Бот запущен!", reply_markup=buttons.start_admins_markup)
     sql_create_bish()
     sql_create_osh()
     sql_create_moscow_1()

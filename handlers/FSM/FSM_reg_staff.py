@@ -3,7 +3,7 @@ from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
-from keyboards.buttons import cancel_markup, staff_markup, submit_markup, city_markup
+from keyboards import buttons
 
 from db.db_bish.ORM_Bish import bish_sql_staff_insert
 from db.db_osh.ORM_Osh import osh_sql_staff_insert
@@ -27,7 +27,7 @@ class fsm_reg_staff(StatesGroup):
 
 async def fsm_start(message: types.Message):
     await fsm_reg_staff.full_name_staff.set()
-    await message.answer('Имя сотрудника?', reply_markup=cancel_markup)
+    await message.answer('Имя сотрудника?', reply_markup=buttons.cancel_markup)
 
 
 async def load_full_name(message: types.Message, state: FSMContext):
@@ -64,7 +64,7 @@ async def load_schedule(message: types.Message, state: FSMContext):
     await message.answer('Сотрудник какого филиала?\n'
                          'Если Москва, то указать какой филиал!\n'
                          'Выберите снизу по кнопкам, какой город!',
-                         reply_markup=city_markup)
+                         reply_markup=buttons.city_markup)
 
 
 async def load_city(message: types.Message, state: FSMContext):
@@ -87,7 +87,7 @@ async def load_photo(message: types.Message, state: FSMContext):
                     f'График: {data["schedule"]}\n'
                     f'Город: {data["city"]}')
     await fsm_reg_staff.next()
-    await message.answer("Все верно?", reply_markup=submit_markup)
+    await message.answer("Все верно?", reply_markup=buttons.submit_markup)
 
 
 async def load_submit(message: types.Message, state: FSMContext):
@@ -95,26 +95,26 @@ async def load_submit(message: types.Message, state: FSMContext):
         if message.text.lower() == 'да':
             if data['city'] == 'Бишкек':
                 await bish_sql_staff_insert(state)
-                await message.answer('Готово!', reply_markup=staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.staff_markup)
                 await state.finish()
 
             elif data['city'] == 'ОШ':
                 await osh_sql_staff_insert(state)
-                await message.answer('Готово!', reply_markup=staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.staff_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 1-филиал':
                 await moscow_1_sql_staff_insert(state)
-                await message.answer('Готово!', reply_markup=staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.staff_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 2-филиал':
                 await moscow_2_sql_staff_insert(state)
-                await message.answer('Готово!', reply_markup=staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.staff_markup)
                 await state.finish()
 
         elif message.text.lower() == 'нет':
-            await message.answer('Хорошо, отменено', reply_markup=staff_markup)
+            await message.answer('Хорошо, отменено', reply_markup=buttons.staff_markup)
             await state.finish()
 
 
@@ -122,7 +122,7 @@ async def cancel_reg(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is not None:
         await state.finish()
-        await message.answer('Отменено!', reply_markup=staff_markup)
+        await message.answer('Отменено!', reply_markup=buttons.staff_markup)
 
 
 # =======================================================================================================================
