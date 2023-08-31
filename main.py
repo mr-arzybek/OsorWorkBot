@@ -10,7 +10,7 @@ from db.db_osh.ORM_Osh import sql_create_osh
 from db.db_moscow_1.ORM_Moscow_1 import sql_create_moscow_1
 from db.db_moscow_2.ORM_Moscow_2 import sql_create_moscow_2
 
-from db.sql_commands import get_products, get_booking, get_staff
+from db.sql_commands import get_products_comming, get_booking, get_staff
 from keyboards import buttons
 
 

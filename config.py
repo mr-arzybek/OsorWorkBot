@@ -7,7 +7,7 @@ storage = MemoryStorage()
 
 TOKEN = config('TOKEN')
 
+Admins = (995712956,)
 bot = Bot(TOKEN)
 dp = Dispatcher(bot=bot, storage=storage)
 
-Admins = (995712956, )

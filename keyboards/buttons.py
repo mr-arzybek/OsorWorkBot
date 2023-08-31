@@ -11,6 +11,7 @@ from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
 # ===========================================================================
 back_admins_button = KeyboardButton('/<назад')
 back_staff_button = KeyboardButton('/<-назад')
+info_button = KeyboardButton("/Информация")
 # ===========================================================================
 start_admins_markup = ReplyKeyboardMarkup(
     resize_keyboard=True,
@@ -21,7 +22,7 @@ finance_button = KeyboardButton("/Финансы")
 products_button = KeyboardButton("/Товары")
 staff_button = KeyboardButton("/Сотрудники")
 
-start_admins_markup.add(finance_button, products_button, staff_button)
+start_admins_markup.add(finance_button, products_button, staff_button, info_button)
 
 
 staff_markup = ReplyKeyboardMarkup(
@@ -32,7 +33,7 @@ staff_markup = ReplyKeyboardMarkup(
 products_button = KeyboardButton("/Товары")
 staff_button = KeyboardButton("/Сотрудники")
 
-staff_markup.add(products_button, staff_button)
+staff_markup.add(products_button, staff_button, info_button)
 # ===========================================================================
 products_staff_markup = ReplyKeyboardMarkup(
     resize_keyboard=True,

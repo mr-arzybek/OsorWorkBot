@@ -7,7 +7,7 @@ from keyboards import buttons
 # =================================================================================================================
 
 async def start(message: types.Message):
-    if message.from_user.id == Admins:
+    if message.from_user.id in Admins:
         await bot.send_message(message.from_user.id, "Добро пожаловать в OSOR!\n"
                                                      "Этот бот для управления бизнесом!",
                                reply_markup=buttons.start_admins_markup)
@@ -17,28 +17,8 @@ async def start(message: types.Message):
                                reply_markup=buttons.staff_markup)
 
 
-async def info_for_staff(message: types.Message):
-    await message.answer(f"Какие команды есть в этом боте:\n\n"
-                         f"=====Записи в базу=====\n"
-                         f"/fill_products - для контроля товаров(приход и уход)\n"
-                         f"/fill_booking - брони\n"
-                         f"/reg_staff - регистрация сотрудников и их график\n"
-                         f"/control - для контроля сотрудников(чтобы посмотреть кто опоздал)",
-                         reply_markup=buttons.staff_markup)
-
-
-async def products_button(message: types.Message):
-    if message.from_user.id == Admins:
-        await message.answer('Вы зашли в товары!', reply_markup=buttons.products_admins_markup)
-    else:
-        await message.answer('Вы зашли в товары!', reply_markup=buttons.products_staff_markup)
-
-
-"""Только для Админов"""
-
-
-async def info_for_admin(message: types.Message):
-    if message.from_user.id == Admins:
+async def info(message: types.Message):
+    if message.from_user.id in Admins:
         await message.answer(f"Какие команды есть в этом боте:\n\n"
                              f"=====Записи в базу=====\n"
                              f"/fill_products - для контроля товаров(приход и уход)\n"
@@ -51,10 +31,24 @@ async def info_for_admin(message: types.Message):
                              f"/get_staff - выдает сотрудников(по 5)\n",
                              reply_markup=buttons.start_admins_markup)
     else:
-        await message.answer("Вы не админ")
+        await message.answer(f"Какие команды есть в этом боте:\n\n"
+                             f"=====Записи в базу=====\n"
+                             f"/fill_products - для контроля товаров(приход и уход)\n"
+                             f"/fill_booking - брони\n"
+                             f"/reg_staff - регистрация сотрудников и их график\n"
+                             f"/control - для контроля сотрудников(чтобы посмотреть кто опоздал)",
+                             reply_markup=buttons.staff_markup)
 
 
-# --------------------------------------------------
+async def products_button(message: types.Message):
+    if message.from_user.id in Admins:
+        await message.answer('Вы зашли в товары!', reply_markup=buttons.products_admins_markup)
+    else:
+        await message.answer('Вы зашли в товары!', reply_markup=buttons.products_staff_markup)
+
+
+"""Только для Админов"""
+
 
 async def finance_button(message: types.Message):
     await message.answer('Вы зашли в финансы!', reply_markup=buttons.finance_markup)
@@ -116,8 +110,7 @@ async def data_recording(message: types.Message):
 def register_commands(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start'])
 
-    dp.register_message_handler(info_for_staff, commands=['Информация о боте'])
-    dp.register_message_handler(info_for_admin, commands=['Информация_для_админов'])
+    dp.register_message_handler(info, commands=['Информация'])
 
     dp.register_message_handler(data_recording, commands=['запись_данных_товара'])
     dp.register_message_handler(pull_data, commands=['вывести_данные_товара'])
