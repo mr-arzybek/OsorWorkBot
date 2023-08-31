@@ -96,6 +96,20 @@ async def sql_command_products_moscow_2(message: types.Message):
                                  f"Итоговая цена: {product[9]}\n"
                                  f"Город: {product[10]}\n")
 
+async def super_customer(message: types.Message):
+    cursor_bish.execute("SELECT phone FROM booking")
+    customers = cursor_bish.fetchall()
+
+    results = []
+
+    for customer in customers:
+        phone = customer[0]
+        cursor_bish.execute("SELECT SUM(total_price) FROM booking WHERE phone = ?", (phone,))
+        total_prices = cursor_bish.fetchall()
+        results.extend(total_prices)
+
+    await message.answer(str(customers))
+    await message.answer(str(results))
 
 # ====================================================================================================================
 
@@ -103,4 +117,5 @@ def register_sql_commands(dp: Dispatcher):
     dp.register_message_handler(sql_command_products_bish, commands=['Товары_Бишкек'])
     dp.register_message_handler(sql_command_products_osh, commands=['Товары_Ош'])
     dp.register_message_handler(sql_command_products_moscow_1, commands=['Товары_Москва_1'])
+    dp.register_message_handler(super_customer, commands=['super_customer'])
     dp.register_message_handler(sql_command_products_moscow_2, commands=['Товары_Москва_2'])

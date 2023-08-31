@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards.buttons import cancel_markup, data_recording_markup, submit_markup, city_markup
 
-from db.db_bish.ORM_Bish import bish_sql_product_insert
+from db.db_bish.ORM_Bish import bish_sql_product_care_insert
 from db.db_osh.ORM_Osh import osh_sql_product_insert
 from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_insert
 from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_insert
@@ -137,7 +137,7 @@ async def load_submit(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if message.text.lower() == 'да':
             if data['city'] == 'Бишкек':
-                await bish_sql_product_insert(state)
+                await bish_sql_product_care_insert(state)
                 await message.answer('Готово!', reply_markup=data_recording_markup)
                 await state.finish()
 
