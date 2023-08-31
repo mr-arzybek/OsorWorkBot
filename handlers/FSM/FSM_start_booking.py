@@ -17,7 +17,8 @@ from datetime import datetime
 
 class fsm_booking_coming(StatesGroup):
     name_product = State()  # Название товара
-    start_product = State()  # Дата началы брони
+    start_booking = State()  # Дата началы брони
+    care_booking = State()  # Дата началы брони
     name_customer = State()  # Имя заказчика
     phone = State()  # Номер телефона заказчика
     name_salesman = State()  # Имя продавца
@@ -44,6 +45,14 @@ async def load_name_product(message: types.Message, state: FSMContext):
 async def load_start_of_armor(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['start_of_armor'] = message.text
+    await fsm_booking_coming.next()
+    await message.answer('Конец брони?\n'
+                         'Образец: 12.09.23')
+
+
+async def load_end_of_armor_care(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['end_of_armor'] = message.text
     await fsm_booking_coming.next()
     await message.answer('Имя заказчика?')
 
@@ -117,6 +126,7 @@ async def load_photo(message: types.Message, state: FSMContext):
             caption=f"Данные брони: \n"
                     f"Название товара: {data['name_product']}\n"
                     f"Начало брони: {data['start_of_armor']}\n"
+                    f"Конец брони: {data['end_of_armor']}\n"
                     f"Заказчик: {data['name_customer']}\n"
                     f"Номер телефона заказчика: {data['phone_customer']}\n"
                     f"Продацев: {data['name_salesman']}\n"
@@ -171,7 +181,8 @@ def register_booking(dp: Dispatcher):
     dp.register_message_handler(fsm_start, commands=['записать_начало_брони'])
 
     dp.register_message_handler(load_name_product, state=fsm_booking_coming.name_product)
-    dp.register_message_handler(load_start_of_armor, state=fsm_booking_coming.start_product)
+    dp.register_message_handler(load_start_of_armor, state=fsm_booking_coming.start_booking)
+    dp.register_message_handler(load_end_of_armor_care, state=fsm_booking_coming.care_booking)
     dp.register_message_handler(load_name_customer, state=fsm_booking_coming.name_customer)
     dp.register_message_handler(load_phone_customer, state=fsm_booking_coming.phone)
     dp.register_message_handler(load_name_salesman, state=fsm_booking_coming.name_salesman)
