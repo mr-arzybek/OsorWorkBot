@@ -11,7 +11,7 @@ from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2
 # ====================================================================================================================
 
 async def sql_command_booking_bishkek(message: types.Message):
-    bookings = cursor_bish.execute("SELECT * FROM booking")
+    bookings = cursor_bish.execute("SELECT * FROM booking").fetchall()
 
     for booking in bookings:
         if message.from_user.id in Admins:
@@ -30,7 +30,7 @@ async def sql_command_booking_bishkek(message: types.Message):
 
 
 async def sql_command_booking_osh(message: types.Message):
-    bookings = cursor_osh.execute("SELECT * FROM booking")
+    bookings = cursor_osh.execute("SELECT * FROM booking").fetchall()
 
     for booking in bookings:
         if message.from_user.id in Admins:
@@ -49,7 +49,7 @@ async def sql_command_booking_osh(message: types.Message):
 
 
 async def sql_command_booking_moscow_1(message: types.Message):
-    bookings = cursor_moscow_1.execute("SELECT * FROM booking")
+    bookings = cursor_moscow_1.execute("SELECT * FROM booking").fetchall()
 
     for booking in bookings:
         if message.from_user.id in Admins:
@@ -68,7 +68,7 @@ async def sql_command_booking_moscow_1(message: types.Message):
 
 
 async def sql_command_booking_moscow_2(message: types.Message):
-    bookings = cursor_moscow_2.execute("SELECT * FROM booking")
+    bookings = cursor_moscow_2.execute("SELECT * FROM booking").fetchall()
 
     for booking in bookings:
         if message.from_user.id in Admins:

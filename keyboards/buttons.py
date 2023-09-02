@@ -46,14 +46,12 @@ data_recording_button = KeyboardButton('/запись_данных_товара'
 products_staff_markup.add(data_recording_button, back_staff_button)
 
 
-data_recording_staff_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+data_recording_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
 products_comming_button = KeyboardButton('/запись_прихода_товаров')
 products_care_button = KeyboardButton('/записать_уход_товара')
-bookings_start_reg_button = KeyboardButton('/записать_начало_брони')
-bookings_care_reg_button = KeyboardButton('/записать_конец_брони')
+bookings_reg_button = KeyboardButton('/записать_бронь')
 
-data_recording_staff_markup.add(products_comming_button,  products_care_button, bookings_start_reg_button,
-                          bookings_care_reg_button, back_staff_button)
+data_recording_markup.add(products_comming_button,  products_care_button, bookings_reg_button, back_staff_button)
 
 
 """Для Админа"""
@@ -86,7 +84,6 @@ staff_admins_markup = ReplyKeyboardMarkup(
     one_time_keyboard=False,
     row_width=2
 )
-
 
 
 reg_staff_reg_button = KeyboardButton('/запись_данных_сотрудников')

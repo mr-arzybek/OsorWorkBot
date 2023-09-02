@@ -170,7 +170,7 @@ async def cancel_reg(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is not None:
         await state.finish()
-        await message.answer('Отменено!', reply_markup=buttons.data_recording_staff_markup)
+        await message.answer('Отменено!', reply_markup=buttons.data_recording_markup)
 
 
 # =======================================================================================================================
@@ -178,7 +178,7 @@ async def cancel_reg(message: types.Message, state: FSMContext):
 def register_booking(dp: Dispatcher):
     dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
 
-    dp.register_message_handler(fsm_start, commands=['записать_начало_брони'])
+    dp.register_message_handler(fsm_start, commands=['записать_бронь'])
 
     dp.register_message_handler(load_name_product, state=fsm_booking_coming.name_product)
     dp.register_message_handler(load_start_of_armor, state=fsm_booking_coming.start_booking)

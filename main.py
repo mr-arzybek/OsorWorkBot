@@ -2,8 +2,7 @@ from aiogram.utils import executor
 import logging
 from config import dp, bot, Admins
 from handlers import commands
-from handlers.FSM import (FSM_start_products, FSM_care_products, FSM_start_booking,FSM_care_booking,
-                          FSM_reg_staff, FSM_being_late)
+from handlers.FSM import (FSM_start_products, FSM_care_products, FSM_booking, FSM_reg_staff, FSM_being_late)
 
 from db.db_bish.ORM_Bish import sql_create_bish
 from db.db_osh.ORM_Osh import sql_create_osh
@@ -27,12 +26,11 @@ async def on_startup(_):
 commands.register_commands(dp)
 FSM_start_products.register_products(dp)
 FSM_care_products.register_products(dp)
-FSM_start_booking.register_booking(dp)
-FSM_care_booking.register_care_booking(dp)
+FSM_booking.register_booking(dp)
 FSM_reg_staff.register_staff(dp)
 FSM_being_late.register_control(dp)
 # =====================================================
-get_products.register_sql_commands(dp)
+get_products_comming.register_sql_commands(dp)
 get_booking.register_sql_commands(dp)
 get_staff.register_sql_commands(dp)
 # ===========================================================================

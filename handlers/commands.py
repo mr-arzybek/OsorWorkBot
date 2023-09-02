@@ -1,6 +1,7 @@
 # =================================================================================================================
 from aiogram import types, Dispatcher
 from config import bot, Admins
+from db.db_bish.ORM_Bish import cursor_bish
 from keyboards import buttons
 
 
@@ -65,14 +66,12 @@ async def pull_data(message: types.Message):
 async def get_bishkek(message: types.Message):
     await message.answer(f"Вы выбрали Бишкек!", reply_markup=buttons.get_bishkek_markup)
 
-
 async def get_osh(message: types.Message):
     await message.answer(f"Вы выбрали Ош!", reply_markup=buttons.get_branches_osh_markup)
 
 
 async def get_moscow_1(message: types.Message):
     await message.answer(f"Вы выбрали Москву! (Первый филиал)", reply_markup=buttons.get_branches_moscow_1_markup)
-
 
 async def get_moscow_2(message: types.Message):
     await message.answer(f"Вы выбрали Москву! (Второй филиал)", reply_markup=buttons.get_branches_moscow_2_markup)
@@ -102,13 +101,30 @@ async def back_for_staff(message: types.Message):
 
 
 async def data_recording(message: types.Message):
-    await message.answer('Выберите действие, из кнопок снизу!', reply_markup=buttons.data_recording_staff_markup)
+    await message.answer('Выберите действие, из кнопок снизу!', reply_markup=buttons.data_recording_markup)
+
+async def super_customer(message: types.Message):
+    cursor_bish.execute("SELECT phone FROM booking")
+    customers = cursor_bish.fetchall()
+
+    results = []
+
+    for customer in customers:
+        phone = customer[0]
+        cursor_bish.execute("SELECT SUM(total_price) FROM booking WHERE phone = ?", (phone,))
+        total_prices = cursor_bish.fetchall()
+        results.extend(total_prices)
+
+    await message.answer(str(customers))
+    await message.answer(str(results))
+
 
 
 # =================================================================================================================
 
 def register_commands(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start'])
+    dp.register_message_handler(super_customer, commands=['super_customer'])
 
     dp.register_message_handler(info, commands=['Информация'])
 

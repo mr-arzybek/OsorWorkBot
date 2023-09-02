@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards import buttons
 
-from db.db_bish.ORM_Bish import bish_sql_product_insert
+from db.db_bish.ORM_Bish import bish_sql_product_coming_insert
 from db.db_osh.ORM_Osh import osh_sql_product_insert
 from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_insert
 from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_insert
@@ -49,7 +49,7 @@ async def load_info_product(message: types.Message, state: FSMContext):
 
 async def load_date_coming(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
-        data['date'] = message.text
+        data['date_coming'] = message.text
     await fsm_products.next()
     await message.answer('Имя заказчика?')
 
@@ -94,7 +94,7 @@ async def load_discount(message: types.Message, state: FSMContext):
     if message.text.isdigit():
         async with state.proxy() as data:
             data['discount'] = message.text
-            data['calculation'] = int(data['price']) - int(data['discount'])
+            data['total_price'] = int(data['price']) - int(data['discount'])
 
         await fsm_products.next()
         await message.answer('Город?\n'
@@ -121,13 +121,13 @@ async def load_photo(message: types.Message, state: FSMContext):
             caption=f"Данные брони: \n"
                     f"Название товара: {data['name']}\n"
                     f"Информация о товаре: {data['info']}\n"
-                    f"Дата прихода товара: {data['date']}\n"
+                    f"Дата прихода товара: {data['date_coming']}\n"
                     f"Заказчик: {data['name_customer']}\n"
                     f"Номер телефона заказчика: {data['phone_customer']}\n"
                     f"Продацев: {data['name_salesman']}\n"
                     f"Цена: {data['price']}\n"
                     f"Скидка: {data['discount']}\n"
-                    f"Итоговая цена: {data['calculation']}\n"
+                    f"Итоговая цена: {data['total_price']}\n"
                     f"Город: {data['city']}")
     await fsm_products.next()
     await message.answer("Все верно?", reply_markup=buttons.submit_markup)
@@ -137,27 +137,27 @@ async def load_submit(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if message.text.lower() == 'да':
             if data['city'] == 'Бишкек':
-                await bish_sql_product_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await bish_sql_product_coming_insert(state)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'ОШ':
                 await osh_sql_product_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 1-филиал':
                 await moscow_1_sql_product_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 2-филиал':
                 await moscow_2_sql_product_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
         elif message.text.lower() == 'нет':
-            await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_staff_markup)
+            await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_markup)
             await state.finish()
 
 
@@ -165,7 +165,7 @@ async def cancel_reg(message: types.Message, state: FSMContext):
     current_state = await state.get_state()
     if current_state is not None:
         await state.finish()
-        await message.answer('Отменено!', reply_markup=buttons.data_recording_staff_markup)
+        await message.answer('Отменено!', reply_markup=buttons.data_recording_markup)
 
 
 # =======================================================================================================================

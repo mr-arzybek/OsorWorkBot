@@ -11,7 +11,7 @@ from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2
 # ====================================================================================================================
 
 async def sql_command_products_bish(message: types.Message):
-    products = cursor_bish.execute("SELECT * FROM products")
+    products = cursor_bish.execute("SELECT * FROM products_care").fetchall()
 
     for product in products:
         if message.from_user.id in Admins:
@@ -30,7 +30,7 @@ async def sql_command_products_bish(message: types.Message):
 
 
 async def sql_command_products_osh(message: types.Message):
-    products = cursor_osh.execute("SELECT * FROM products")
+    products = cursor_osh.execute("SELECT * FROM products_care").fetchall()
 
     for product in products:
         if message.from_user.id in Admins:
@@ -47,8 +47,9 @@ async def sql_command_products_osh(message: types.Message):
         else:
             await message.answer("Вы не админ!")
 
+
 async def sql_command_products_moscow_1(message: types.Message):
-    products = cursor_moscow_1.execute("SELECT * FROM products")
+    products = cursor_moscow_1.execute("SELECT * FROM products_care").fetchall()
 
     for product in products:
         if message.from_user.id in Admins:
@@ -67,7 +68,7 @@ async def sql_command_products_moscow_1(message: types.Message):
 
 
 async def sql_command_products_moscow_2(message: types.Message):
-    products = cursor_moscow_2.execute("SELECT * FROM products")
+    products = cursor_moscow_2.execute("SELECT * FROM products_care").fetchall()
 
     for product in products:
         if message.from_user.id in Admins:

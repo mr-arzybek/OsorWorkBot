@@ -11,7 +11,7 @@ from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2
 # ====================================================================================================================
 
 async def sql_command_staff_bishkek(message: types.Message):
-    employees = cursor_bish.execute("SELECT * FROM staff")
+    employees = cursor_bish.execute("SELECT * FROM staff").fetchall()
 
     for staff in employees:
         if message.from_user.id in Admins:
@@ -25,7 +25,7 @@ async def sql_command_staff_bishkek(message: types.Message):
 
 
 async def sql_command_staff_osh(message: types.Message):
-    employees = cursor_osh.execute("SELECT * FROM staff")
+    employees = cursor_osh.execute("SELECT * FROM staff").fetchall()
 
     for staff in employees:
         if message.from_user.id in Admins:
@@ -40,7 +40,7 @@ async def sql_command_staff_osh(message: types.Message):
 
 async def sql_command_staff_moscow_1(message: types.Message):
     cursor_moscow_1.execute("SELECT * FROM staff")
-    employees = cursor_moscow_1.execute("SELECT * FROM staff")
+    employees = cursor_moscow_1.execute("SELECT * FROM staff").fetchall()
 
     for staff in employees:
         if message.from_user.id:
@@ -54,7 +54,7 @@ async def sql_command_staff_moscow_1(message: types.Message):
 
 
 async def sql_command_staff_moscow_2(message: types.Message):
-    employees = cursor_moscow_2.execute("SELECT * FROM staff")
+    employees = cursor_moscow_2.execute("SELECT * FROM staff").fetchall()
 
     for staff in employees:
         if message.from_user.id in Admins:

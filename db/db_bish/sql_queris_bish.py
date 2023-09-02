@@ -1,11 +1,36 @@
 # =======================================================================================================================
 
-CREATE_PRODUCT_TABLE_QUERY = """
-    CREATE TABLE IF NOT EXISTS products
-    (id INTEGER PRIMARY KEY,
+CREATE_PRODUCT_COMING_TABLE_QUERY = """
+    CREATE TABLE IF NOT EXISTS products_coming
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
     name_ VARCHAR(255),
     info_product VARCHAR(255),
     date_coming VARCHAR(15),
+    name_customer VARCHAR(255),
+    phone VARCHAR(50),
+    name_salesman VARCHAR(255),
+    price DECIMAL(10, 2),
+    discount INTEGER,
+    total_price INTEGER,
+    city VARCHAR(50), 
+    photo TEXT,
+    creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+"""
+
+PRODUCT_COMING_INSERT_QUERY = """
+    INSERT OR IGNORE INTO products_coming
+    (name_, info_product, date_coming, name_customer, phone, name_salesman, price, discount, total_price, city, photo, 
+    creation_time)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
+"""
+
+
+CREATE_PRODUCT_CARE_TABLE_QUERY = """
+    CREATE TABLE IF NOT EXISTS products_care
+    (id INTEGER PRIMARY KEY,
+    name_ VARCHAR(255),
+    info_product VARCHAR(255),
     date_care VARCHAR(15),
     name_customer VARCHAR(255),
     phone VARCHAR(50),
@@ -19,11 +44,11 @@ CREATE_PRODUCT_TABLE_QUERY = """
     )
 """
 
-PRODUCT_INSERT_QUERY = """
-    INSERT OR IGNORE INTO products 
-    (name_, info_coming, date_coming, date_care, name_customer, phone, name_salesman, price, discount, total_price, city, photo, 
+PRODUCT_CARE_INSERT_QUERY = """
+    INSERT OR IGNORE INTO products_care
+    (name_, info_product, name_customer, phone, name_salesman, price, discount, total_price, city, photo, 
     creation_time)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?)
 """
 
 # =======================================================================================================================
