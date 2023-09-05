@@ -8,15 +8,21 @@ cursor_osh = db_osh.cursor()
 def sql_create_osh():
     if db_osh:
         print("База Ош подключена!")
-    cursor_osh.execute(sql_queris_osh.CREATE_PRODUCT_TABLE_QUERY)
+    cursor_osh.execute(sql_queris_osh.CREATE_PRODUCT_COMING_TABLE_QUERY)
+    cursor_osh.execute(sql_queris_osh.CREATE_PRODUCT_CARE_TABLE_QUERY)
     cursor_osh.execute(sql_queris_osh.CREATE_BOOKING_TABLE_QUERY)
     cursor_osh.execute(sql_queris_osh.CREATE_STAFF_TABLE_QUERY)
     db_osh.commit()
 
 
-async def osh_sql_product_insert(state):
+async def osh_sql_product_coming_insert(state):
     async with state.proxy() as data:
-        cursor_osh.execute(sql_queris_osh.PRODUCT_INSERT_QUERY, tuple(data.values()))
+        cursor_osh.execute(sql_queris_osh.PRODUCT_COMING_INSERT_QUERY, tuple(data.values()))
+        db_osh.commit()
+
+async def osh_sql_product_care_insert(state):
+    async with state.proxy() as data:
+        cursor_osh.execute(sql_queris_osh.PRODUCT_CARE_INSERT_QUERY, tuple(data.values()))
         db_osh.commit()
 
 

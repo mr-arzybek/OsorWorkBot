@@ -12,20 +12,19 @@ from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_booking_insert
 from datetime import datetime
 
 
-# =======================================================================================================================
-
-
+# =======================================================================================================
 class fsm_booking_coming(StatesGroup):
-    name_product = State()  # Название товара
-    start_booking = State()  # Дата началы брони
-    care_booking = State()  # Дата началы брони
-    name_customer = State()  # Имя заказчика
-    phone = State()  # Номер телефона заказчика
-    name_salesman = State()  # Имя продавца
-    price = State()  # Цена
-    discount = State()  # Скидка
-    city = State()  # Итоговая цена
-    photo_booking = State()
+    name_product = State()      # Название товара
+    start_booking = State()     # Дата началы брони
+    care_booking = State()      # Дата началы брони
+    name_customer = State()     # Имя заказчика
+    phone_customer = State()    # Номер телефона заказчика
+    name_salesman = State()     # Имя продавца
+    phone_salesman = State()    # Телефон номера продавца
+    price = State()             # Цена
+    discount = State()          # Скидка
+    city = State()              # Итоговая цена
+    photo_booking = State()     # Фотография товара
     submit = State()
 
 
@@ -79,8 +78,19 @@ async def load_name_salesman(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['name_salesman'] = message.text
     await fsm_booking_coming.next()
-    await message.answer('Цена?\n'
-                         '(Без скидки)')
+    await message.answer('Номер телефона продавца? \n'
+                         'Начать нужно через "+"')
+
+
+async def load_phone_salesman(message: types.Message, state: FSMContext):
+    if message.text.find("+"):
+        await message.answer('Начните с +')
+    else:
+        async with state.proxy() as data:
+            data['phone_salesman'] = message.text
+        await fsm_booking_coming.next()
+        await message.answer('Цена?\n'
+                             '(Без скидки)')
 
 
 async def load_price(message: types.Message, state: FSMContext):
@@ -184,8 +194,9 @@ def register_booking(dp: Dispatcher):
     dp.register_message_handler(load_start_of_armor, state=fsm_booking_coming.start_booking)
     dp.register_message_handler(load_end_of_armor_care, state=fsm_booking_coming.care_booking)
     dp.register_message_handler(load_name_customer, state=fsm_booking_coming.name_customer)
-    dp.register_message_handler(load_phone_customer, state=fsm_booking_coming.phone)
+    dp.register_message_handler(load_phone_customer, state=fsm_booking_coming.phone_customer)
     dp.register_message_handler(load_name_salesman, state=fsm_booking_coming.name_salesman)
+    dp.register_message_handler(load_phone_salesman, state=fsm_booking_coming.phone_salesman)
     dp.register_message_handler(load_price, state=fsm_booking_coming.price)
     dp.register_message_handler(load_discount, state=fsm_booking_coming.discount)
     dp.register_message_handler(load_city, state=fsm_booking_coming.city)

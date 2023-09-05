@@ -8,17 +8,23 @@ cursor_moscow_1 = db_moscow_1.cursor()
 def sql_create_moscow_1():
     if db_moscow_1:
         print("База Москва-1 подключена!")
-    cursor_moscow_1.execute(sql_queris_moscow_1.CREATE_PRODUCT_TABLE_QUERY)
+    cursor_moscow_1.execute(sql_queris_moscow_1.CREATE_PRODUCT_COMING_TABLE_QUERY)
+    cursor_moscow_1.execute(sql_queris_moscow_1.CREATE_PRODUCT_CARE_TABLE_QUERY)
     cursor_moscow_1.execute(sql_queris_moscow_1.CREATE_BOOKING_TABLE_QUERY)
     cursor_moscow_1.execute(sql_queris_moscow_1.CREATE_STAFF_TABLE_QUERY)
     db_moscow_1.commit()
 
 
-async def moscow_1_sql_product_insert(state):
+async def moscow_1_sql_product_coming_insert(state):
     async with state.proxy() as data:
-        cursor_moscow_1.execute(sql_queris_moscow_1.PRODUCT_INSERT_QUERY, tuple(data.values()))
+        cursor_moscow_1.execute(sql_queris_moscow_1.PRODUCT_COMING_INSERT_QUERY, tuple(data.values()))
         db_moscow_1.commit()
 
+
+async def moscow_1_sql_product_care_insert(state):
+    async with state.proxy() as data:
+        cursor_moscow_1.execute(sql_queris_moscow_1.PRODUCT_CARE_INSERT_QUERY, tuple(data.values()))
+        db_moscow_1.commit()
 
 async def moscow_1_sql_booking_insert(state):
     async with state.proxy() as data:

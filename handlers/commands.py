@@ -1,7 +1,6 @@
 # =================================================================================================================
 from aiogram import types, Dispatcher
 from config import bot, Admins
-from db.db_bish.ORM_Bish import cursor_bish
 from keyboards import buttons
 
 
@@ -52,19 +51,22 @@ async def products_button(message: types.Message):
 
 
 async def finance_button(message: types.Message):
-    await message.answer('Вы зашли в финансы!', reply_markup=buttons.finance_markup)
+    await message.answer('Вы зашли в финансы!', reply_markup=buttons.ButtonForFinance_markup)
 
 
 async def pull_data_staff(message: types.Message):
-    await message.answer("Выберите снизу из кнопок ⬇️", reply_markup=buttons.staff_pull_data_markup)
+    await message.answer("Выберите снизу из кнопок действие ⬇", reply_markup=buttons.staff_pull_data_markup)
 
 
 async def pull_data(message: types.Message):
-    await message.answer('Выберите действие, из кнопок снизу!', reply_markup=buttons.products_pull_data_markup)
+    await message.answer("Вы зашли к выводу данных товаров \n"
+                         "(Внутри них есть приход, уход и брони)\n\n"
+                         "Выберите действие, из кнопок снизу!\n", reply_markup=buttons.products_pull_data_markup)
 
 
 async def get_bishkek(message: types.Message):
     await message.answer(f"Вы выбрали Бишкек!", reply_markup=buttons.get_bishkek_markup)
+
 
 async def get_osh(message: types.Message):
     await message.answer(f"Вы выбрали Ош!", reply_markup=buttons.get_branches_osh_markup)
@@ -73,8 +75,24 @@ async def get_osh(message: types.Message):
 async def get_moscow_1(message: types.Message):
     await message.answer(f"Вы выбрали Москву! (Первый филиал)", reply_markup=buttons.get_branches_moscow_1_markup)
 
+
 async def get_moscow_2(message: types.Message):
     await message.answer(f"Вы выбрали Москву! (Второй филиал)", reply_markup=buttons.get_branches_moscow_2_markup)
+
+
+async def ButtonForFinance(message: types.Message):
+    await message.answer(f"Выберите снизу из кнопок, что вы хотите получить! ⬇",
+                         reply_markup=buttons.ButtonForFinance_markup)
+
+
+async def SalaryButton(message: types.Message):
+    await message.answer(f"Выберите с какого филиала! ⬇", reply_markup=buttons.SalaryStaff_markup)
+
+
+async def RegularСustomerButton(message: types.Message):
+    await message.answer("Вы зашли с постоянным клиентам!\n"
+                         "Выберите из какого города(филиала) хотите вывести!"
+                         "Из какого филиала ?! ⬇", reply_markup=buttons.RegularСustomer_markup)
 
 
 # --------------------------------------------------
@@ -84,7 +102,7 @@ async def staff_button(message: types.Message):
 
 
 async def get_staff_buttons(message: types.Message):
-    await message.answer("Выберите снизу из кнопок ⬇️", reply_markup=buttons.data_recording_staff_markup)
+    await message.answer("Выберите снизу из кнопок ⬇", reply_markup=buttons.data_recording_staff_markup)
 
 
 # --------------------------------------------------
@@ -103,28 +121,11 @@ async def back_for_staff(message: types.Message):
 async def data_recording(message: types.Message):
     await message.answer('Выберите действие, из кнопок снизу!', reply_markup=buttons.data_recording_markup)
 
-async def super_customer(message: types.Message):
-    cursor_bish.execute("SELECT phone FROM booking")
-    customers = cursor_bish.fetchall()
-
-    results = []
-
-    for customer in customers:
-        phone = customer[0]
-        cursor_bish.execute("SELECT SUM(total_price) FROM booking WHERE phone = ?", (phone,))
-        total_prices = cursor_bish.fetchall()
-        results.extend(total_prices)
-
-    await message.answer(str(customers))
-    await message.answer(str(results))
-
-
 
 # =================================================================================================================
 
 def register_commands(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start'])
-    dp.register_message_handler(super_customer, commands=['super_customer'])
 
     dp.register_message_handler(info, commands=['Информация'])
 
@@ -137,6 +138,9 @@ def register_commands(dp: Dispatcher):
     dp.register_message_handler(products_button, commands=['Товары'])
     dp.register_message_handler(staff_button, commands=['Сотрудники'])
     dp.register_message_handler(finance_button, commands=['Финансы'])
+
+    dp.register_message_handler(SalaryButton, commands=['Зарплаты'])
+    dp.register_message_handler(RegularСustomerButton, commands=['Постоянные_клиенты'])
 
     dp.register_message_handler(get_bishkek, commands=['Бишкек'])
     dp.register_message_handler(get_osh, commands=['Ош'])

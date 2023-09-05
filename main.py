@@ -2,14 +2,14 @@ from aiogram.utils import executor
 import logging
 from config import dp, bot, Admins
 from handlers import commands
-from handlers.FSM import (FSM_start_products, FSM_care_products, FSM_booking, FSM_reg_staff, FSM_being_late)
+from handlers.FSM import (FSM_coming_products, FSM_care_products, FSM_booking, FSM_reg_staff, FSM_being_late)
 
 from db.db_bish.ORM_Bish import sql_create_bish
 from db.db_osh.ORM_Osh import sql_create_osh
 from db.db_moscow_1.ORM_Moscow_1 import sql_create_moscow_1
 from db.db_moscow_2.ORM_Moscow_2 import sql_create_moscow_2
 
-from db.sql_commands import get_products_comming, get_booking, get_staff
+from db.sql_commands import get_products_comming, get_booking, get_staff, get_salary_staff, get_products_care
 from keyboards import buttons
 
 
@@ -24,15 +24,17 @@ async def on_startup(_):
 
 # ===========================================================================
 commands.register_commands(dp)
-FSM_start_products.register_products(dp)
+FSM_coming_products.register_products(dp)
 FSM_care_products.register_products(dp)
 FSM_booking.register_booking(dp)
 FSM_reg_staff.register_staff(dp)
 FSM_being_late.register_control(dp)
 # =====================================================
 get_products_comming.register_sql_commands(dp)
+get_products_care.register_sql_commands(dp)
 get_booking.register_sql_commands(dp)
 get_staff.register_sql_commands(dp)
+get_salary_staff.register_sql_commands(dp)
 # ===========================================================================
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)

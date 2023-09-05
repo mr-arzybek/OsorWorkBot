@@ -1,15 +1,32 @@
 # =======================================================================================================================
 
-CREATE_PRODUCT_TABLE_QUERY = """
-    CREATE TABLE IF NOT EXISTS products
-    (id INTEGER PRIMARY KEY,
-    name_ VARCHAR(255),
+CREATE_PRODUCT_COMING_TABLE_QUERY = """
+    CREATE TABLE IF NOT EXISTS products_coming
+    (name_ VARCHAR(255),
     info_product VARCHAR(255),
     date_coming VARCHAR(15),
+    price DECIMAL(10, 2),
+    city VARCHAR(50), 
+    photo TEXT,
+    creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )
+"""
+
+PRODUCT_COMING_INSERT_QUERY = """
+    INSERT OR IGNORE INTO products_coming
+    (name_, info_product, date_coming, price, city, photo, creation_time)
+    VALUES (?,?,?,?,?,?,?)
+"""
+
+CREATE_PRODUCT_CARE_TABLE_QUERY = """
+    CREATE TABLE IF NOT EXISTS products_care
+    (name_ VARCHAR(255),
+    info_product VARCHAR(255),
     date_care VARCHAR(15),
     name_customer VARCHAR(255),
-    phone VARCHAR(50),
+    phone_customer VARCHAR(50),
     name_salesman VARCHAR(255),
+    phone_salesman VARCHAR(50),
     price DECIMAL(10, 2),
     discount INTEGER,
     total_price INTEGER,
@@ -19,11 +36,11 @@ CREATE_PRODUCT_TABLE_QUERY = """
     )
 """
 
-PRODUCT_INSERT_QUERY = """
-    INSERT OR IGNORE INTO products 
-    (name_, info_coming, date_coming, date_care, name_customer, phone, name_salesman, price, discount, total_price, city, photo, 
+PRODUCT_CARE_INSERT_QUERY = """
+    INSERT OR IGNORE INTO products_care
+    (name_, info_product, date_care, name_customer, phone_customer, name_salesman, phone_salesman, price, discount, total_price, city, photo, 
     creation_time)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
 """
 
 # =======================================================================================================================
@@ -34,8 +51,9 @@ CREATE_BOOKING_TABLE_QUERY = """
     start_of_armor VARCHAR(255),
     end_of_armor VARCHAR(255),
     name_customer VARCHAR(255),
-    phone VARCHAR(50),
+    phone_customer VARCHAR(50),
     name_salesman VARCHAR(255),
+    phone_salesman VARCHAR(50),
     price DECIMAL(10, 2),
     discount INTEGER,
     total_price INTEGER,
@@ -46,9 +64,9 @@ CREATE_BOOKING_TABLE_QUERY = """
 
 BOOKING_INSERT_QUERY = """
     INSERT OR IGNORE INTO booking  
-    (name_product, start_of_armor, end_of_armor, name_customer, phone, name_salesman, price, discount, total_price, city, photo,
+    (name_product, start_of_armor, end_of_armor, name_customer, phone_customer, name_salesman, phone_salesman, price, discount, total_price, city, photo,
     creation_time)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 """
 
 # =======================================================================================================================
@@ -87,4 +105,12 @@ BEING_LATE_INSERT_QUERY = """
     INSERT OR IGNORE INTO being_late  
     (full_name, date_, time_, city, creation_time)
     VALUES (?,?,?,?,?)
+"""
+
+CREATE_SALARY_TABLE_QUERY = """
+
+"""
+
+SALARY_INSERT_QUERY = """
+
 """

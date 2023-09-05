@@ -15,12 +15,13 @@ async def sql_command_booking_bishkek(message: types.Message):
 
     for booking in bookings:
         if message.from_user.id in Admins:
-            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[1]}\n"
-                                                                                  f"Дата прихода: {booking[2]}\n"
-                                                                                  f"Дата ухода: {booking[3]}\n"
-                                                                                  f"Имя заказчика: {booking[4]}\n"
-                                                                                  f"Номер тел заказчика: {booking[5]}\n"
-                                                                                  f"Продавец: {booking[6]}\n"
+            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[0]}\n"
+                                                                                  f"Дата началда брони: {booking[1]}\n"
+                                                                                  f"Дата конца брони: {booking[2]}\n"
+                                                                                  f"Имя заказчика: {booking[3]}\n"
+                                                                                  f"Номер тел заказчика: {booking[4]}\n"
+                                                                                  f"Продавец: {booking[5]}\n"
+                                                                                  f"Номер телефона продавца: {booking[6]}"
                                                                                   f"Цена(без скидки): {booking[7]}\n"
                                                                                   f"Скидка: {booking[8]}\n"
                                                                                   f"Итоговая цена: {booking[9]}\n"
@@ -34,12 +35,13 @@ async def sql_command_booking_osh(message: types.Message):
 
     for booking in bookings:
         if message.from_user.id in Admins:
-            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[1]}\n"
-                                                                                  f"Дата прихода: {booking[2]}\n"
-                                                                                  f"Дата ухода: {booking[3]}\n"
-                                                                                  f"Имя заказчика: {booking[4]}\n"
-                                                                                  f"Номер тел заказчика: {booking[5]}\n"
-                                                                                  f"Продавец: {booking[6]}\n"
+            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[0]}\n"
+                                                                                  f"Дата началда брони: {booking[1]}\n"
+                                                                                  f"Дата конца брони: {booking[2]}\n"
+                                                                                  f"Имя заказчика: {booking[3]}\n"
+                                                                                  f"Номер тел заказчика: {booking[4]}\n"
+                                                                                  f"Продавец: {booking[5]}\n"
+                                                                                  f"Номер телефона продавца: {booking[6]}"
                                                                                   f"Цена(без скидки): {booking[7]}\n"
                                                                                   f"Скидка: {booking[8]}\n"
                                                                                   f"Итоговая цена: {booking[9]}\n"
@@ -53,12 +55,13 @@ async def sql_command_booking_moscow_1(message: types.Message):
 
     for booking in bookings:
         if message.from_user.id in Admins:
-            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[1]}\n"
-                                                                                  f"Дата прихода: {booking[2]}\n"
-                                                                                  f"Дата ухода: {booking[3]}\n"
-                                                                                  f"Имя заказчика: {booking[4]}\n"
-                                                                                  f"Номер тел заказчика: {booking[5]}\n"
-                                                                                  f"Продавец: {booking[6]}\n"
+            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[0]}\n"
+                                                                                  f"Дата началда брони: {booking[1]}\n"
+                                                                                  f"Дата конца брони: {booking[2]}\n"
+                                                                                  f"Имя заказчика: {booking[3]}\n"
+                                                                                  f"Номер тел заказчика: {booking[4]}\n"
+                                                                                  f"Продавец: {booking[5]}\n"
+                                                                                  f"Номер телефона продавца: {booking[6]}"
                                                                                   f"Цена(без скидки): {booking[7]}\n"
                                                                                   f"Скидка: {booking[8]}\n"
                                                                                   f"Итоговая цена: {booking[9]}\n"
@@ -72,12 +75,13 @@ async def sql_command_booking_moscow_2(message: types.Message):
 
     for booking in bookings:
         if message.from_user.id in Admins:
-            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[1]}\n"
-                                                                                  f"Дата прихода: {booking[2]}\n"
-                                                                                  f"Дата ухода: {booking[3]}\n"
-                                                                                  f"Имя заказчика: {booking[4]}\n"
-                                                                                  f"Номер тел заказчика: {booking[5]}\n"
-                                                                                  f"Продавец: {booking[6]}\n"
+            await bot.send_photo(message.from_user.id, photo=booking[11], caption=f"Товар: {booking[0]}\n"
+                                                                                  f"Дата началда брони: {booking[1]}\n"
+                                                                                  f"Дата конца брони: {booking[2]}\n"
+                                                                                  f"Имя заказчика: {booking[3]}\n"
+                                                                                  f"Номер тел заказчика: {booking[4]}\n"
+                                                                                  f"Продавец: {booking[5]}\n"
+                                                                                  f"Номер телефона продавца: {booking[6]}"
                                                                                   f"Цена(без скидки): {booking[7]}\n"
                                                                                   f"Скидка: {booking[8]}\n"
                                                                                   f"Итоговая цена: {booking[9]}\n"
