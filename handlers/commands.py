@@ -10,7 +10,7 @@ async def start(message: types.Message):
     if message.from_user.id in Admins:
         await bot.send_message(message.from_user.id, "Добро пожаловать в OSOR!\n"
                                                      "Этот бот для управления бизнесом!",
-                               reply_markup=buttons.start_admins_markup)
+                               reply_markup=buttons.start_markup)
     else:
         await bot.send_message(message.from_user.id, "Добро пожаловать в OSOR!\n"
                                                      "Этот бот для управления бизнесом!",
@@ -115,7 +115,7 @@ async def back_for_admins(message: types.Message):
 
 
 async def back_for_staff(message: types.Message):
-    await message.answer('Вы возвратились назад!', reply_markup=buttons.staff_markup)
+    await message.answer('Вы возвратились назад!', reply_markup=buttons.start_markup)
 
 
 async def data_recording(message: types.Message):

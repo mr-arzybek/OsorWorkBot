@@ -16,11 +16,13 @@ start_admins_markup = ReplyKeyboardMarkup(
     one_time_keyboard=False,
     row_width=2
 )
+
+regular_customers_button = KeyboardButton("/Постоянные_клиенты")
 finance_button = KeyboardButton("/Финансы")
 products_button = KeyboardButton("/Товары")
 staff_button = KeyboardButton("/Сотрудники")
 
-start_admins_markup.add(finance_button, products_button, staff_button, info_button)
+start_admins_markup.add(finance_button, products_button, staff_button, info_button, regular_customers_button)
 
 staff_markup = ReplyKeyboardMarkup(
     resize_keyboard=True,

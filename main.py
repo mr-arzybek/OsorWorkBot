@@ -9,7 +9,8 @@ from db.db_osh.ORM_Osh import sql_create_osh
 from db.db_moscow_1.ORM_Moscow_1 import sql_create_moscow_1
 from db.db_moscow_2.ORM_Moscow_2 import sql_create_moscow_2
 
-from db.sql_commands import get_products_comming, get_booking, get_staff, get_salary_staff, get_products_care
+from db.sql_commands import get_products_comming, get_booking, get_staff, \
+    get_salary_staff, get_products_care, get_regular_customer
 from keyboards import buttons
 
 
@@ -35,6 +36,7 @@ get_products_care.register_sql_commands(dp)
 get_booking.register_sql_commands(dp)
 get_staff.register_sql_commands(dp)
 get_salary_staff.register_sql_commands(dp)
+get_regular_customer.register_super_customers(dp)
 # ===========================================================================
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
