@@ -51,13 +51,17 @@ async def load_date_coming(message: types.Message, state: FSMContext):
 
 
 async def load_price(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['price'] = message.text
-    await fsm_products.next()
-    await message.answer('Город?\n'
-                             'Если Москва, то указать какой филиал!\n'
-                             'Выберите снизу по кнопкам, какой город!',
-                             reply_markup=buttons.city_markup)
+    if message.text.isdigit():
+        async with state.proxy() as data:
+            data['price'] = message.text
+        await fsm_products.next()
+        await message.answer('Город?\n'
+                                 'Если Москва, то указать какой филиал!\n'
+                                 'Выберите снизу по кнопкам, какой город!',
+                                 reply_markup=buttons.city_markup)
+    else:
+        await message.answer("Укажите цифрами\n"
+                             "(Просто сумму, без добавления 'сом, рубль и т.д')")
 
 
 async def load_city(message: types.Message, state: FSMContext):

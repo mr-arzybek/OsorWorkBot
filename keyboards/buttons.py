@@ -1,7 +1,4 @@
-
-
 """"Кнопки нужно доработать!"""
-
 
 # ===========================================================================
 from aiogram.types import KeyboardButton, ReplyKeyboardMarkup
@@ -17,12 +14,12 @@ start_admins_markup = ReplyKeyboardMarkup(
     row_width=2
 )
 
-regular_customers_button = KeyboardButton("/Постоянные_клиенты")
+
 finance_button = KeyboardButton("/Финансы")
 products_button = KeyboardButton("/Товары")
 staff_button = KeyboardButton("/Сотрудники")
 
-start_admins_markup.add(finance_button, products_button, staff_button, info_button, regular_customers_button)
+start_admins_markup.add(finance_button, products_button, staff_button, info_button)
 
 staff_markup = ReplyKeyboardMarkup(
     resize_keyboard=True,
@@ -30,9 +27,8 @@ staff_markup = ReplyKeyboardMarkup(
     row_width=2
 )
 products_button = KeyboardButton("/Товары")
-staff_button = KeyboardButton("/Сотрудники")
 
-staff_markup.add(products_button, staff_button, info_button)
+staff_markup.add(products_button, info_button)
 # ===========================================================================
 products_staff_markup = ReplyKeyboardMarkup(
     resize_keyboard=True,
@@ -189,12 +185,10 @@ staff_pull_markup.add(pull_staff_bishkek, pull_staff_bishkek, pull_staff_moscow_
 """ Кнопки, которые будут внутри кнопки 'Финансы' """
 ButtonForFinance_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=1)
 SalaryStaff_button = KeyboardButton("/Зарплаты")
-RegularСustomer_button = KeyboardButton("/Постоянные_клиенты")
+regular_customers_button = KeyboardButton("/Постоянные_клиенты")
 CheckoutControl_button = KeyboardButton("/Контроль_кассы")
 
-
-ButtonForFinance_markup.add(SalaryStaff_button, RegularСustomer_button, CheckoutControl_button, back_admins_button)
-
+ButtonForFinance_markup.add(SalaryStaff_button, regular_customers_button, CheckoutControl_button, back_admins_button)
 
 SalaryStaff_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
 
@@ -203,10 +197,8 @@ salary_staff_osh = KeyboardButton("/ЗП_Ош")
 salary_staff_moscow_1 = KeyboardButton("/ЗП_Москва_1")
 salary_staff_moscow_2 = KeyboardButton("/ЗП_Москва_2")
 
-SalaryStaff_markup.add(salary_staff_bishkek, salary_staff_osh, salary_staff_moscow_1, salary_staff_moscow_2, back_admins_button)
-
-
-
+SalaryStaff_markup.add(salary_staff_bishkek, salary_staff_osh, salary_staff_moscow_1, salary_staff_moscow_2,
+                       back_admins_button)
 
 # ==============================
 
@@ -223,7 +215,6 @@ RegularСustomer_markup.add(RegularCustomer_bishkek, RegularCustomer_osh, Regula
 # ==============================
 
 """-------------------------"""
-
 
 # ======================================================================================================================
 cancel_button = KeyboardButton('Отмена')

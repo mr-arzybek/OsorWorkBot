@@ -143,7 +143,9 @@ async def load_photo(message: types.Message, state: FSMContext):
                     f"Цена: {data['price']}\n"
                     f"Скидка: {data['discount']}\n"
                     f"Итоговая цена: {data['calculation']}\n"
-                    f"Город: {data['city']}")
+                    f"Город: {data['city']}\n\n"
+                    f"‼️Внимание! "
+                    f"Если вы записали бронь, то после продажи вы должны его записать как проданную(Заполнить в проданных)")
     await fsm_booking_coming.next()
     await message.answer("Все верно?", reply_markup=buttons.submit_markup)
 
@@ -153,26 +155,26 @@ async def load_submit(message: types.Message, state: FSMContext):
         if message.text.lower() == 'да':
             if data['city'] == 'Бишкек':
                 await bish_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'ОШ':
                 await osh_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 1-филиал':
                 await moscow_1_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 2-филиал':
                 await moscow_2_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_staff_markup)
+                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
         elif message.text.lower() == 'нет':
-            await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_staff_markup)
+            await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_markup)
             await state.finish()
 
 

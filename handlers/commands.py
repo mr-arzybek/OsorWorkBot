@@ -10,7 +10,7 @@ async def start(message: types.Message):
     if message.from_user.id in Admins:
         await bot.send_message(message.from_user.id, "Добро пожаловать в OSOR!\n"
                                                      "Этот бот для управления бизнесом!",
-                               reply_markup=buttons.start_markup)
+                               reply_markup=buttons.start_admins_markup)
     else:
         await bot.send_message(message.from_user.id, "Добро пожаловать в OSOR!\n"
                                                      "Этот бот для управления бизнесом!",
@@ -19,24 +19,32 @@ async def start(message: types.Message):
 
 async def info(message: types.Message):
     if message.from_user.id in Admins:
-        await message.answer(f"Какие команды есть в этом боте:\n\n"
-                             f"=====Записи в базу=====\n"
-                             f"/fill_products - для контроля товаров(приход и уход)\n"
-                             f"/fill_booking - брони\n"
-                             f"/reg_staff - регистрация сотрудников и их график\n"
-                             f"/control - для контроля сотрудников(чтобы посмотреть кто опоздал)\n\n"
-                             f"=====Взятие из базы=====\n"
-                             f"/get_products - выдает товары (по 5)\n"
-                             f"/get_bookings - выдает брони (по 5)\n"
-                             f"/get_staff - выдает сотрудников(по 5)\n",
+        await message.answer(f"Для чего нужен этот бот ?!🤔 :\n"
+                             f"=================================\n"
+                             f"Этот бот был создан специально для компании OSOR 👕, для управления бизнесом\n"
+                             f"Также для удобство как сотрудникам, так и для управляющим\n"
+                             f"=================================\n"
+                             f"В этом боте сотрудники могут вводить данные и приходе и уходе товара, также записывать брони\n"
+                             f"А управляющие могут как записывать данные, так и выводить их, и этим "
+                             f"самым контролировать как сотрудников, так и кассу\n"
+                             f"=================================\n"
+                             f"Также для удобной навигации по боту, все кнопки на русском и по названиям понятно что за что отвечает!\n"
+                             f"=================================\n"
+                             f"‼️ Вы админ ‼️",
                              reply_markup=buttons.start_admins_markup)
     else:
-        await message.answer(f"Какие команды есть в этом боте:\n\n"
-                             f"=====Записи в базу=====\n"
-                             f"/fill_products - для контроля товаров(приход и уход)\n"
-                             f"/fill_booking - брони\n"
-                             f"/reg_staff - регистрация сотрудников и их график\n"
-                             f"/control - для контроля сотрудников(чтобы посмотреть кто опоздал)",
+        await message.answer(f"Для чего нужен этот бот ?!🤔 :\n"
+                             f"=================================\n"
+                             f"Этот бот был создан специально для компании OSOR 👕, для управления бизнесом\n"
+                             f"Также для удобство как сотрудникам, так и для управляющим\n"
+                             f"=================================\n"
+                             f"В этом боте сотрудники могут вводить данные и приходе и уходе товара, также записывать брони\n"
+                             f"А управляющие могут как записывать данные, так и выводить их, и этим "
+                             f"самым контролировать как сотрудников, так и кассу\n"
+                             f"=================================\n"
+                             f"Также для удобной навигации по боту, все кнопки на русском и по названиям понятно что за что отвечает!\n"
+                             f"=================================\n"
+                             f"‼️ Вы сотрудник ‼️",
                              reply_markup=buttons.staff_markup)
 
 
@@ -51,58 +59,93 @@ async def products_button(message: types.Message):
 
 
 async def finance_button(message: types.Message):
-    await message.answer('Вы зашли в финансы!', reply_markup=buttons.ButtonForFinance_markup)
+    if message.from_user.id in Admins:
+        await message.answer('Вы зашли в финансы!', reply_markup=buttons.ButtonForFinance_markup)
+    else:
+        await message.answer('Вы не админ!')
 
 
 async def pull_data_staff(message: types.Message):
-    await message.answer("Выберите снизу из кнопок действие ⬇", reply_markup=buttons.staff_pull_data_markup)
+    if message.from_user.id in Admins:
+        await message.answer("Выберите снизу из кнопок действие ⬇", reply_markup=buttons.staff_pull_data_markup)
+    else:
+        await message.answer("Вы не админ")
 
 
 async def pull_data(message: types.Message):
-    await message.answer("Вы зашли к выводу данных товаров \n"
-                         "(Внутри них есть приход, уход и брони)\n\n"
-                         "Выберите действие, из кнопок снизу!\n", reply_markup=buttons.products_pull_data_markup)
+    if message.from_user.id in Admins:
+        await message.answer("Вы зашли к выводу данных товаров \n"
+                             "(Внутри них есть приход, уход и брони)\n\n"
+                             "Выберите действие, из кнопок снизу!\n", reply_markup=buttons.products_pull_data_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def get_bishkek(message: types.Message):
-    await message.answer(f"Вы выбрали Бишкек!", reply_markup=buttons.get_bishkek_markup)
+    if message.from_user.id in Admins:
+        await message.answer(f"Вы выбрали Бишкек!", reply_markup=buttons.get_bishkek_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def get_osh(message: types.Message):
-    await message.answer(f"Вы выбрали Ош!", reply_markup=buttons.get_branches_osh_markup)
+    if message.from_user.id in Admins:
+        await message.answer(f"Вы выбрали Ош!", reply_markup=buttons.get_branches_osh_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def get_moscow_1(message: types.Message):
-    await message.answer(f"Вы выбрали Москву! (Первый филиал)", reply_markup=buttons.get_branches_moscow_1_markup)
+    if message.from_user.id in Admins:
+        await message.answer(f"Вы выбрали Москву! (Первый филиал)", reply_markup=buttons.get_branches_moscow_1_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def get_moscow_2(message: types.Message):
-    await message.answer(f"Вы выбрали Москву! (Второй филиал)", reply_markup=buttons.get_branches_moscow_2_markup)
+    if message.from_user.id in Admins:
+        await message.answer(f"Вы выбрали Москву! (Второй филиал)", reply_markup=buttons.get_branches_moscow_2_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def ButtonForFinance(message: types.Message):
-    await message.answer(f"Выберите снизу из кнопок, что вы хотите получить! ⬇",
-                         reply_markup=buttons.ButtonForFinance_markup)
+    if message.from_user.id in Admins:
+        await message.answer(f"Выберите снизу из кнопок, что вы хотите получить! ⬇",
+                             reply_markup=buttons.ButtonForFinance_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def SalaryButton(message: types.Message):
-    await message.answer(f"Выберите с какого филиала! ⬇", reply_markup=buttons.SalaryStaff_markup)
+    if message.from_user.id in Admins:
+        await message.answer(f"Выберите с какого филиала! ⬇", reply_markup=buttons.SalaryStaff_markup)
+    await message.answer("Вы не админ!")
 
 
 async def RegularСustomerButton(message: types.Message):
-    await message.answer("Вы зашли с постоянным клиентам!\n"
-                         "Выберите из какого города(филиала) хотите вывести!"
-                         "Из какого филиала ?! ⬇", reply_markup=buttons.RegularСustomer_markup)
+    if message.from_user.id in Admins:
+        await message.answer("Вы зашли с постоянным клиентам!\n"
+                             "Выберите из какого города(филиала) хотите вывести!"
+                             "Из какого филиала ?! ⬇", reply_markup=buttons.RegularСustomer_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 # --------------------------------------------------
 
 async def staff_button(message: types.Message):
-    await message.answer('Вы зашли к сотрудникам!', reply_markup=buttons.staff_admins_markup)
+    if message.from_user.id in Admins:
+        await message.answer('Вы зашли к сотрудникам!', reply_markup=buttons.staff_admins_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def get_staff_buttons(message: types.Message):
-    await message.answer("Выберите снизу из кнопок ⬇", reply_markup=buttons.data_recording_staff_markup)
+    if message.from_user.id in Admins:
+        await message.answer("Выберите снизу из кнопок ⬇", reply_markup=buttons.data_recording_staff_markup)
+    else:
+        await message.answer("Вы не админ!")
 
 
 # --------------------------------------------------
@@ -115,7 +158,10 @@ async def back_for_admins(message: types.Message):
 
 
 async def back_for_staff(message: types.Message):
-    await message.answer('Вы возвратились назад!', reply_markup=buttons.start_markup)
+    if message.from_user.id in Admins:
+        await message.answer('Вы возвратились назад!', reply_markup=buttons.start_admins_markup)
+    else:
+        await message.answer('Вы возвратились назад!', reply_markup=buttons.staff_markup)
 
 
 async def data_recording(message: types.Message):

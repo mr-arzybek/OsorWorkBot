@@ -25,6 +25,7 @@ async def on_startup(_):
 
 # ===========================================================================
 commands.register_commands(dp)
+
 FSM_coming_products.register_products(dp)
 FSM_care_products.register_products(dp)
 FSM_booking.register_booking(dp)
