@@ -133,6 +133,8 @@ async def RegularСustomerButton(message: types.Message):
         await message.answer("Вы не админ!")
 
 
+async def controlchecout(message: types.Message):
+    await message.answer(f"Вы зашли в контроль кассы!", reply_markup=buttons.control_markup)
 # --------------------------------------------------
 
 async def staff_button(message: types.Message):
@@ -186,8 +188,10 @@ def register_commands(dp: Dispatcher):
     dp.register_message_handler(staff_button, commands=['Сотрудники'])
     dp.register_message_handler(finance_button, commands=['Финансы'])
 
+
     dp.register_message_handler(SalaryButton, commands=['Зарплаты'])
     dp.register_message_handler(RegularСustomerButton, commands=['Постоянные_клиенты'])
+    dp.register_message_handler(controlchecout, commands=['Контроль_кассы'])
 
     dp.register_message_handler(get_bishkek, commands=['Бишкек'])
     dp.register_message_handler(get_osh, commands=['Ош'])

@@ -93,7 +93,7 @@ async def sql_command_products_moscow_2(message: types.Message):
 # ====================================================================================================================
 
 def register_sql_commands(dp: Dispatcher):
-    dp.register_message_handler(sql_command_products_bish, commands=['Товары_Бишкек(Проданные)'])
+    dp.register_message_handler(sql_command_products_bish, commands=['Товары_Бишкек(Проданные)', ])
     dp.register_message_handler(sql_command_products_osh, commands=['Товары_Ош(Проданные)'])
     dp.register_message_handler(sql_command_products_moscow_1, commands=['Товары_Москва_1(Проданные)'])
     dp.register_message_handler(sql_command_products_moscow_2, commands=['Товары_Москва_2(Проданные)'])

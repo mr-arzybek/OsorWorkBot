@@ -213,6 +213,9 @@ RegularСustomer_markup.add(RegularCustomer_bishkek, RegularCustomer_osh, Regula
                            RegularCustomer_moscow_2, back_admins_button)
 
 # ==============================
+control_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+control_markup.add(get_products_care_bishkek_button, get_products_care_osh_button,
+                   get_products_care_moscow_1_button, get_products_care_moscow_2_button, back_admins_button)
 
 """-------------------------"""
 
