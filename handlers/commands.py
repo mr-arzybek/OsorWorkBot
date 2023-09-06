@@ -120,7 +120,8 @@ async def ButtonForFinance(message: types.Message):
 async def SalaryButton(message: types.Message):
     if message.from_user.id in Admins:
         await message.answer(f"Выберите с какого филиала! ⬇", reply_markup=buttons.SalaryStaff_markup)
-    await message.answer("Вы не админ!")
+    else:
+        await message.answer("Вы не админ!")
 
 
 async def RegularСustomerButton(message: types.Message):
