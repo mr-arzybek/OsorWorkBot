@@ -214,8 +214,21 @@ RegularСustomer_markup.add(RegularCustomer_bishkek, RegularCustomer_osh, Regula
 
 # ==============================
 control_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-control_markup.add(get_products_care_bishkek_button, get_products_care_osh_button,
-                   get_products_care_moscow_1_button, get_products_care_moscow_2_button, back_admins_button)
+
+control_day_Bish = KeyboardButton('/Отчет_за_день_Б')
+control_month_Bish = KeyboardButton('/Отчет_за_месяц_Б')
+
+control_day_Osh= KeyboardButton('/Отчет_за_день_Ош')
+control_month_OSh = KeyboardButton('/Отчет_за_месяц_Ош')
+
+control_day_Moscow_1 = KeyboardButton('/Отчет_за_день_М_1')
+control_month_Moscow_1 = KeyboardButton('/Отчет_за_месяц_М_1')
+
+control_day_Moscow_2 = KeyboardButton('/Отчет_за_день_М_2')
+control_month_Moscow_2 = KeyboardButton('/Отчет_за_месяц_М_2')
+
+control_markup.add(control_day_Bish, control_month_Bish, control_day_Osh, control_month_OSh, control_day_Moscow_1,
+                   control_month_Moscow_1, control_day_Moscow_2, control_month_Moscow_2, back_admins_button)
 
 """-------------------------"""
 

@@ -9,7 +9,7 @@ from db.db_bish.ORM_Bish import bish_sql_product_care_insert
 from db.db_osh.ORM_Osh import osh_sql_product_care_insert
 from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_care_insert
 from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_care_insert
-from datetime import datetime
+from datetime import date
 
 
 # =======================================================================================================================
@@ -127,7 +127,7 @@ async def load_city(message: types.Message, state: FSMContext):
 async def load_photo(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['photo'] = message.photo[-1].file_id
-        data['date'] = datetime.now()
+        data['date'] = date.today()
         await message.answer_photo(
             data["photo"],
             caption=f"Данные товара: \n"
