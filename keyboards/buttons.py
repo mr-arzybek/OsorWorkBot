@@ -14,7 +14,6 @@ start_admins_markup = ReplyKeyboardMarkup(
     row_width=2
 )
 
-
 finance_button = KeyboardButton("/Финансы")
 products_button = KeyboardButton("/Товары")
 staff_button = KeyboardButton("/Сотрудники")
@@ -218,7 +217,7 @@ control_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=Fal
 control_day_Bish = KeyboardButton('/Отчет_за_день_Б')
 control_month_Bish = KeyboardButton('/Отчет_за_месяц_Б')
 
-control_day_Osh= KeyboardButton('/Отчет_за_день_Ош')
+control_day_Osh = KeyboardButton('/Отчет_за_день_Ош')
 control_month_OSh = KeyboardButton('/Отчет_за_месяц_Ош')
 
 control_day_Moscow_1 = KeyboardButton('/Отчет_за_день_М_1')
@@ -251,3 +250,80 @@ city_markup = ReplyKeyboardMarkup(resize_keyboard=True,
                                         KeyboardButton('Москва 1-филиал'),
                                         KeyboardButton('Москва 2-филиал'))
 # ===========================================================================
+"""--------ДЛЯ ДИРЕКТОРА-----------------"""
+start_director_markup = ReplyKeyboardMarkup(
+    resize_keyboard=True,
+    one_time_keyboard=False,
+    row_width=2
+)
+
+finance_button_director = KeyboardButton("/Финансы")
+products_button_director = KeyboardButton("/Товары")
+staff_button_director = KeyboardButton("/Сотрудники")
+delete_button_director = KeyboardButton("/Удаление_из_базы")
+
+start_director_markup.add(finance_button_director, products_button_director, staff_button_director,
+                        delete_button_director, info_button)
+
+
+back_director_button = KeyboardButton('/<--назад')
+
+
+Delete_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+# delete_staff = KeyboardButton("/Удаление_сотрудников")
+# delete_booking = KeyboardButton("/Удаление_броней")
+# delete_products_care = KeyboardButton("/Удаление_товар_уход")
+# delete_products_coming = KeyboardButton("/Удаление_товар_приход")
+
+delete_staff = KeyboardButton("/Бишкек_удаление")
+delete_booking = KeyboardButton("/Ош_удаление")
+delete_products_care = KeyboardButton("/Москва_1_удаление")
+delete_products_coming = KeyboardButton("/Москва_2_удаление")
+
+
+Delete_markup.add(delete_products_care, delete_products_coming, delete_booking, delete_staff, back_director_button)
+
+Bish_delete_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+bish_delete_care_button = KeyboardButton("/Удал_Прода_Bishkek")
+bish_delete_coming_button = KeyboardButton("/Удал_Прих_Bishkek")
+bish_delete_bookig_button = KeyboardButton("/Удал_Броней_Bishkek")
+bish_delete_staff_button = KeyboardButton("/Удал_Сотруд_Bishkek")
+
+Bish_delete_markup.add(bish_delete_bookig_button, bish_delete_staff_button, bish_delete_coming_button, bish_delete_care_button,
+                       back_director_button)
+
+
+
+Osh_delete_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+osh_delete_care_button = KeyboardButton("/Удал_Прода_Osh")
+osh_delete_coming_button = KeyboardButton("/Удал_Прих_Osh")
+osh_delete_bookig_button = KeyboardButton("/Удал_Броней_Osh")
+osh_delete_staff_button = KeyboardButton("/Удал_Сотруд_Osh")
+
+Osh_delete_markup.add(osh_delete_bookig_button, osh_delete_staff_button, osh_delete_coming_button, osh_delete_care_button,
+                       back_director_button)
+
+moscow_1_delete_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+moscow_1_delete_care_button = KeyboardButton("/Удал_Прода_Moscow_1")
+moscow_1_delete_coming_button = KeyboardButton("/Удал_Прих_Moscow_1")
+moscow_1_delete_bookig_button = KeyboardButton("/Удал_Броней_Moscow_1")
+moscow_1_delete_staff_button = KeyboardButton("/Удал_Сотруд_Moscow_1")
+
+moscow_1_delete_markup.add(moscow_1_delete_bookig_button, moscow_1_delete_staff_button, moscow_1_delete_coming_button, moscow_1_delete_care_button,
+                       back_director_button)
+
+
+moscow_2_delete_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+moscow_2_delete_care_button = KeyboardButton("/Удал_Прода_Moscow_2")
+moscow_2_delete_coming_button = KeyboardButton("/Удал_Прих_Moscow_2")
+moscow_2_delete_bookig_button = KeyboardButton("/Удал_Броней_Moscow_2")
+moscow_2_delete_staff_button = KeyboardButton("/Удал_Сотруд_Moscow_2")
+
+moscow_2_delete_markup.add(moscow_2_delete_bookig_button, moscow_2_delete_staff_button, moscow_2_delete_coming_button, moscow_2_delete_care_button,
+                       back_director_button)
+"""-------------------------"""

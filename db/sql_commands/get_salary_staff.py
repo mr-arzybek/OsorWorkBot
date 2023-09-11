@@ -1,6 +1,6 @@
 # ====================================================================================================================
 from aiogram import types, Dispatcher
-from config import Admins, bot
+from config import Admins, Director
 
 from db.db_bish.ORM_Bish import cursor_bish
 from db.db_osh.ORM_Osh import cursor_osh
@@ -16,7 +16,7 @@ async def salary_salesman_bishkek(message: types.Message):
 
     cursor_bish.execute("SELECT * FROM staff")
 
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for customer in customers:
             phone_salesman = customer[0]
             cursor_bish.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
@@ -39,7 +39,7 @@ async def salary_salesman_osh(message: types.Message):
     customers = cursor_osh.fetchall()
     percentage = 4
 
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for customer in customers:
             phone_salesman = customer[0]
             cursor_osh.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
@@ -61,7 +61,7 @@ async def salary_salesman_moscow_1(message: types.Message):
     customers = cursor_moscow_1.fetchall()
     percentage = 4
 
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for customer in customers:
             phone_salesman = customer[0]
             cursor_moscow_1.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
@@ -83,7 +83,7 @@ async def salary_salesman_moscow_2(message: types.Message):
     customers = cursor_moscow_2.fetchall()
     percentage = 4
 
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for customer in customers:
             phone_salesman = customer[0]
             cursor_moscow_2.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",

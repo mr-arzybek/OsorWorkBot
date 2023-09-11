@@ -1,6 +1,6 @@
 # ====================================================================================================================
 from aiogram import types, Dispatcher
-from config import bot, Admins
+from config import bot, Admins, Director
 
 from db.db_bish.ORM_Bish import cursor_bish
 from db.db_osh.ORM_Osh import cursor_osh
@@ -15,7 +15,7 @@ async def sql_command_staff_bishkek(message: types.Message):
     employees = cursor_bish.fetchall()
 
     for staff in employees:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=staff[5], caption=f"Имя: {staff[0]}\n"
                                                                                f"Номер тел: {staff[1]}\n"
                                                                                f"Информация о сотруднике: {staff[2]}\n"
@@ -30,7 +30,7 @@ async def sql_command_staff_osh(message: types.Message):
     employees = cursor_osh.fetchall()
 
     for staff in employees:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=staff[5], caption=f"Имя: {staff[0]}\n"
                                                                                f"Номер тел: {staff[1]}\n"
                                                                                f"Информация о сотруднике: {staff[2]}\n"
@@ -45,7 +45,7 @@ async def sql_command_staff_moscow_1(message: types.Message):
     employees = cursor_moscow_1.fetchall()
 
     for staff in employees:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=staff[5], caption=f"Имя: {staff[0]}\n"
                                                                                f"Номер тел: {staff[1]}\n"
                                                                                f"Информация о сотруднике: {staff[2]}\n"
@@ -60,7 +60,7 @@ async def sql_command_staff_moscow_2(message: types.Message):
     employees = cursor_moscow_2.fetchall()
 
     for staff in employees:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=staff[5], caption=f"Имя: {staff[0]}\n"
                                                                                f"Номер тел: {staff[1]}\n"
                                                                                f"Информация о сотруднике: {staff[2]}\n"

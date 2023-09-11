@@ -2,7 +2,8 @@
 
 CREATE_PRODUCT_COMING_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS products_coming
-    (name_ VARCHAR(255),
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name_ VARCHAR(255),
     info_product VARCHAR(255),
     date_coming VARCHAR(15),
     price DECIMAL(10, 2),
@@ -21,7 +22,8 @@ PRODUCT_COMING_INSERT_QUERY = """
 
 CREATE_PRODUCT_CARE_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS products_care
-    (name_ VARCHAR(255),
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name_ VARCHAR(255),
     info_product VARCHAR(255),
     date_care VARCHAR(15),
     name_customer VARCHAR(255),
@@ -48,7 +50,8 @@ PRODUCT_CARE_INSERT_QUERY = """
 
 CREATE_BOOKING_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS booking
-    (name_product VARCHAR(255),
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name_product VARCHAR(255),
     start_of_armor VARCHAR(255),
     end_of_armor VARCHAR(255),
     name_customer VARCHAR(255),
@@ -74,7 +77,8 @@ BOOKING_INSERT_QUERY = """
 
 CREATE_STAFF_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS staff
-    (full_name_staff VARCHAR(255),
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    full_name_staff VARCHAR(255),
     phone_staff VARCHAR(50) UNIQUE,
     info_staff VARCHAR(255),
     schedule_staff VARCHAR(255),
@@ -94,7 +98,8 @@ STAFF_INSERT_QUERY = """
 
 CREATE_BEING_LATE_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS being_late
-    (full_name VARCHAR(255),
+    (id INTEGER PRIMARY KEY AUTOINCREMENT,
+    full_name VARCHAR(255),
     date_ VARCHAR(50),
     time_ VARCHAR(255),
     city VARCHAR(50),
@@ -106,13 +111,4 @@ BEING_LATE_INSERT_QUERY = """
     INSERT OR IGNORE INTO being_late  
     (full_name, date_, time_, city, creation_time)
     VALUES (?,?,?,?,?)
-"""
-
-
-CREATE_SALARY_TABLE_QUERY = """
-    
-"""
-
-SALARY_INSERT_QUERY = """
-    
 """

@@ -1,6 +1,6 @@
 # ====================================================================================================================
 from aiogram import types, Dispatcher
-from config import Admins, bot
+from config import Admins, bot, Director
 
 from db.db_bish.ORM_Bish import cursor_bish
 from db.db_osh.ORM_Osh import cursor_osh
@@ -14,7 +14,7 @@ async def sql_command_products_bish(message: types.Message):
     products = cursor_bish.execute("SELECT * FROM products_coming").fetchall()
 
     for product in products:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=product[5], caption=f"Товар: {product[0]}\n"
                                                                                  f"Информация о товаре: {product[1]}\n"
                                                                                  f"Дата прихода: {product[2]}\n"
@@ -28,7 +28,7 @@ async def sql_command_products_osh(message: types.Message):
     products = cursor_osh.execute("SELECT * FROM products_coming").fetchall()
 
     for product in products:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=product[5], caption=f"Товар: {product[0]}\n"
                                                                                  f"Информация о товаре: {product[1]}\n"
                                                                                  f"Дата прихода: {product[2]}\n"
@@ -42,7 +42,7 @@ async def sql_command_products_moscow_1(message: types.Message):
     products = cursor_moscow_1.execute("SELECT * FROM products_coming").fetchall()
 
     for product in products:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=product[5], caption=f"Товар: {product[0]}\n"
                                                                                  f"Информация о товаре: {product[1]}\n"
                                                                                  f"Дата прихода: {product[2]}\n"
@@ -56,7 +56,7 @@ async def sql_command_products_moscow_2(message: types.Message):
     products = cursor_moscow_2.execute("SELECT * FROM products_coming").fetchall()
 
     for product in products:
-        if message.from_user.id in Admins:
+        if message.from_user.id in Admins or Director:
             await bot.send_photo(message.from_user.id, photo=product[5], caption=f"Товар: {product[0]}\n"
                                                                                  f"Информация о товаре: {product[1]}\n"
                                                                                  f"Дата прихода: {product[2]}\n"
