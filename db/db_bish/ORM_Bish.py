@@ -1,5 +1,5 @@
 import sqlite3
-from db.db_bish import sql_queris_bish
+from db import sql_queris
 from config import Director
 from aiogram import types
 
@@ -10,17 +10,17 @@ cursor_bish = db_bish.cursor()
 def sql_create_bish():
     if db_bish:
         print("База Бишкек подключена!")
-    cursor_bish.execute(sql_queris_bish.CREATE_PRODUCT_COMING_TABLE_QUERY)
-    cursor_bish.execute(sql_queris_bish.CREATE_PRODUCT_CARE_TABLE_QUERY)
-    cursor_bish.execute(sql_queris_bish.CREATE_BOOKING_TABLE_QUERY)
-    cursor_bish.execute(sql_queris_bish.CREATE_STAFF_TABLE_QUERY)
-    cursor_bish.execute(sql_queris_bish.CREATE_BEING_LATE_TABLE_QUERY)
+    cursor_bish.execute(sql_queris.CREATE_PRODUCT_COMING_TABLE_QUERY)
+    cursor_bish.execute(sql_queris.CREATE_PRODUCT_CARE_TABLE_QUERY)
+    cursor_bish.execute(sql_queris.CREATE_BOOKING_TABLE_QUERY)
+    cursor_bish.execute(sql_queris.CREATE_STAFF_TABLE_QUERY)
+    cursor_bish.execute(sql_queris.CREATE_BEING_LATE_TABLE_QUERY)
     db_bish.commit()
 
 
 async def bish_sql_product_coming_insert(state):
     async with state.proxy() as data:
-        cursor_bish.execute(sql_queris_bish.PRODUCT_COMING_INSERT_QUERY, tuple(data.values()))
+        cursor_bish.execute(sql_queris.PRODUCT_COMING_INSERT_QUERY, tuple(data.values()))
         db_bish.commit()
 
 
@@ -44,7 +44,7 @@ async def sql_command_delete_coming(id):
 
 async def bish_sql_product_care_insert(state):
     async with state.proxy() as data:
-        cursor_bish.execute(sql_queris_bish.PRODUCT_CARE_INSERT_QUERY, tuple(data.values()))
+        cursor_bish.execute(sql_queris.PRODUCT_CARE_INSERT_QUERY, tuple(data.values()))
         db_bish.commit()
 
 
@@ -68,7 +68,7 @@ async def sql_command_delete_care(id):
 
 async def bish_sql_booking_insert(state):
     async with state.proxy() as data:
-        cursor_bish.execute(sql_queris_bish.BOOKING_INSERT_QUERY, tuple(data.values()))
+        cursor_bish.execute(sql_queris.BOOKING_INSERT_QUERY, tuple(data.values()))
         db_bish.commit()
 
 
@@ -92,7 +92,7 @@ async def sql_command_delete_booking(id):
 
 async def bish_sql_staff_insert(state):
     async with state.proxy() as data:
-        cursor_bish.execute(sql_queris_bish.STAFF_INSERT_QUERY, tuple(data.values()))
+        cursor_bish.execute(sql_queris.STAFF_INSERT_QUERY, tuple(data.values()))
         db_bish.commit()
 
 
@@ -116,5 +116,5 @@ async def sql_command_delete_staff(id):
 
 async def bish_sql_being_late_insert(state):
     async with state.proxy() as data:
-        cursor_bish.execute(sql_queris_bish.BEING_LATE_INSERT_QUERY, tuple(data.values()))
+        cursor_bish.execute(sql_queris.BEING_LATE_INSERT_QUERY, tuple(data.values()))
         db_bish.commit()
