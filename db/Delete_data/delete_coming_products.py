@@ -16,11 +16,13 @@ async def delete_products_coming_command_bish(message: types.Message):
     if message.from_user.id in Director:
         products = await ORM_Bish.sql_command_all_products_coming()
         for product in products:
-            await bot.send_photo(message.from_user.id, photo=product[6], caption=f"Товар: {product[1]}\n"
+            await bot.send_photo(message.from_user.id, photo=product[8], caption=f"Товар: {product[1]}\n"
                                                                                  f"Информация о товаре: {product[2]}\n"
                                                                                  f"Дата прихода: {product[3]}\n"
                                                                                  f"Цена: {product[4]}]\n"
-                                                                                 f"Город: {product[5]}\n",
+                                                                                 f"Город: {product[5]}\n"
+                                                                                 f"Артикул: {product[6]}\n"
+                                                                                 f"количество: {product[7]}\n",
                                  reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(f"delete {product[0]}",
                                                                                               callback_data=f"delete {product[0]}")))
 
@@ -32,11 +34,13 @@ async def delete_products_coming_command_Osh(message: types.Message):
     if message.from_user.id in Director:
         products = await ORM_Osh.sql_command_all_products_coming()
         for product in products:
-            await bot.send_photo(message.from_user.id, photo=product[6], caption=f"Товар: {product[1]}\n"
+            await bot.send_photo(message.from_user.id, photo=product[8], caption=f"Товар: {product[1]}\n"
                                                                                  f"Информация о товаре: {product[2]}\n"
                                                                                  f"Дата прихода: {product[3]}\n"
                                                                                  f"Цена: {product[4]}]\n"
-                                                                                 f"Город: {product[5]}\n",
+                                                                                 f"Город: {product[5]}\n"
+                                                                                 f"Артикул: {product[6]}\n"
+                                                                                 f"количество: {product[7]}\n",
                                  reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(f"delete {product[0]}",
                                                                                               callback_data=f"delete {product[0]}")))
 
@@ -48,11 +52,13 @@ async def delete_products_coming_command_Moscow_1(message: types.Message):
     if message.from_user.id in Director:
         products = await ORM_Moscow_1.sql_command_all_products_coming()
         for product in products:
-            await bot.send_photo(message.from_user.id, photo=product[6], caption=f"Товар: {product[1]}\n"
+            await bot.send_photo(message.from_user.id, photo=product[8], caption=f"Товар: {product[1]}\n"
                                                                                  f"Информация о товаре: {product[2]}\n"
                                                                                  f"Дата прихода: {product[3]}\n"
                                                                                  f"Цена: {product[4]}]\n"
-                                                                                 f"Город: {product[5]}\n",
+                                                                                 f"Город: {product[5]}\n"
+                                                                                 f"Артикул: {product[6]}\n"
+                                                                                 f"количество: {product[7]}\n",
                                  reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(f"delete {product[0]}",
                                                                                               callback_data=f"delete {product[0]}")))
 
@@ -64,11 +70,13 @@ async def delete_products_coming_command_Moscow_2(message: types.Message):
     if message.from_user.id in Director:
         products = await ORM_Moscow_2.sql_command_all_products_coming()
         for product in products:
-            await bot.send_photo(message.from_user.id, photo=product[6], caption=f"Товар: {product[1]}\n"
+            await bot.send_photo(message.from_user.id, photo=product[8], caption=f"Товар: {product[1]}\n"
                                                                                  f"Информация о товаре: {product[2]}\n"
                                                                                  f"Дата прихода: {product[3]}\n"
                                                                                  f"Цена: {product[4]}]\n"
-                                                                                 f"Город: {product[5]}\n",
+                                                                                 f"Город: {product[5]}\n"
+                                                                                 f"Артикул: {product[6]}\n"
+                                                                                 f"количество: {product[7]}\n",
                                  reply_markup=InlineKeyboardMarkup().add(InlineKeyboardButton(f"delete {product[0]}",
                                                                                               callback_data=f"delete {product[0]}")))
 

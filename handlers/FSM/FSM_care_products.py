@@ -5,10 +5,11 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards import buttons
 
-from db.db_bish.ORM_Bish import bish_sql_product_care_insert
-from db.db_osh.ORM_Osh import osh_sql_product_care_insert
-from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_care_insert
-from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_care_insert
+from db.db_bish.ORM_Bish import bish_sql_product_care_insert, cursor_bish
+from db.db_osh.ORM_Osh import osh_sql_product_care_insert, cursor_osh
+from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_care_insert, cursor_moscow_1
+from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_care_insert, cursor_moscow_2
+from db.sql_commands.update_quantity import update_product_coming_quantity
 from datetime import date
 
 
@@ -25,6 +26,8 @@ class FsmCareProducts(StatesGroup):
     price = State()
     discount = State()
     city = State()
+    articul = State()
+    quantity = State()
     care_photo_product = State()
     submit = State()
 
@@ -121,7 +124,26 @@ async def load_city(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['city'] = message.text
     await FsmCareProducts.next()
-    await message.answer('Фотография товара?')
+    await message.answer('Артикул товара?')
+
+async def load_articul(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['articul'] = int(message.text)
+    await FsmCareProducts.next()
+    await message.answer('Количество товара')
+
+
+
+async def load_quantity(message: types.Message, state: FSMContext):
+    if message.text.isalnum():
+        async with state.proxy() as data:
+            data['quantity'] = int(message.text)
+        await FsmCareProducts.next()
+        await message.answer('Фотография товара?')
+
+    else:
+        await message.answer('Вводите только числа!')
+
 
 
 async def load_photo(message: types.Message, state: FSMContext):
@@ -131,6 +153,7 @@ async def load_photo(message: types.Message, state: FSMContext):
         await message.answer_photo(
             data["photo"],
             caption=f"Данные товара: \n"
+                    f"АРТИКУЛ: {data['articul']}\n"
                     f"Название товара: {data['name']}\n"
                     f"Информация о товаре: {data['info']}\n"
                     f"Дата ухода товара: {data['date_care']}\n"
@@ -149,21 +172,25 @@ async def load_submit(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if message.text.lower() == 'да':
             if data['city'] == 'Бишкек':
+                update_product_coming_quantity(cursor_bish, data['quantity'], data['articul'])
                 await bish_sql_product_care_insert(state)
                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'ОШ':
+                update_product_coming_quantity(cursor_osh, data['quantity'], data['articul'])
                 await osh_sql_product_care_insert(state)
                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 1-филиал':
+                update_product_coming_quantity(cursor_moscow_1, data['quantity'], data['articul'])
                 await moscow_1_sql_product_care_insert(state)
                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
 
             elif data['city'] == 'Москва 2-филиал':
+                update_product_coming_quantity(cursor_moscow_2, data['quantity'], data['articul'])
                 await moscow_2_sql_product_care_insert(state)
                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
                 await state.finish()
@@ -196,5 +223,7 @@ def register_products(dp: Dispatcher):
     dp.register_message_handler(load_price, state=FsmCareProducts.price)
     dp.register_message_handler(load_discount, state=FsmCareProducts.discount)
     dp.register_message_handler(load_city, state=FsmCareProducts.city)
+    dp.register_message_handler(load_articul, state=FsmCareProducts.articul)
+    dp.register_message_handler(load_quantity, state=FsmCareProducts.quantity)
     dp.register_message_handler(load_photo, state=FsmCareProducts.care_photo_product, content_types=['photo'])
     dp.register_message_handler(load_submit, state=FsmCareProducts.submit)

@@ -8,6 +8,8 @@ CREATE_PRODUCT_COMING_TABLE_QUERY = """
     date_coming VARCHAR(15),
     price DECIMAL(10, 2),
     city VARCHAR(50), 
+    articul INTEGER,
+    quantity INTEGER,
     photo TEXT,
     creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
@@ -15,8 +17,8 @@ CREATE_PRODUCT_COMING_TABLE_QUERY = """
 
 PRODUCT_COMING_INSERT_QUERY = """
     INSERT OR IGNORE INTO products_coming
-    (name_, info_product, date_coming, price, city, photo, creation_time)
-    VALUES (?,?,?,?,?,?,?)
+    (name_, info_product, date_coming, price, city, articul, quantity, photo, creation_time)
+    VALUES (?,?,?,?,?,?,?,?,?)
 """
 
 
@@ -34,6 +36,8 @@ CREATE_PRODUCT_CARE_TABLE_QUERY = """
     discount INTEGER,
     total_price INTEGER,
     city VARCHAR(50), 
+    articul INTEGER,
+    quantity INTEGER,
     photo TEXT,
     creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
@@ -41,9 +45,10 @@ CREATE_PRODUCT_CARE_TABLE_QUERY = """
 
 PRODUCT_CARE_INSERT_QUERY = """
     INSERT OR IGNORE INTO products_care
-    (name_, info_product, date_care, name_customer, phone_customer, name_salesman, phone_salesman, price, discount, total_price, city, photo, 
+    (name_, info_product, date_care, name_customer, phone_customer, name_salesman,
+     phone_salesman, price, discount, total_price, city, articul, quantity, photo, 
     creation_time)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 """
 
 # =======================================================================================================================

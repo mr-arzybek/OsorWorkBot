@@ -20,6 +20,8 @@ class fsm_products(StatesGroup):
     date_coming = State()  # Дата где будут записаны приход
     price = State()
     city = State()
+    articul = State()
+    quantity = State()
     photo = State()
     submit = State()
 
@@ -56,9 +58,9 @@ async def load_price(message: types.Message, state: FSMContext):
             data['price'] = message.text
         await fsm_products.next()
         await message.answer('Город?\n'
-                                 'Если Москва, то указать какой филиал!\n'
-                                 'Выберите снизу по кнопкам, какой город!',
-                                 reply_markup=buttons.city_markup)
+                             'Если Москва, то указать какой филиал!\n'
+                             'Выберите снизу по кнопкам, какой город!',
+                             reply_markup=buttons.city_markup)
     else:
         await message.answer("Укажите цифрами\n"
                              "(Просто сумму, без добавления 'сом, рубль и т.д')")
@@ -68,7 +70,30 @@ async def load_city(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['city'] = message.text
     await fsm_products.next()
-    await message.answer('Фотография товара?')
+    await message.answer('Артикул товара?')
+
+
+async def load_articul(message: types.Message, state: FSMContext):
+    if message.text.isalnum():
+        async with state.proxy() as data:
+            data['articul'] = int(message.text)
+        await fsm_products.next()
+        await message.answer('Колчество товара?')
+
+    else:
+        await message.answer('Вводите только числа!')
+
+
+
+async def load_quantity(message: types.Message, state: FSMContext):
+    if message.text.isalnum():
+        async with state.proxy() as data:
+            data['quantity'] = int(message.text)
+        await fsm_products.next()
+        await message.answer('Фотография товара?')
+
+    else:
+        await message.answer('Вводите только числа!')
 
 
 async def load_photo(message: types.Message, state: FSMContext):
@@ -78,9 +103,11 @@ async def load_photo(message: types.Message, state: FSMContext):
         await message.answer_photo(
             data["photo"],
             caption=f"Данные товара: \n"
+                    f"АРТИКУЛ: {data['articul']}\n"
                     f"Название товара: {data['name']}\n"
                     f"Информация о товаре: {data['info']}\n"
                     f"Дата прихода товара: {data['date_coming']}\n"
+                    f"Количество товара: {data['quantity']}\n"
                     f"Цена: {data['price']}\n"
                     f"Город: {data['city']}")
     await fsm_products.next()
@@ -133,5 +160,7 @@ def register_products(dp: Dispatcher):
     dp.register_message_handler(load_date_coming, state=fsm_products.date_coming)
     dp.register_message_handler(load_price, state=fsm_products.price)
     dp.register_message_handler(load_city, state=fsm_products.city)
+    dp.register_message_handler(load_articul, state=fsm_products.articul)
+    dp.register_message_handler(load_quantity, state=fsm_products.quantity)
     dp.register_message_handler(load_photo, state=fsm_products.photo, content_types=['photo'])
     dp.register_message_handler(load_submit, state=fsm_products.submit)
