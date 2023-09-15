@@ -12,8 +12,8 @@ from db.db_moscow_2.ORM_Moscow_2 import sql_create_moscow_2
 from db.Delete_data import delete_care_products, delete_coming_products, delete_booking, delete_staff
 
 from db.sql_commands import get_products_comming, get_booking, get_staff, \
-    get_salary_staff, get_products_care, get_regular_customer
-from db.checkout_control import get_info_ForControl
+    get_salary_staff, get_products_care, get_regular_customer, get_being_late
+from db.checkout_control import get_info_ForControl, get_being_late_week
 from keyboards import buttons
 
 
@@ -42,8 +42,10 @@ get_booking.register_sql_commands(dp)
 get_staff.register_sql_commands(dp)
 get_salary_staff.register_sql_commands(dp)
 get_regular_customer.register_super_customers(dp)
+get_being_late.register_sql_commands(dp)
 # ===========================================================================
 get_info_ForControl.register_control(dp)
+get_being_late_week.register_week(dp)
 # ===========================================================================
 delete_care_products.register_handler_admin(dp)
 delete_coming_products.register_handler_admin(dp)

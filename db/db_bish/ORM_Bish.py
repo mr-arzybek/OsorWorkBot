@@ -1,7 +1,6 @@
 import sqlite3
 from db import sql_queris
-from config import Director
-from aiogram import types
+
 
 db_bish = sqlite3.connect("db/db_bish/Bishkek_db")
 cursor_bish = db_bish.cursor()

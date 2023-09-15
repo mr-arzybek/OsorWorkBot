@@ -98,8 +98,14 @@ staff_get_osh_button = KeyboardButton('/Сотрудники_Ош')
 staff_get_moscow_1_button = KeyboardButton('/Сотрудники_Москва_1')
 staff_get_moscow_2_button = KeyboardButton('/Сотрудники_Москва_2')
 
+get_being_late_bishkek_button = KeyboardButton("/Контроль_Бишкек")
+get_being_late_osh_button = KeyboardButton("/Контроль_Ош")
+get_being_late_moscow_1_button = KeyboardButton("/Контроль_Москва_1")
+get_being_late_moscow_2_button = KeyboardButton("/Контроль_Москва_2")
+
 staff_pull_data_markup.add(staff_get_bishkek_button, staff_get_osh_button, staff_get_moscow_1_button,
-                           staff_get_moscow_2_button, back_admins_button)
+                           staff_get_moscow_2_button,get_being_late_bishkek_button, get_being_late_osh_button,
+                     get_being_late_moscow_1_button, get_being_late_moscow_2_button, back_admins_button)
 
 # ====================================================================================================================
 
@@ -165,6 +171,7 @@ get_staff_bishkek_button = KeyboardButton("/Сотрудники_Бишкек")
 get_staff_osh_button = KeyboardButton("/Сотрудники_Ош")
 get_staff_moscow_1_button = KeyboardButton("/Сотрудники_Москва_1")
 get_staff_moscow_2_button = KeyboardButton("/Сотрудники_Москва_2")
+
 
 get_staff_markup.add(get_staff_bishkek_button, get_staff_osh_button, get_staff_moscow_1_button,
                      get_staff_moscow_2_button, back_admins_button)

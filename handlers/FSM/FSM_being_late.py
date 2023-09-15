@@ -1,5 +1,5 @@
 # =======================================================================================================================
-from datetime import datetime
+from datetime import date
 
 from aiogram import types, Dispatcher
 from aiogram.dispatcher import FSMContext
@@ -59,7 +59,7 @@ async def load_time(message: types.Message, state: FSMContext):
 async def load_city(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['city'] = message.text
-        data['date'] = datetime.now()
+        data['date'] = date.today()
         await message.answer(f'Данные: \n'
                              f'ФИО: {data["full_name"]}\n'
                              f'Дата: {data["date"]}\n'
