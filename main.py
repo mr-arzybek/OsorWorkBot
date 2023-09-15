@@ -20,6 +20,7 @@ from keyboards import buttons
 # ===========================================================================
 async def on_startup(_):
     await bot.send_message(chat_id=Admins[0], text="Бот запущен!", reply_markup=buttons.start_admins_markup)
+    await bot.send_message(chat_id=Admins[1], text="Бот запущен!", reply_markup=buttons.start_admins_markup)
     await bot.send_message(chat_id=Director[0], text="Бот запущен!", reply_markup=buttons.start_director_markup)
     sql_create_bish()
     sql_create_osh()
