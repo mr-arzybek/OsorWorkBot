@@ -9,7 +9,7 @@ TOKEN = config('TOKEN')
 
 Admins = [908379438, 995712956]
 
-# Director = [1738805992, ]
+Director = [1738805992, ]
 bot = Bot(TOKEN)
 
 dp = Dispatcher(bot=bot, storage=storage)
