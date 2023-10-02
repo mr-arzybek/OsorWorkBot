@@ -176,16 +176,6 @@ get_staff_moscow_2_button = KeyboardButton("/Сотрудники_Москва_2
 get_staff_markup.add(get_staff_bishkek_button, get_staff_osh_button, get_staff_moscow_1_button,
                      get_staff_moscow_2_button, back_admins_button)
 
-staff_pull_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-
-pull_staff_bishkek = KeyboardButton("")
-pull_staff_osh = KeyboardButton("")
-pull_staff_moscow_1 = KeyboardButton("")
-pull_staff_moscow_2 = KeyboardButton("")
-
-staff_pull_markup.add(pull_staff_bishkek, pull_staff_bishkek, pull_staff_moscow_1, pull_staff_moscow_2,
-                      back_admins_button)
-
 # ======================================================================================================================
 
 """ Кнопки, которые будут внутри кнопки 'Финансы' """
@@ -260,7 +250,7 @@ city_markup = ReplyKeyboardMarkup(resize_keyboard=True,
                                   ).add(KeyboardButton('Бишкек'),
                                         KeyboardButton('ОШ'),
                                         KeyboardButton('Москва 1-филиал'),
-                                        KeyboardButton('Москва 2-филиал'))
+                                        KeyboardButton('Москва 1-филиал'))
 # ===========================================================================
 """--------ДЛЯ ДИРЕКТОРА-----------------"""
 start_director_markup = ReplyKeyboardMarkup(
@@ -339,3 +329,13 @@ moscow_2_delete_staff_button = KeyboardButton("/Удал_Сотруд_Moscow_2")
 moscow_2_delete_markup.add(moscow_2_delete_bookig_button, moscow_2_delete_staff_button, moscow_2_delete_coming_button, moscow_2_delete_care_button,
                        back_director_button)
 """-------------------------"""
+
+
+CategoryButtons = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+m1 = KeyboardButton('/')
+m2 = KeyboardButton('/')
+m3 = KeyboardButton('/')
+m4 = KeyboardButton('/')
+
+CategoryButtons.add(m1, m2, m3, m4)
