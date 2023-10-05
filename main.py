@@ -3,7 +3,7 @@ import logging
 from config import dp, bot, Admins, Director
 from handlers import commands
 from handlers.FSM import (FSM_coming_products, FSM_care_products, FSM_booking, FSM_reg_staff, FSM_being_late)
-from handlers.NewFSM import Products_Comit_Category
+from handlers.NewFSM import Products_Coming_Category
 
 from db.db_bish.ORM_Bish import sql_create_bish
 from db.db_osh.ORM_Osh import sql_create_osh
@@ -38,7 +38,7 @@ FSM_booking.register_booking(dp)
 FSM_reg_staff.register_staff(dp)
 FSM_being_late.register_control(dp)
 
-Products_Comit_Category.register_fsm_comitCategory(dp)
+Products_Coming_Category.register_fsm_comitCategory(dp)
 
 # =====================================================
 get_products_comming.register_sql_commands(dp)

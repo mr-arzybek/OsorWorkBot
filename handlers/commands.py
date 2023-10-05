@@ -68,9 +68,36 @@ async def pull_data(message: types.Message):
     if message.from_user.id in Admins or Director:
         await message.answer("Вы зашли к выводу данных товаров \n"
                              "(Внутри них есть приход, уход и брони)\n\n"
-                             "Выберите действие, из кнопок снизу!\n", reply_markup=buttons.products_pull_data_markup)
+                             "Выберите действие, из кнопок снизу!\n", reply_markup=buttons.Buttons_for_categories)
     else:
         await message.answer("Вы не админ!")
+
+
+
+
+
+async def products_coming(message: types.Message):
+    if message.from_user.id in Admins or Director:
+        await message.answer(f"Вы выбрали приход товаров!"
+                             f"\n"
+                             f"Внизу есть кнопки, где можно выбрать категорию!", reply_markup=buttons.CategoryButtons)
+    else:
+        await message.answer("Вы не админ!")
+
+
+async def products_care(message: types.Message):
+    if message.from_user.id in Admins or Director:
+        await message.answer(f"Вы выбрали уход товаров!", reply_markup=buttons.CareButtons)
+    else:
+        await message.answer("Вы не админ!")
+
+
+async def products_booking(message: types.Message):
+    if message.from_user.id in Admins or Director:
+        await message.answer(f"Вы выбрали в брони товаров!", reply_markup=buttons.Booking_Buttons)
+    else:
+        await message.answer("Вы не админ!")
+
 
 
 async def get_bishkek(message: types.Message):
@@ -131,6 +158,8 @@ async def controlchecout(message: types.Message):
                              f"Снизу расписаны отчеты за дни и месяца!", reply_markup=buttons.control_markup)
     else:
         await message.answer("Вы не админ!")
+
+
 # --------------------------------------------------
 
 async def staff_button(message: types.Message):
@@ -155,7 +184,6 @@ async def back_for_admins(message: types.Message):
 
 """----------"""
 
-
 """Только для Директора"""
 
 
@@ -165,19 +193,26 @@ async def DeleteButton(message: types.Message):
     else:
         await message.answer("Эта команда вам недоступна!")
 
+
 async def Bish_delete_button(message: types.Message):
     await message.answer("Выберите снизу из кнопок ⬇", reply_markup=buttons.Bish_delete_markup)
+
 
 async def Osh_delete_button(message: types.Message):
     await message.answer("Выберите снизу из кнопок ⬇", reply_markup=buttons.Osh_delete_markup)
 
+
 async def Moscow_1_delete_button(message: types.Message):
     await message.answer("Выберите снизу из кнопок ⬇", reply_markup=buttons.moscow_1_delete_markup)
+
 
 async def Moscow_2_delete_button(message: types.Message):
     await message.answer("Выберите снизу из кнопок ⬇", reply_markup=buttons.moscow_2_delete_markup)
 
+
 """----------"""
+
+
 async def back_for_staff(message: types.Message):
     if message.from_user.id in Admins or Director:
         await message.answer('Вы возвратились назад!', reply_markup=buttons.start_admins_markup)
@@ -191,6 +226,11 @@ async def data_recording(message: types.Message):
 
 async def back_for_director(message: types.Message):
     await message.answer('Вы возвратились назад!', reply_markup=buttons.start_admins_markup)
+
+
+# "Вы находитесь в выводе товаров!"
+#                              "\n"
+#                              "Внизу выберите категорию ⬇"
 
 # =================================================================================================================
 
@@ -209,7 +249,6 @@ def register_commands(dp: Dispatcher):
     dp.register_message_handler(staff_button, commands=['Сотрудники'])
     dp.register_message_handler(finance_button, commands=['Финансы'])
 
-
     dp.register_message_handler(SalaryButton, commands=['Зарплаты'])
     dp.register_message_handler(RegularСustomerButton, commands=['Постоянные_клиенты'])
     dp.register_message_handler(controlchecout, commands=['Контроль_кассы'])
@@ -219,7 +258,6 @@ def register_commands(dp: Dispatcher):
     dp.register_message_handler(get_moscow_1, commands=['Москва_1'])
     dp.register_message_handler(get_moscow_2, commands=['Москва_2'])
 
-
     dp.register_message_handler(DeleteButton, commands=['Удаление_из_базы'])
     dp.register_message_handler(back_for_director, commands=['<--назад'])
     dp.register_message_handler(Bish_delete_button, commands=["Бишкек_удаление"])
@@ -227,6 +265,8 @@ def register_commands(dp: Dispatcher):
     dp.register_message_handler(Moscow_1_delete_button, commands=["Москва_1_удаление"])
     dp.register_message_handler(Moscow_2_delete_button, commands=["Москва_2_удаление"])
 
-
     dp.register_message_handler(back_for_staff, commands=['<-назад'])
     dp.register_message_handler(back_for_admins, commands=['<назад'])
+
+    dp.register_message_handler(products_care, commands=['Проданные_товары'])
+    dp.register_message_handler(products_booking, commands=['Товары_на_брони'])

@@ -119,49 +119,6 @@ products_get_moscow_2_button = KeyboardButton('/Москва_2')
 products_pull_data_markup.add(products_get_bishkek_button, products_get_osh_button, products_get_moscow_1_button,
                               products_get_moscow_2_button, back_admins_button)
 
-# ====================================================================================================================
-
-get_bishkek_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-
-get_products_coming_bishkek_button = KeyboardButton("/Товары_Бишкек(Приход)")
-get_products_care_bishkek_button = KeyboardButton("/Товары_Бишкек(Проданные)")
-get_booking_bishkek_button = KeyboardButton("/Брони_Бишкек")
-
-get_bishkek_markup.add(get_products_coming_bishkek_button, get_products_care_bishkek_button, get_booking_bishkek_button,
-                       back_admins_button)
-
-# ===========================================================================
-
-get_branches_osh_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-
-get_products_coming_osh_button = KeyboardButton("/Товары_Ош(Приход)")
-get_products_care_osh_button = KeyboardButton("/Товары_Ош(Проданные)")
-get_booking_osh_button = KeyboardButton("/Брони_Ош")
-
-get_branches_osh_markup.add(get_products_coming_osh_button, get_products_care_osh_button, get_booking_osh_button,
-                            back_admins_button)
-
-# ===========================================================================
-
-get_branches_moscow_1_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-
-get_products_coming_moscow_1_button = KeyboardButton("/Товары_Москва_1(Приход)")
-get_products_care_moscow_1_button = KeyboardButton("/Товары_Москва_1(Проданные)")
-get_booking_moscow_1_button = KeyboardButton("/Брони_Москва_1")
-
-get_branches_moscow_1_markup.add(get_products_coming_moscow_1_button, get_products_care_moscow_1_button,
-                                 get_booking_moscow_1_button, back_admins_button)
-
-# ===========================================================================
-
-get_branches_moscow_2_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-
-get_products_coming_moscow_2_button = KeyboardButton("/Товары_Москва_2(Приход)")
-get_products_care_moscow_2_button = KeyboardButton("/Товары_Москва_2(Проданные)")
-get_booking_moscow_2_button = KeyboardButton("/Брони_Москва_2")
-
-get_branches_moscow_2_markup.add(get_products_coming_moscow_2_button, get_products_care_moscow_2_button,
-                                 get_booking_moscow_2_button, back_admins_button)
 
 # ===========================================================================
 
@@ -239,6 +196,11 @@ cancel_markup = ReplyKeyboardMarkup(resize_keyboard=True,
                                     one_time_keyboard=True,
                                     ).add(cancel_button)
 
+cancel_button_category = KeyboardButton('Отмена!')
+cancel_markup_category = ReplyKeyboardMarkup(resize_keyboard=True,
+                                    one_time_keyboard=True,
+                                    ).add(cancel_button_category)
+
 submit_markup = ReplyKeyboardMarkup(resize_keyboard=True,
                                     one_time_keyboard=True
                                     ).add(KeyboardButton('да'),
@@ -272,11 +234,6 @@ back_director_button = KeyboardButton('/<--назад')
 
 
 Delete_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
-
-# delete_staff = KeyboardButton("/Удаление_сотрудников")
-# delete_booking = KeyboardButton("/Удаление_броней")
-# delete_products_care = KeyboardButton("/Удаление_товар_уход")
-# delete_products_coming = KeyboardButton("/Удаление_товар_приход")
 
 delete_staff = KeyboardButton("/Бишкек_удаление")
 delete_booking = KeyboardButton("/Ош_удаление")
@@ -333,9 +290,41 @@ moscow_2_delete_markup.add(moscow_2_delete_bookig_button, moscow_2_delete_staff_
 
 CategoryButtons = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
 
-m1 = KeyboardButton('/')
-m2 = KeyboardButton('/')
-m3 = KeyboardButton('/')
-m4 = KeyboardButton('/')
+m1 = KeyboardButton('/Обувь')
+m2 = KeyboardButton('/Нижнее_белье')
+m3 = KeyboardButton('/Акссесуары')
+m4 = KeyboardButton('/Верхняя_одежда')
+m5 = KeyboardButton('/Штаны')
 
-CategoryButtons.add(m1, m2, m3, m4)
+CategoryButtons.add(m1, m2, m3, m4, m5, cancel_button_category)
+
+Buttons_for_categories = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+coming_button = KeyboardButton('/Пришедшие_товары')
+care_button = KeyboardButton('/Проданные_товары')
+booking_button = KeyboardButton('/Товары_на_брони')
+
+Buttons_for_categories.add(coming_button, care_button, booking_button,  back_admins_button)
+
+
+CareButtons = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+get_products_care_bishkek_button = KeyboardButton("/Товары_Бишкек(Проданные)")
+get_products_care_osh_button = KeyboardButton("/Товары_Ош(Проданные)")
+get_products_care_moscow_1_button = KeyboardButton("/Товары_Москва_1(Проданные)")
+get_products_care_moscow_2_button = KeyboardButton("/Товары_Москва_2(Проданные)")
+
+CareButtons.add(get_products_care_bishkek_button, get_products_care_osh_button, get_products_care_moscow_1_button,
+                get_products_care_moscow_2_button, back_admins_button)
+
+
+Booking_Buttons = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
+
+get_booking_bishkek_button = KeyboardButton("/Брони_Бишкек")
+get_booking_osh_button = KeyboardButton("/Брони_Ош")
+get_booking_moscow_1_button = KeyboardButton("/Брони_Москва_1")
+get_booking_moscow_2_button = KeyboardButton("/Брони_Москва_2")
+
+Booking_Buttons.add(get_booking_bishkek_button, get_booking_osh_button, get_booking_moscow_1_button,
+                    get_booking_moscow_2_button, back_admins_button)
+
