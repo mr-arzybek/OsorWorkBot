@@ -20,6 +20,7 @@ class fsm_products(StatesGroup):
     date_coming = State()  # Дата где будут записаны приход
     price = State()
     city = State()
+    category = State()
     articul = State()
     quantity = State()
     photo = State()
@@ -70,6 +71,12 @@ async def load_city(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['city'] = message.text
     await fsm_products.next()
+    await message.answer('Категория товара?', reply_markup=buttons.CategoryButtons)
+
+async def load_category(message: types.Message, state: FSMContext):
+    async with state.proxy() as data:
+        data['category'] = message.text.replace("/", "")
+    await fsm_products.next()
     await message.answer('Артикул товара?')
 
 
@@ -108,6 +115,7 @@ async def load_photo(message: types.Message, state: FSMContext):
                     f"Информация о товаре: {data['info']}\n"
                     f"Дата прихода товара: {data['date_coming']}\n"
                     f"Количество товара: {data['quantity']}\n"
+                    f"Категория товара: {data['category']}\n"
                     f"Цена: {data['price']}\n"
                     f"Город: {data['city']}")
     await fsm_products.next()
@@ -160,6 +168,7 @@ def register_products(dp: Dispatcher):
     dp.register_message_handler(load_date_coming, state=fsm_products.date_coming)
     dp.register_message_handler(load_price, state=fsm_products.price)
     dp.register_message_handler(load_city, state=fsm_products.city)
+    dp.register_message_handler(load_category, state=fsm_products.category)
     dp.register_message_handler(load_articul, state=fsm_products.articul)
     dp.register_message_handler(load_quantity, state=fsm_products.quantity)
     dp.register_message_handler(load_photo, state=fsm_products.photo, content_types=['photo'])

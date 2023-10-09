@@ -8,6 +8,7 @@ CREATE_PRODUCT_COMING_TABLE_QUERY = """
     date_coming VARCHAR(15),
     price DECIMAL(10, 2),
     city VARCHAR(50), 
+    category VARCHA(50),
     articul INTEGER,
     quantity INTEGER,
     photo TEXT,
@@ -17,16 +18,14 @@ CREATE_PRODUCT_COMING_TABLE_QUERY = """
 
 PRODUCT_COMING_INSERT_QUERY = """
     INSERT OR IGNORE INTO products_coming
-    (name_, info_product, date_coming, price, city, articul, quantity, photo, creation_time)
-    VALUES (?,?,?,?,?,?,?,?,?)
+    (name_, info_product, date_coming, price, city, category, articul, quantity, photo, creation_time)
+    VALUES (?,?,?,?,?,?,?,?,?,?)
 """
 
 
 CREATE_PRODUCT_CARE_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS products_care
     (id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name_ VARCHAR(255),
-    info_product VARCHAR(255),
     date_care VARCHAR(15),
     name_customer VARCHAR(255),
     phone_customer VARCHAR(50),
@@ -39,14 +38,16 @@ CREATE_PRODUCT_CARE_TABLE_QUERY = """
     articul INTEGER,
     quantity INTEGER,
     photo TEXT,
+    name_ VARCHAR(255),
+    info_product VARCHAR(255),
     creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
 """
 
 PRODUCT_CARE_INSERT_QUERY = """
     INSERT OR IGNORE INTO products_care
-    (name_, info_product, date_care, name_customer, phone_customer, name_salesman,
-     phone_salesman, price, discount, total_price, city, articul, quantity, photo, 
+    (date_care, name_customer, phone_customer, name_salesman,
+     phone_salesman, price, discount, total_price, city, articul, quantity, photo, name_, info_product,
     creation_time)
     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
 """

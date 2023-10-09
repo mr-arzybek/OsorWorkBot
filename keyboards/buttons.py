@@ -41,7 +41,7 @@ products_staff_markup.add(data_recording_button, back_staff_button)
 
 data_recording_markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
 products_comming_button = KeyboardButton('/запись_прихода_товаров')
-products_care_button = KeyboardButton('/записать_уход_товара')
+products_care_button = KeyboardButton('/запись_ухода_товара')
 bookings_reg_button = KeyboardButton('/записать_бронь')
 
 data_recording_markup.add(products_comming_button, products_care_button, bookings_reg_button, back_staff_button)
@@ -309,10 +309,10 @@ Buttons_for_categories.add(coming_button, care_button, booking_button,  back_adm
 
 CareButtons = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=2)
 
-get_products_care_bishkek_button = KeyboardButton("/Товары_Бишкек(Проданные)")
+get_products_care_bishkek_button = KeyboardButton("/Товары_Биш(Проданные)")
 get_products_care_osh_button = KeyboardButton("/Товары_Ош(Проданные)")
-get_products_care_moscow_1_button = KeyboardButton("/Товары_Москва_1(Проданные)")
-get_products_care_moscow_2_button = KeyboardButton("/Товары_Москва_2(Проданные)")
+get_products_care_moscow_1_button = KeyboardButton("/Товары_М1(Проданные)")
+get_products_care_moscow_2_button = KeyboardButton("/Товары_М2(Проданные)")
 
 CareButtons.add(get_products_care_bishkek_button, get_products_care_osh_button, get_products_care_moscow_1_button,
                 get_products_care_moscow_2_button, back_admins_button)
