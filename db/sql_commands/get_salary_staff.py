@@ -10,25 +10,29 @@ from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2
 
 # ====================================================================================================================
 async def salary_salesman_bishkek(message: types.Message):
-    cursor_bish.execute("SELECT phone_salesman, name_salesman FROM products_care")
+    cursor_bish.execute("SELECT DISTINCT phone_salesman, name_salesman FROM products_care")
     customers = cursor_bish.fetchall()
     percentage = 4
 
     cursor_bish.execute("SELECT * FROM staff")
 
     if message.from_user.id in Admins or Director:
-        for customer in customers:
-            phone_salesman = customer[0]
-            cursor_bish.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
-                                (phone_salesman,))
-            total_prices = cursor_bish.fetchone()[0]
+        if len(customers) == 0:
+            await message.answer("Здесь пока ничего нет!")
+        else:
+            for customer in customers:
+                phone_salesman = customer[0]
+                cursor_bish.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
+                                    (phone_salesman,))
+                total_prices = cursor_bish.fetchone()[0]
 
-            salary = total_prices * (percentage / 100.0)
+                salary = total_prices * (percentage / 100.0)
 
-            await message.answer(f"Данные сотрудника: {customers[0]}\n"
-                                 f"Количество проданных товаров: {len(customers)}\n"
-                                 f"Сумма на которую он продал: {total_prices}\n"
-                                 f"Его ЗП: {salary}")
+                await message.answer(f"Имя сотрудника: {customer[0]}\n"
+                                     f"Номер телефона сотрудника: {customer[1]}\n"
+                                     f"Количество проданных товаров: {len(customers)}\n"
+                                     f"Сумма на которую он продал: {total_prices}\n"
+                                     f"Его ЗП: {salary}")
 
     else:
         await message.answer("Вы не админ!")
@@ -40,18 +44,21 @@ async def salary_salesman_osh(message: types.Message):
     percentage = 4
 
     if message.from_user.id in Admins or Director:
-        for customer in customers:
-            phone_salesman = customer[0]
-            cursor_osh.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
-                               (phone_salesman,))
-            total_prices = cursor_osh.fetchone()[0]
+        if len(customers) == 0:
+            await message.answer("Здесь пока ничего нет!")
+        else:
+            for customer in customers:
+                phone_salesman = customer[0]
+                cursor_osh.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
+                                   (phone_salesman,))
+                total_prices = cursor_osh.fetchone()[0]
 
-            salary = total_prices * (percentage / 100.0)
+                salary = total_prices * (percentage / 100.0)
 
-            await message.answer(f"Данные сотрудника: {customers[0]}\n"
-                                 f"Количество проданных товаров: {len(customers)}\n"
-                                 f"Сумма на которую он продал: {total_prices}\n"
-                                 f"Его ЗП: {salary}")
+                await message.answer(f"Данные сотрудника: {customers[0]}\n"
+                                     f"Количество проданных товаров: {len(customers)}\n"
+                                     f"Сумма на которую он продал: {total_prices}\n"
+                                     f"Его ЗП: {salary}")
     else:
         await message.answer("Вы не админ!")
 
@@ -62,18 +69,21 @@ async def salary_salesman_moscow_1(message: types.Message):
     percentage = 4
 
     if message.from_user.id in Admins or Director:
-        for customer in customers:
-            phone_salesman = customer[0]
-            cursor_moscow_1.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
-                                    (phone_salesman,))
-            total_prices = cursor_moscow_1.fetchone()[0]
+        if len(customers) == 0:
+            await message.answer("Здесь пока ничего нет!")
+        else:
+            for customer in customers:
+                phone_salesman = customer[0]
+                cursor_moscow_1.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
+                                        (phone_salesman,))
+                total_prices = cursor_moscow_1.fetchone()[0]
 
-            salary = total_prices * (percentage / 100.0)
+                salary = total_prices * (percentage / 100.0)
 
-            await message.answer(f"Данные сотрудника: {customers[0]}\n"
-                                 f"Количество проданных товаров: {len(customers)}\n"
-                                 f"Сумма на которую он продал: {total_prices}\n"
-                                 f"Его ЗП: {salary}")
+                await message.answer(f"Данные сотрудника: {customers[0]}\n"
+                                     f"Количество проданных товаров: {len(customers)}\n"
+                                     f"Сумма на которую он продал: {total_prices}\n"
+                                     f"Его ЗП: {salary}")
     else:
         await message.answer("Вы не админ!")
 
@@ -84,18 +94,21 @@ async def salary_salesman_moscow_2(message: types.Message):
     percentage = 4
 
     if message.from_user.id in Admins or Director:
-        for customer in customers:
-            phone_salesman = customer[0]
-            cursor_moscow_2.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
-                                    (phone_salesman,))
-            total_prices = cursor_moscow_2.fetchone()[0]
+        if len(customers) == 0:
+            await message.answer("Здесь пока ничего нет!")
+        else:
+            for customer in customers:
+                phone_salesman = customer[0]
+                cursor_moscow_2.execute("SELECT SUM(total_price) FROM products_care WHERE phone_salesman = ?",
+                                        (phone_salesman,))
+                total_prices = cursor_moscow_2.fetchone()[0]
 
-            salary = total_prices * (percentage / 100.0)
+                salary = total_prices * (percentage / 100.0)
 
-            await message.answer(f"Данные сотрудника: {customers[0]}\n"
-                                 f"Количество проданных товаров: {len(customers)}\n"
-                                 f"Сумма на которую он продал: {total_prices}\n"
-                                 f"Его ЗП: {salary}")
+                await message.answer(f"Данные сотрудника: {customers[0]}\n"
+                                     f"Количество проданных товаров: {len(customers)}\n"
+                                     f"Сумма на которую он продал: {total_prices}\n"
+                                     f"Его ЗП: {salary}")
     else:
         await message.answer("Вы не админ!")
 

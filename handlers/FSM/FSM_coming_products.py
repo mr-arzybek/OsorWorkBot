@@ -77,7 +77,7 @@ async def load_category(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['category'] = message.text.replace("/", "")
     await fsm_products.next()
-    await message.answer('Артикул товара?')
+    await message.answer('Артикул товара?', reply_markup=buttons.cancel_markup)
 
 
 async def load_articul(message: types.Message, state: FSMContext):
@@ -85,7 +85,7 @@ async def load_articul(message: types.Message, state: FSMContext):
         async with state.proxy() as data:
             data['articul'] = int(message.text)
         await fsm_products.next()
-        await message.answer('Колчество товара?')
+        await message.answer('Количество товара?')
 
     else:
         await message.answer('Вводите только числа!')

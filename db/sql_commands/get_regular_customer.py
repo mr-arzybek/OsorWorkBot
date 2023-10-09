@@ -7,6 +7,7 @@ from aiogram import types, Dispatcher
 
 # ====================================================================================================================
 
+
 async def super_customer_moscow_1(message: types.Message):
     cursor_moscow_1.execute("SELECT phone_customer, name_customer FROM products_care")
     customers = cursor_moscow_1.fetchall()
@@ -19,13 +20,10 @@ async def super_customer_moscow_1(message: types.Message):
             total_price = cursor_moscow_1.fetchone()[0]
             if total_price > 10000:
                 results[phone] = total_price
-                await message.answer(f"Имя - {customer[1]}\n"
-                                     f"Номер телефона - {phone}\n"
-                                     f"Общая сумма покупок - {total_price}")
-
-            else:
-                await message.answer("Пока нет постоянных клиентов")
-                break
+                vip_photo = open("media/vip_card.png", "rb")
+                await message.answer_photo(photo=vip_photo, caption=f"Имя - {customer[1]}\n"
+                                                                    f"Номер телефона - {phone}\n"
+                                                                    f"Общая сумма покупок - {total_price}")
 
 
 async def super_customer_moscow_2(message: types.Message):
@@ -40,13 +38,10 @@ async def super_customer_moscow_2(message: types.Message):
             total_price = cursor_moscow_2.fetchone()[0]
             if total_price > 10000:
                 results[phone] = total_price
-                await message.answer(f"Имя - {customer[1]}\n"
-                                     f"Номер телефона - {phone}\n"
-                                     f"Общая сумма покупок - {total_price}")
-
-            else:
-                await message.answer("Пока нет постоянных клиентов")
-                break
+                vip_photo = open("media/vip_card.png", "rb")
+                await message.answer_photo(photo=vip_photo, caption=f"Имя - {customer[1]}\n"
+                                                                    f"Номер телефона - {phone}\n"
+                                                                    f"Общая сумма покупок - {total_price}")
 
 
 async def super_customer_bishkek(message: types.Message):
@@ -61,13 +56,11 @@ async def super_customer_bishkek(message: types.Message):
             total_price = cursor_bish.fetchone()[0]
             if total_price > 10000:
                 results[phone] = total_price
-                await message.answer(f"Имя - {customer[1]}\n"
-                                     f"Номер телефона - {phone}\n"
-                                     f"Общая сумма покупок - {total_price}")
+                vip_photo = open("media/vip_card.png", "rb")
+                await message.answer_photo(photo=vip_photo, caption=f"Имя - {customer[1]}\n"
+                                                                    f"Номер телефона - {phone}\n"
+                                                                    f"Общая сумма покупок - {total_price}")
 
-            else:
-                await message.answer("Пока нет постоянных клиентов")
-                break
 
 async def super_customer_osh(message: types.Message):
     cursor_osh.execute("SELECT phone_customer, name_customer FROM products_care")
@@ -81,13 +74,10 @@ async def super_customer_osh(message: types.Message):
             total_price = cursor_osh.fetchone()[0]
             if total_price > 10000:
                 results[phone] = total_price
-                await message.answer(f"Имя - {customer[1]}\n"
-                                     f"Номер телефона - {phone}\n"
-                                     f"Общая сумма покупок - {total_price}")
-
-            else:
-                await message.answer("Пока нет постоянных клиентов")
-                break
+                vip_photo = open("media/vip_card.png", "rb")
+                await message.answer_photo(photo=vip_photo, caption=f"Имя - {customer[1]}\n"
+                                                                    f"Номер телефона - {phone}\n"
+                                                                    f"Общая сумма покупок - {total_price}")
 
 
 def register_super_customers(dp: Dispatcher):
