@@ -4,13 +4,13 @@ from db.db_bish.ORM_Bish import cursor_bish
 from db.db_osh.ORM_Osh import cursor_osh
 from db.db_moscow_1.ORM_Moscow_1 import cursor_moscow_1
 from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2
-from config import Admins
+from config import Admins, Director
 
 
 async def control_day_bish(message: types.Message):
     products = cursor_bish.execute("SELECT * FROM products_care WHERE DATE(creation_time) = DATE('now')").fetchall()
     total_sum_day = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_day.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -37,7 +37,7 @@ async def control_bishkek_month(message: types.Message):
     products = cursor_bish.execute(
         "SELECT * FROM products_care WHERE strftime('%Y-%m', creation_time) = strftime('%Y-%m', 'now')").fetchall()
     total_sum_mon = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_mon.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -63,7 +63,7 @@ async def control_bishkek_month(message: types.Message):
 async def control_day_osh(message: types.Message):
     products = cursor_osh.execute("SELECT * FROM products_care WHERE DATE(creation_time) = DATE('now')").fetchall()
     total_sum_day = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_day.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -90,7 +90,7 @@ async def control_osh_month(message: types.Message):
     products = cursor_osh.execute(
         "SELECT * FROM products_care WHERE strftime('%Y-%m', creation_time) = strftime('%Y-%m', 'now')").fetchall()
     total_sum_mon = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_mon.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -116,7 +116,7 @@ async def control_osh_month(message: types.Message):
 async def control_day_moscow_1(message: types.Message):
     products = cursor_moscow_1.execute("SELECT * FROM products_care WHERE DATE(creation_time) = DATE('now')").fetchall()
     total_sum_day = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_day.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -143,7 +143,7 @@ async def control_moscow_1_month(message: types.Message):
     products = cursor_moscow_1.execute(
         "SELECT * FROM products_care WHERE strftime('%Y-%m', creation_time) = strftime('%Y-%m', 'now')").fetchall()
     total_sum_mon = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_mon.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -169,7 +169,7 @@ async def control_moscow_1_month(message: types.Message):
 async def control_day_moscow_2(message: types.Message):
     products = cursor_moscow_2.execute("SELECT * FROM products_care WHERE DATE(creation_time) = DATE('now')").fetchall()
     total_sum_day = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_day.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -196,7 +196,7 @@ async def control_moscow_2_month(message: types.Message):
     products = cursor_moscow_2.execute(
         "SELECT * FROM products_care WHERE strftime('%Y-%m', creation_time) = strftime('%Y-%m', 'now')").fetchall()
     total_sum_mon = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_mon.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -225,7 +225,7 @@ async def control_moscow_2_month(message: types.Message):
 async def control_week_bish(message: types.Message):
     products = cursor_bish.execute("SELECT * FROM products_care WHERE creation_time >= DATE('now', '-7 days')").fetchall()
     total_sum_day = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_day.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -251,7 +251,7 @@ async def control_week_bish(message: types.Message):
 async def control_week_osh(message: types.Message):
     products = cursor_osh.execute("SELECT * FROM products_care WHERE creation_time >= DATE('now', '-7 days')").fetchall()
     total_sum_day = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_day.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -276,7 +276,7 @@ async def control_week_osh(message: types.Message):
 async def control_week_moscow_1(message: types.Message):
     products = cursor_moscow_1.execute("SELECT * FROM products_care WHERE creation_time >= DATE('now', '-7 days')").fetchall()
     total_sum_mon = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_mon.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
@@ -301,7 +301,7 @@ async def control_week_moscow_1(message: types.Message):
 async def control_week_moscow_2(message: types.Message):
     products = cursor_moscow_2.execute("SELECT * FROM products_care WHERE creation_time >= DATE('now', '-7 days')").fetchall()
     total_sum_day = []
-    if message.from_user.id in Admins:
+    if message.from_user.id in Admins or Director:
         for product in products:
             total_sum_day.append(product[8])
             await bot.send_photo(message.from_user.id, photo=product[12], caption=f"Товар: {product[13]}\n"
