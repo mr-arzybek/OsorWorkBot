@@ -4,7 +4,7 @@ from config import bot, Admins, Director
 
 from db.db_bish.ORM_Bish import cursor_bish
 from db.db_osh.ORM_Osh import cursor_osh
-from db.db_moscow_1.ORM_Moscow_1 import cursor_moscow_1
+from db.db_moscow_1.ORM_Moscow_1 import (cursor_moscow_1)
 from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2
 
 

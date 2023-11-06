@@ -1,6 +1,6 @@
 from aiogram.utils import executor
 import logging
-from config import dp, bot, Admins, Director
+from config import dp, bot, Admins
 from handlers import commands
 from handlers.FSM import (FSM_coming_products, FSM_care_products, FSM_booking, FSM_reg_staff, FSM_being_late)
 from handlers.NewFSM import Products_Coming_Category
@@ -16,6 +16,7 @@ from db.sql_commands import get_products_comming, get_booking, get_staff, \
     get_salary_staff, get_products_care, get_regular_customer, get_being_late
 from db.checkout_control import get_info_ForControl, get_being_late_week
 from keyboards import buttons
+
 
 
 # ===========================================================================

@@ -21,8 +21,7 @@ async def sql_command_products_bish(message: types.Message):
                                                                                  f"Цена: {product[4]}]\n"
                                                                                  f"Город: {product[5]}\n"
                                                                                  f"Артикул: {product[6]}\n"
-                                                                                 f"Количество: {product[7]}\n"
-                                 )
+                                                                                 f"Количество: {product[7]}\n")
         else:
             await message.answer("Вы не админ!")
 
