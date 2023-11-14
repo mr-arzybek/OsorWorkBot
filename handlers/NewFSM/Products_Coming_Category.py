@@ -4,7 +4,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from keyboards import buttons
 from aiogram.dispatcher.filters import Text
 from db.sql_commands.utils import get_product_from_category
-from db.db_bish.ORM_Bish import cursor_bish
+from db.db_main.ORM_main import cursor_bish
 from db.db_osh.ORM_Osh import cursor_osh
 from db.db_moscow_1.ORM_Moscow_1 import cursor_moscow_1
 from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2

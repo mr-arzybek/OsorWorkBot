@@ -1,16 +1,28 @@
 from aiogram import Dispatcher, Bot
 from decouple import config
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
+from db.db_psql.db_osor import Database
 
 
 storage = MemoryStorage()
 
 TOKEN = config('TOKEN')
 
-Admins = [908379438, 995712956]
+Admins = [659106628, 659106628]
 
-Director = [1738805992, ]
+Director = [659106628, ]
 bot = Bot(TOKEN)
 
 dp = Dispatcher(bot=bot, storage=storage)
+
+
+ip = config('ip')
+PostgresUser = config('PostgresUser')
+PostgresPassword = config('PostgresPassword')
+DATABASE = config('DATABASE')
+
+POSTGRES_URL = f"postgresql://{PostgresUser}:{PostgresPassword}@{ip}/{DATABASE}"
+
+data_b = Database(POSTGRES_URL)
+
 

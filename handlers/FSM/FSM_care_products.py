@@ -1,273 +1,175 @@
-# =======================================================================================================================
-from aiogram import types, Dispatcher
-from aiogram.dispatcher import FSMContext
-from aiogram.dispatcher.filters.state import State, StatesGroup
-from aiogram.dispatcher.filters import Text
-from keyboards import buttons
-
-from db.db_bish.ORM_Bish import bish_sql_product_care_insert, cursor_bish
-from db.db_osh.ORM_Osh import osh_sql_product_care_insert, cursor_osh
-from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_care_insert, cursor_moscow_1
-from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_care_insert, cursor_moscow_2
-from db.sql_commands.utils import update_product_coming_quantity, get_product_from_articul
-from datetime import date
-
-
-# =======================================================================================================================
-
-class FsmCareProducts(StatesGroup):
-    # name = State()  # Название товара
-    # info_product = State()
-    date_care = State()  # Дата где будут записаны уходы
-    name_customer = State()
-    phone_customer = State()
-    name_salesman = State()
-    phone_salesman = State()
-    price = State()
-    discount = State()
-    city = State()
-    articul = State()
-    quantity = State()
-    # care_photo_product = State()
-    submit = State()
-
-
-async def fsm_start(message: types.Message):
-    await FsmCareProducts.date_care.set()
-    await message.answer('Дата ухода?', reply_markup=buttons.cancel_markup)
-
-
+# # =======================================================================================================================
+# from aiogram import types, Dispatcher
+# from aiogram.dispatcher import FSMContext
+# from aiogram.dispatcher.filters.state import State, StatesGroup
+# from aiogram.dispatcher.filters import Text
+# from keyboards import buttons
+#
+# from db.db_main.ORM_Bish import bish_sql_product_coming_insert
+# from db.db_osh.ORM_Osh import osh_sql_product_coming_insert
+# from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_coming_insert
+# from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_coming_insert
+# from datetime import datetime
+#
+#
+# # =======================================================================================================================
+#
+# class fsm_products(StatesGroup):
+#     name = State()  # Название товара
+#     info_product = State()
+#     date_coming = State()  # Дата где будут записаны приход
+#     price = State()
+#     city = State()
+#     category = State()
+#     articul = State()
+#     quantity = State()
+#     photo = State()
+#     submit = State()
+#
+#
+# async def fsm_start(message: types.Message):
+#     await fsm_products.name.set()
+#     await message.answer('Название товара?', reply_markup=buttons.cancel_markup)
+#
+#
 # async def load_name(message: types.Message, state: FSMContext):
 #     async with state.proxy() as data:
 #         data['name'] = message.text
-#     await FsmCareProducts.next()
+#     await fsm_products.next()
 #     await message.answer('Информация о товаре!?')
 #
 #
 # async def load_info_product(message: types.Message, state: FSMContext):
 #     async with state.proxy() as data:
 #         data['info'] = message.text
-#     await FsmCareProducts.next()
-#     await message.answer('Дата ухода?')
-
-
-async def load_date_care(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['date_care'] = message.text
-    await FsmCareProducts.next()
-    await message.answer('Имя заказчика?')
-
-
-async def load_name_customer(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['name_customer'] = message.text
-    await FsmCareProducts.next()
-    await message.answer('Номер телефона заказчика? \n'
-                         '+996 или +7')
-
-
-async def load_phone_customer(message: types.Message, state: FSMContext):
-    if message.text.find("+"):
-        await message.answer('Начните с +')
-    else:
-        async with state.proxy() as data:
-            data['phone_customer'] = message.text
-        await FsmCareProducts.next()
-        await message.answer('Имя продавца?')
-
-
-async def load_name_salesman(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['name_salesman'] = message.text
-    await FsmCareProducts.next()
-    await message.answer('Номер телефона продавца? \n'
-                         '+996 или +7')
-
-
-async def load_phone_salesman(message: types.Message, state: FSMContext):
-    if message.text.find("+"):
-        await message.answer('Начните с +')
-    else:
-        async with state.proxy() as data:
-            data['phone_salesman'] = message.text
-        await FsmCareProducts.next()
-        await message.answer('Цена?')
-
-
-async def load_price(message: types.Message, state: FSMContext):
-    if message.text.isdigit():
-        async with state.proxy() as data:
-            data['price'] = message.text
-        await FsmCareProducts.next()
-        await message.answer('Скидка?\n'
-                             '(Сумму скидки!)')
-    else:
-        await message.answer('Укажите цифрами!')
-
-
-async def load_discount(message: types.Message, state: FSMContext):
-    if message.text.isdigit():
-        async with state.proxy() as data:
-            data['discount'] = message.text
-            data['calculation'] = int(data['price']) - int(data['discount'])
-
-        await FsmCareProducts.next()
-        await message.answer('Город?\n'
-                             'Если Москва, то указать какой филиал!\n'
-                             'Выберите снизу по кнопкам, какой город!',
-                             reply_markup=buttons.city_markup)
-    else:
-        await message.answer('Укажите цифрами!')
-
-
-async def load_city(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        data['city'] = message.text
-    await FsmCareProducts.next()
-    await message.answer('Артикул товара?', reply_markup=buttons.cancel_markup)
-
-
-async def load_articul(message: types.Message, state: FSMContext):
-    if message.text.isdigit():
-        async with state.proxy() as data:
-            data['articul'] = int(message.text)
-        global product_coming_data
-        if data['city'] == 'Бишкек':
-            product_coming_data = get_product_from_articul(cursor_bish, data['articul'])
-
-        elif data['city'] == 'ОШ':
-            product_coming_data = get_product_from_articul(cursor_osh, data['articul'])
-
-        elif data['city'] == 'Москва 1-филиал':
-            product_coming_data = get_product_from_articul(cursor_moscow_1, data['articul'])
-
-        elif data['city'] == 'Москва 2-филиал':
-            product_coming_data = get_product_from_articul(cursor_moscow_2, data['articul'])
-        await FsmCareProducts.next()
-        await message.answer('Количество товара?')
-    else:
-        await message.answer("Артикул должен состоять из цифр!!!")
-
-
-async def load_quantity(message: types.Message, state: FSMContext):
-    try:
-        if message.text.isalnum():
-            async with state.proxy() as data:
-                data['quantity'] = int(message.text)
-                data['photo'] = product_coming_data[2]
-                data['name'] = product_coming_data[0]
-                data['info'] = product_coming_data[1]
-                data['date'] = date.today()
-
-            await FsmCareProducts.next()
-            await message.answer_photo(
-                product_coming_data[2],
-                caption=f"Данные товара: \n"
-                                f"АРТИКУЛ: {data['articul']}\n"
-                                f"Название товара: {data['name']}\n"
-                                f"Информация о товаре: {data['info']}\n"
-                                f"Дата ухода товара: {data['date_care']}\n"
-                                f"Заказчик: {data['name_customer']}\n"
-                                f"Номер телефона заказчика: {data['phone_customer']}\n"
-                                f"Продацев: {data['name_salesman']}\n"
-                                f"Цена: {data['price']}\n"
-                                f"Скидка: {data['discount']}\n"
-                                f"Итоговая цена: {data['calculation']}\n"
-                                f"Город: {data['city']}")
-            await message.answer("Все верно?", reply_markup=buttons.submit_markup)
-
-
-        else:
-            await message.answer('Вводите только числа!')
-
-    except TypeError:
-        photo = open('media/404_error-h.png', 'rb')
-        await message.answer_photo(photo, caption="Упс!\n"
-                                                  "Вы ввели неправильный артикул\n"
-                                                  "Пожалуйста нажмите на кнопку 'Отмена'\n"
-                                                  "И заполните заново эту запись!")
-
-
-
+#     await fsm_products.next()
+#     await message.answer('Дата прихода?')
+#
+#
+# async def load_date_coming(message: types.Message, state: FSMContext):
+#     async with state.proxy() as data:
+#         data['date_coming'] = message.text
+#     await fsm_products.next()
+#     await message.answer('Цена товара?')
+#
+#
+# async def load_price(message: types.Message, state: FSMContext):
+#     if message.text.isdigit():
+#         async with state.proxy() as data:
+#             data['price'] = message.text
+#         await fsm_products.next()
+#         await message.answer('Город?\n'
+#                              'Если Москва, то указать какой филиал!\n'
+#                              'Выберите снизу по кнопкам, какой город!',
+#                              reply_markup=buttons.city_markup)
+#     else:
+#         await message.answer("Укажите цифрами\n"
+#                              "(Просто сумму, без добавления 'сом, рубль и т.д')")
+#
+#
+# async def load_city(message: types.Message, state: FSMContext):
+#     async with state.proxy() as data:
+#         data['city'] = message.text
+#     await fsm_products.next()
+#     await message.answer('Категория товара?', reply_markup=buttons.CategoryButtons)
+#
+# async def load_category(message: types.Message, state: FSMContext):
+#     async with state.proxy() as data:
+#         data['category'] = message.text.replace("/", "")
+#     await fsm_products.next()
+#     await message.answer('Артикул товара?', reply_markup=buttons.cancel_markup)
+#
+#
+# async def load_articul(message: types.Message, state: FSMContext):
+#     if message.text.isalnum():
+#         async with state.proxy() as data:
+#             data['articul'] = int(message.text)
+#         await fsm_products.next()
+#         await message.answer('Количество товара?')
+#
+#     else:
+#         await message.answer('Вводите только числа!')
+#
+#
+#
+# async def load_quantity(message: types.Message, state: FSMContext):
+#     if message.text.isalnum():
+#         async with state.proxy() as data:
+#             data['quantity'] = int(message.text)
+#         await fsm_products.next()
+#         await message.answer('Фотография товара?')
+#
+#     else:
+#         await message.answer('Вводите только числа!')
+#
+#
 # async def load_photo(message: types.Message, state: FSMContext):
 #     async with state.proxy() as data:
-#         data['photo'] = product_coming_data[2]
-#         data['name'] = product_coming_data[0]
-#         data['info'] = product_coming_data[1]
-#         data['date'] = date.today()
+#         data['photo'] = message.photo[-1].file_id
+#         data['date'] = datetime.now()
 #         await message.answer_photo(
 #             data["photo"],
 #             caption=f"Данные товара: \n"
 #                     f"АРТИКУЛ: {data['articul']}\n"
 #                     f"Название товара: {data['name']}\n"
 #                     f"Информация о товаре: {data['info']}\n"
-#                     f"Дата ухода товара: {data['date_care']}\n"
-#                     f"Заказчик: {data['name_customer']}\n"
-#                     f"Номер телефона заказчика: {data['phone_customer']}\n"
-#                     f"Продацев: {data['name_salesman']}\n"
+#                     f"Дата прихода товара: {data['date_coming']}\n"
+#                     f"Количество товара: {data['quantity']}\n"
+#                     f"Категория товара: {data['category']}\n"
 #                     f"Цена: {data['price']}\n"
-#                     f"Скидка: {data['discount']}\n"
-#                     f"Итоговая цена: {data['calculation']}\n"
 #                     f"Город: {data['city']}")
-#     await FsmCareProducts.next()
-
-
-async def load_submit(message: types.Message, state: FSMContext):
-    async with state.proxy() as data:
-        if message.text.lower() == 'да':
-            if data['city'] == 'Бишкек':
-                update_product_coming_quantity(cursor_bish, data['quantity'], data['articul'])
-                await bish_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-            elif data['city'] == 'ОШ':
-                update_product_coming_quantity(cursor_osh, data['quantity'], data['articul'])
-                await osh_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-            elif data['city'] == 'Москва 1-филиал':
-                update_product_coming_quantity(cursor_moscow_1, data['quantity'], data['articul'])
-                await moscow_1_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-            elif data['city'] == 'Москва 2-филиал':
-                update_product_coming_quantity(cursor_moscow_2, data['quantity'], data['articul'])
-                await moscow_2_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-        elif message.text.lower() == 'нет':
-            await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_markup)
-            await state.finish()
-
-
-async def cancel_reg(message: types.Message, state: FSMContext):
-    current_state = await state.get_state()
-    if current_state is not None:
-        await state.finish()
-        await message.answer('Отменено!', reply_markup=buttons.data_recording_markup)
-
-
-# =======================================================================================================================
-
-def register_products(dp: Dispatcher):
-    dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
-    dp.register_message_handler(fsm_start, commands=['запись_ухода_товара'])
-
-    # dp.register_message_handler(load_name, state=FsmCareProducts.name)
-    # dp.register_message_handler(load_info_product, state=FsmCareProducts.info_product)
-    dp.register_message_handler(load_date_care, state=FsmCareProducts.date_care)
-    dp.register_message_handler(load_name_customer, state=FsmCareProducts.name_customer)
-    dp.register_message_handler(load_phone_customer, state=FsmCareProducts.phone_customer)
-    dp.register_message_handler(load_name_salesman, state=FsmCareProducts.name_salesman)
-    dp.register_message_handler(load_phone_salesman, state=FsmCareProducts.phone_salesman)
-    dp.register_message_handler(load_price, state=FsmCareProducts.price)
-    dp.register_message_handler(load_discount, state=FsmCareProducts.discount)
-    dp.register_message_handler(load_city, state=FsmCareProducts.city)
-    dp.register_message_handler(load_articul, state=FsmCareProducts.articul)
-    dp.register_message_handler(load_quantity, state=FsmCareProducts.quantity)
-    # dp.register_message_handler(load_photo, state=FsmCareProducts.care_photo_product, content_types=['photo'])
-    dp.register_message_handler(load_submit, state=FsmCareProducts.submit)
+#     await fsm_products.next()
+#     await message.answer("Все верно?", reply_markup=buttons.submit_markup)
+#
+#
+# async def load_submit(message: types.Message, state: FSMContext):
+#     async with state.proxy() as data:
+#         if message.text.lower() == 'да':
+#             if data['city'] == 'Бишкек':
+#                 await bish_sql_product_coming_insert(state)
+#                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
+#                 await state.finish()
+#
+#             elif data['city'] == 'ОШ':
+#                 await osh_sql_product_coming_insert(state)
+#                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
+#                 await state.finish()
+#
+#             elif data['city'] == 'Москва 1-филиал':
+#                 await moscow_1_sql_product_coming_insert(state)
+#                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
+#                 await state.finish()
+#
+#             elif data['city'] == 'Москва 2-филиал':
+#                 await moscow_2_sql_product_coming_insert(state)
+#                 await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
+#                 await state.finish()
+#
+#         elif message.text.lower() == 'нет':
+#             await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_markup)
+#             await state.finish()
+#
+#
+# async def cancel_reg(message: types.Message, state: FSMContext):
+#     current_state = await state.get_state()
+#     if current_state is not None:
+#         await state.finish()
+#         await message.answer('Отменено!', reply_markup=buttons.data_recording_markup)
+#
+#
+# # =======================================================================================================================
+#
+# def register_products(dp: Dispatcher):
+#     dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
+#     dp.register_message_handler(fsm_start, commands=['запись_прихода_товаров'])
+#
+#     dp.register_message_handler(load_name, state=fsm_products.name)
+#     dp.register_message_handler(load_info_product, state=fsm_products.info_product)
+#     dp.register_message_handler(load_date_coming, state=fsm_products.date_coming)
+#     dp.register_message_handler(load_price, state=fsm_products.price)
+#     dp.register_message_handler(load_city, state=fsm_products.city)
+#     dp.register_message_handler(load_category, state=fsm_products.category)
+#     dp.register_message_handler(load_articul, state=fsm_products.articul)
+#     dp.register_message_handler(load_quantity, state=fsm_products.quantity)
+#     dp.register_message_handler(load_photo, state=fsm_products.photo, content_types=['photo'])
+#     dp.register_message_handler(load_submit, state=fsm_products.submit)
