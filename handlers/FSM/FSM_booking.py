@@ -5,26 +5,23 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards import buttons
 
-from db.db_main.ORM_main import bish_sql_booking_insert
-from db.db_osh.ORM_Osh import osh_sql_booking_insert
-from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_booking_insert
-from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_booking_insert
+from db.db_main.ORM_main import sql_booking_insert
 from datetime import datetime
 
 
 # =======================================================================================================
 class fsm_booking_coming(StatesGroup):
-    name_product = State()      # Название товара
-    start_booking = State()     # Дата началы брони
-    care_booking = State()      # Дата началы брони
-    name_customer = State()     # Имя заказчика
-    phone_customer = State()    # Номер телефона заказчика
-    name_salesman = State()     # Имя продавца
-    phone_salesman = State()    # Телефон номера продавца
-    price = State()             # Цена
-    discount = State()          # Скидка
-    city = State()              # Итоговая цена
-    photo_booking = State()     # Фотография товара
+    name_product = State()  # Название товара
+    start_booking = State()  # Дата началы брони
+    care_booking = State()  # Дата началы брони
+    name_customer = State()  # Имя заказчика
+    phone_customer = State()  # Номер телефона заказчика
+    name_salesman = State()  # Имя продавца
+    phone_salesman = State()  # Телефон номера продавца
+    price = State()  # Цена
+    discount = State()  # Скидка
+    city = State()  # Итоговая цена
+    photo_booking = State()  # Фотография товара
     submit = State()
 
 
@@ -153,25 +150,11 @@ async def load_photo(message: types.Message, state: FSMContext):
 async def load_submit(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if message.text.lower() == 'да':
-            if data['city'] == 'Бишкек':
-                await bish_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
 
-            elif data['city'] == 'ОШ':
-                await osh_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
+            await sql_booking_insert(state)
+            await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
+            await state.finish()
 
-            elif data['city'] == 'Москва 1-филиал':
-                await moscow_1_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-            elif data['city'] == 'Москва 2-филиал':
-                await moscow_2_sql_booking_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
 
         elif message.text.lower() == 'нет':
             await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_markup)

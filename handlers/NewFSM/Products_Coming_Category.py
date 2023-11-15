@@ -4,10 +4,11 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from keyboards import buttons
 from aiogram.dispatcher.filters import Text
 from db.sql_commands.utils import get_product_from_category
-from db.db_main.ORM_main import cursor_bish
-from db.db_osh.ORM_Osh import cursor_osh
-from db.db_moscow_1.ORM_Moscow_1 import cursor_moscow_1
-from db.db_moscow_2.ORM_Moscow_2 import cursor_moscow_2
+
+import asyncpg
+from config import POSTGRES_URL
+global connection
+connection = await asyncpg.connect(POSTGRES_URL)
 
 cities = ['Бишкек', 'ОШ', 'Москва 1-филиал', 'Москва 1-филиал']
 categories = ["/Обувь", "/Нижнее_белье", "/Акссесуары", "/Верхняя_одежда", "/Штаны"]
@@ -41,13 +42,13 @@ async def load_category(message: types.Message, state: FSMContext):
             category = message.text.replace("/", "")
 
             if city == "Бишкек":
-                products = get_product_from_category(cursor=cursor_bish, category=category, city=city)
+                products = get_product_from_category(cursor=connection, category=category, city=city)
             elif city == "ОШ":
-                products = get_product_from_category(cursor=cursor_osh, category=category, city=city)
+                products = get_product_from_category(cursor=connection, category=category, city=city)
             elif city == "Москва 1-филиал":
-                products = get_product_from_category(cursor=cursor_moscow_1, category=category, city=city)
+                products = get_product_from_category(cursor=connection, category=category, city=city)
             elif city == "Москва 2-филиал":
-                products = get_product_from_category(cursor=cursor_moscow_2, category=category, city=city)
+                products = get_product_from_category(cursor=connection, category=category, city=city)
 
             for product in products:
                 await message.answer_photo(photo=product[9], caption=f"Товар: {product[1]}\n"
