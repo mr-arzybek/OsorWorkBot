@@ -2,13 +2,11 @@ from aiogram.utils import executor
 import logging
 from config import dp, bot, Admins
 from handlers import commands
-# from handlers.FSM import (FSM_coming_products, FSM_care_products, FSM_booking, FSM_reg_staff, FSM_being_late)
-# from handlers.NewFSM import Products_Coming_Category
+from handlers.FSM import (FSM_coming_products, FSM_care_products, FSM_booking, FSM_reg_staff, FSM_being_late)
+from handlers.NewFSM import Products_Coming_Category
 
 from db.db_main.ORM_main import create_tables
-# from db.db_osh.ORM_Osh import sql_create_osh
-# from db.db_moscow_1.ORM_Moscow_1 import sql_create_moscow_1
-# from db.db_moscow_2.ORM_Moscow_2 import sql_create_moscow_2
+
 
 # from db.Delete_data import delete_care_products, delete_coming_products, delete_booking, delete_staff
 
@@ -38,14 +36,14 @@ async def on_shutdown(_):
 
 # ===========================================================================
 commands.register_commands(dp)
-#
-# FSM_coming_products.register_products(dp)
-# FSM_care_products.register_products(dp)
-# FSM_booking.register_booking(dp)
-# FSM_reg_staff.register_staff(dp)
-# FSM_being_late.register_control(dp)
-#
-# Products_Coming_Category.register_fsm_comitCategory(dp)
+
+FSM_coming_products.register_products(dp)
+FSM_care_products.register_products(dp)
+FSM_booking.register_booking(dp)
+FSM_reg_staff.register_staff(dp)
+FSM_being_late.register_control(dp)
+
+Products_Coming_Category.register_fsm_comitCategory(dp)
 
 # =====================================================
 # get_products_comming.register_sql_commands(dp)

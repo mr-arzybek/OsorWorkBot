@@ -14,7 +14,7 @@ from db.db_main.ORM_main import sql_product_coming_insert
 
 
 global connection
-connection = await asyncpg.connect(POSTGRES_URL)
+connection = asyncpg.connect(POSTGRES_URL)
 class fsm_products(StatesGroup):
     name = State()  # Название товара
     info_product = State()
@@ -82,7 +82,7 @@ async def load_category(message: types.Message, state: FSMContext):
 
 
 async def load_articul(message: types.Message, state: FSMContext):
-    if message.text.isalnum():
+    if message.text.isdigit():
         async with state.proxy() as data:
             data['articul'] = int(message.text)
         await fsm_products.next()

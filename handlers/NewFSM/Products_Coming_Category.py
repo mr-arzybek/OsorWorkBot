@@ -8,7 +8,7 @@ from db.sql_commands.utils import get_product_from_category
 import asyncpg
 from config import POSTGRES_URL
 global connection
-connection = await asyncpg.connect(POSTGRES_URL)
+connection = asyncpg.connect(POSTGRES_URL)
 
 cities = ['Бишкек', 'ОШ', 'Москва 1-филиал', 'Москва 1-филиал']
 categories = ["/Обувь", "/Нижнее_белье", "/Акссесуары", "/Верхняя_одежда", "/Штаны"]

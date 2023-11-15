@@ -3,7 +3,7 @@ CREATE_PRODUCT_COMING_TABLE_QUERY = """
         id SERIAL PRIMARY KEY,
         name_ VARCHAR(255),
         info_product VARCHAR(255),
-        date_coming DATE,
+        date_coming VARCHAR(255),
         price DECIMAL(10, 2),
         city VARCHAR(50), 
         category VARCHAR(50),
@@ -24,7 +24,7 @@ PRODUCT_COMING_INSERT_QUERY = """
 CREATE_PRODUCT_CARE_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS products_care (
         id SERIAL PRIMARY KEY,
-        date_care DATE,
+        date_care VARCHAR(255),
         name_customer VARCHAR(255),
         phone_customer VARCHAR(50),
         name_salesman VARCHAR(255),
@@ -55,8 +55,8 @@ CREATE_BOOKING_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS booking (
         id SERIAL PRIMARY KEY,
         name_product VARCHAR(255),
-        start_of_armor DATE,
-        end_of_armor DATE,
+        start_of_armor VARCHAR(255),
+        end_of_armor VARCHAR(255),
         name_customer VARCHAR(255),
         phone_customer VARCHAR(50),
         name_salesman VARCHAR(255),
@@ -102,8 +102,8 @@ CREATE_BEING_LATE_TABLE_QUERY = """
     CREATE TABLE IF NOT EXISTS being_late (
         id SERIAL PRIMARY KEY,
         full_name VARCHAR(255),
-        date_ DATE,
-        time_ TIME,
+        date_ VARCHAR(255),
+        time_ VARCHAR(255),
         city VARCHAR(50),
         creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

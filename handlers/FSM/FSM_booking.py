@@ -104,7 +104,7 @@ async def load_price(message: types.Message, state: FSMContext):
 async def load_discount(message: types.Message, state: FSMContext):
     if message.text.isdigit():
         async with state.proxy() as data:
-            data['discount'] = message.text
+            data['discount'] = int(message.text)
             data['calculation'] = int(data['price']) - int(data['discount'])
 
         await fsm_booking_coming.next()
