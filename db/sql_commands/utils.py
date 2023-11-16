@@ -15,10 +15,10 @@ def get_product_from_category(cursor, category, city):
         return None
 
 
-def get_product_from_articul(cursor, articul):
+def get_product_from_articul(cursor, articul, city):
     try:
         cursor.execute("""SELECT name_, info_product, photo FROM products_coming
-                        WHERE articul = ?""", (articul,))
+                        WHERE articul = ? AND city = ?""", (articul, city))
         product = cursor.fetchone()
         return product
     except Exception as e:
