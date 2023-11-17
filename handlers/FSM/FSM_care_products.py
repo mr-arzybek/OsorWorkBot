@@ -4,16 +4,16 @@ from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards import buttons
-
-from db.db_bish.ORM_Bish import bish_sql_product_care_insert, cursor_bish
-from db.db_osh.ORM_Osh import osh_sql_product_care_insert, cursor_osh
-from db.db_moscow_1.ORM_Moscow_1 import moscow_1_sql_product_care_insert, cursor_moscow_1
-from db.db_moscow_2.ORM_Moscow_2 import moscow_2_sql_product_care_insert, cursor_moscow_2
+import asyncpg
+from config import POSTGRES_URL
+from db.db_main.ORM_main import sql_product_care_insert
 from db.sql_commands.utils import update_product_coming_quantity, get_product_from_articul
 from datetime import date
 
-
 # =======================================================================================================================
+global connection
+connection = asyncpg.connect(POSTGRES_URL)
+
 
 class FsmCareProducts(StatesGroup):
     # name = State()  # Название товара
@@ -108,7 +108,7 @@ async def load_price(message: types.Message, state: FSMContext):
 async def load_discount(message: types.Message, state: FSMContext):
     if message.text.isdigit():
         async with state.proxy() as data:
-            data['discount'] = message.text
+            data['discount'] = int(message.text)
             data['calculation'] = int(data['price']) - int(data['discount'])
 
         await FsmCareProducts.next()
@@ -131,18 +131,11 @@ async def load_articul(message: types.Message, state: FSMContext):
     if message.text.isdigit():
         async with state.proxy() as data:
             data['articul'] = int(message.text)
-        global product_coming_data
-        if data['city'] == 'Бишкек':
-            product_coming_data = get_product_from_articul(cursor_bish, data['articul'])
-
-        elif data['city'] == 'ОШ':
-            product_coming_data = get_product_from_articul(cursor_osh, data['articul'])
-
-        elif data['city'] == 'Москва 1-филиал':
-            product_coming_data = get_product_from_articul(cursor_moscow_1, data['articul'])
-
-        elif data['city'] == 'Москва 2-филиал':
-            product_coming_data = get_product_from_articul(cursor_moscow_2, data['articul'])
+        async with asyncpg.create_pool(POSTGRES_URL) as pool:
+            async with pool.acquire() as connection:
+                global product_coming_data
+                product_coming_data = await get_product_from_articul(cursor=connection, articul=data['articul'],
+                                                                     city=data['city'])
         await FsmCareProducts.next()
         await message.answer('Количество товара?')
     else:
@@ -163,17 +156,17 @@ async def load_quantity(message: types.Message, state: FSMContext):
             await message.answer_photo(
                 product_coming_data[2],
                 caption=f"Данные товара: \n"
-                                f"АРТИКУЛ: {data['articul']}\n"
-                                f"Название товара: {data['name']}\n"
-                                f"Информация о товаре: {data['info']}\n"
-                                f"Дата ухода товара: {data['date_care']}\n"
-                                f"Заказчик: {data['name_customer']}\n"
-                                f"Номер телефона заказчика: {data['phone_customer']}\n"
-                                f"Продацев: {data['name_salesman']}\n"
-                                f"Цена: {data['price']}\n"
-                                f"Скидка: {data['discount']}\n"
-                                f"Итоговая цена: {data['calculation']}\n"
-                                f"Город: {data['city']}")
+                        f"АРТИКУЛ: {data['articul']}\n"
+                        f"Название товара: {data['name']}\n"
+                        f"Информация о товаре: {data['info']}\n"
+                        f"Дата ухода товара: {data['date_care']}\n"
+                        f"Заказчик: {data['name_customer']}\n"
+                        f"Номер телефона заказчика: {data['phone_customer']}\n"
+                        f"Продацев: {data['name_salesman']}\n"
+                        f"Цена: {data['price']}\n"
+                        f"Скидка: {data['discount']}\n"
+                        f"Итоговая цена: {data['calculation']}\n"
+                        f"Город: {data['city']}")
             await message.answer("Все верно?", reply_markup=buttons.submit_markup)
 
 
@@ -186,7 +179,6 @@ async def load_quantity(message: types.Message, state: FSMContext):
                                                   "Вы ввели неправильный артикул\n"
                                                   "Пожалуйста нажмите на кнопку 'Отмена'\n"
                                                   "И заполните заново эту запись!")
-
 
 
 # async def load_photo(message: types.Message, state: FSMContext):
@@ -215,29 +207,11 @@ async def load_quantity(message: types.Message, state: FSMContext):
 async def load_submit(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         if message.text.lower() == 'да':
-            if data['city'] == 'Бишкек':
-                update_product_coming_quantity(cursor_bish, data['quantity'], data['articul'])
-                await bish_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-            elif data['city'] == 'ОШ':
-                update_product_coming_quantity(cursor_osh, data['quantity'], data['articul'])
-                await osh_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-            elif data['city'] == 'Москва 1-филиал':
-                update_product_coming_quantity(cursor_moscow_1, data['quantity'], data['articul'])
-                await moscow_1_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
-
-            elif data['city'] == 'Москва 2-филиал':
-                update_product_coming_quantity(cursor_moscow_2, data['quantity'], data['articul'])
-                await moscow_2_sql_product_care_insert(state)
-                await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
-                await state.finish()
+            pool = await asyncpg.create_pool(POSTGRES_URL)
+            await update_product_coming_quantity(pool=pool, quantity=data['quantity'], articul=data['articul'])
+            await sql_product_care_insert(state)
+            await message.answer('Готово!', reply_markup=buttons.data_recording_markup)
+            await state.finish()
 
         elif message.text.lower() == 'нет':
             await message.answer('Хорошо, отменено', reply_markup=buttons.data_recording_markup)

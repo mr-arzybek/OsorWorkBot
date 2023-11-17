@@ -54,12 +54,13 @@ async def sql_product_care_insert(state):
                 data['phone_salesman'],
                 data['price'],
                 data['discount'],
-                data['total_price'],
+                data['calculation'],
                 data['city'],
                 data['articul'],
                 data['quantity'],
-                data['name_'],
-                data['info_product'],
+                data['photo'],
+                data['name'],
+                data['info'],
             )
             await connection.execute(sql_queris.PRODUCT_CARE_INSERT_QUERY, *values)
 
