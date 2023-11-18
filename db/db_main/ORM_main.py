@@ -101,6 +101,7 @@ async def sql_command_delete_booking(id):
     async with pool.acquire() as connection:
         await connection.execute("DELETE FROM booking WHERE id = $1", id)
 
+
 async def sql_staff_insert(state):
     async with pool.acquire() as connection:
         async with state.proxy() as data:

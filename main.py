@@ -8,7 +8,7 @@ from handlers.NewFSM import Products_Coming_Category
 from db.db_main.ORM_main import create_tables
 
 
-# from db.Delete_data import delete_care_products, delete_coming_products, delete_booking, delete_staff
+from db.Delete_data import delete_care_products, delete_coming_products, delete_booking, delete_staff
 
 # from db.sql_commands import get_products_comming, get_booking, get_staff, \
 #     get_salary_staff, get_products_care, get_regular_customer, get_being_late
@@ -57,10 +57,10 @@ Products_Coming_Category.register_fsm_comitCategory(dp)
 # get_info_ForControl.register_control(dp)
 # get_being_late_week.register_week(dp)
 # ===========================================================================
-# delete_care_products.register_handler_admin(dp)
-# delete_coming_products.register_handler_admin(dp)
-# delete_booking.register_handler_admin(dp)
-# delete_staff.register_handler_admin(dp)
+delete_care_products.register_handler_admin(dp)
+delete_coming_products.register_handler_admin(dp)
+delete_booking.register_handler_admin(dp)
+delete_staff.register_handler_admin(dp)
 # ===========================================================================
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
