@@ -13,10 +13,10 @@ async def update_product_coming_quantity(pool, quantity, articul):
 
 
 
-async def get_product_from_category(cursor, category, city):
+async def get_product_from_category(pool, category, city):
     try:
-        async with cursor.transaction():
-            products = await cursor.fetch(
+        async with pool.acquire() as connection:
+            products = await connection.fetch(
                 """SELECT * FROM products_coming
                 WHERE category = $1 AND city = $2""",
                 category, city

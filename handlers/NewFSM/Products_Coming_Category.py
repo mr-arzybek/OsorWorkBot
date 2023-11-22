@@ -7,8 +7,7 @@ from db.sql_commands.utils import get_product_from_category
 
 import asyncpg
 from config import POSTGRES_URL
-global connection
-connection = asyncpg.connect(POSTGRES_URL)
+
 
 cities = ['Бишкек', 'ОШ', 'Москва 1-филиал', 'Москва 1-филиал']
 categories = ["/Обувь", "/Нижнее_белье", "/Акссесуары", "/Верхняя_одежда", "/Штаны"]
@@ -36,19 +35,20 @@ async def load_city(message: types.Message, state: FSMContext):
 
 
 async def load_category(message: types.Message, state: FSMContext):
+    pool = await asyncpg.create_pool(POSTGRES_URL)
     async with state.proxy() as data_category:
         if 'city' in data_category:
             city = data_category['city']
             category = message.text.replace("/", "")
 
             if city == "Бишкек":
-                products = get_product_from_category(cursor=connection, category=category, city=city)
+                products = await get_product_from_category(pool=pool, category=category, city=city)
             elif city == "ОШ":
-                products = get_product_from_category(cursor=connection, category=category, city=city)
+                products = await get_product_from_category(pool=pool, category=category, city=city)
             elif city == "Москва 1-филиал":
-                products = get_product_from_category(cursor=connection, category=category, city=city)
+                products = await get_product_from_category(pool=pool, category=category, city=city)
             elif city == "Москва 2-филиал":
-                products = get_product_from_category(cursor=connection, category=category, city=city)
+                products = await get_product_from_category(pool=pool, category=category, city=city)
 
             for product in products:
                 await message.answer_photo(photo=product[9], caption=f"Товар: {product[1]}\n"
