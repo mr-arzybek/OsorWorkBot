@@ -54,7 +54,7 @@ get_salary_staff.register_sql_commands(dp)
 get_regular_customer.register_super_customers(dp)
 get_being_late.register_sql_commands(dp)
 # ===========================================================================
-# get_info_ForControl.register_control(dp)
+get_info_ForControl.register_control(dp)
 # get_being_late_week.register_week(dp)
 # ===========================================================================
 delete_care_products.register_handler_admin(dp)
