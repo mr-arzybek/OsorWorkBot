@@ -7,7 +7,7 @@ CREATE_PRODUCT_COMING_TABLE_QUERY = """
         price DECIMAL(10, 2),
         city VARCHAR(50), 
         category VARCHAR(50),
-        articul INTEGER,
+        articul TEXT,
         quantity INTEGER,
         photo TEXT,
         creation_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -33,7 +33,7 @@ CREATE_PRODUCT_CARE_TABLE_QUERY = """
         discount INTEGER,
         total_price INTEGER,
         city VARCHAR(50), 
-        articul INTEGER,
+        articul TEXT,
         quantity INTEGER,
         photo TEXT,
         name_ VARCHAR(255),

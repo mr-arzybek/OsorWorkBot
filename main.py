@@ -12,7 +12,7 @@ from db.Delete_data import delete_care_products, delete_coming_products, delete_
 
 from db.sql_commands import get_booking, get_staff, \
     get_salary_staff, get_products_care, get_regular_customer, get_being_late
-from db.checkout_control import get_info_ForControl, get_being_late_week
+from db.checkout_control import get_info_ForControl
 from keyboards import buttons
 
 from config import data_b
@@ -54,7 +54,6 @@ get_regular_customer.register_super_customers(dp)
 get_being_late.register_sql_commands(dp)
 # ===========================================================================
 get_info_ForControl.register_control(dp)
-# get_being_late_week.register_week(dp)
 # ===========================================================================
 delete_care_products.register_handler_admin(dp)
 delete_coming_products.register_handler_admin(dp)
