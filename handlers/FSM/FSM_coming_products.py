@@ -84,7 +84,7 @@ async def load_category(message: types.Message, state: FSMContext):
 async def load_articul(message: types.Message, state: FSMContext):
     if message.text.isdigit():
         async with state.proxy() as data:
-            data['articul'] = int(message.text)
+            data['articul'] = message.text
         await fsm_products.next()
         await message.answer('Количество товара?')
 

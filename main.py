@@ -7,7 +7,6 @@ from handlers.NewFSM import Products_Coming_Category
 
 from db.db_main.ORM_main import create_tables
 
-
 from db.Delete_data import delete_care_products, delete_coming_products, delete_booking, delete_staff
 
 from db.sql_commands import get_booking, get_staff, \
@@ -16,7 +15,6 @@ from db.checkout_control import get_info_ForControl
 from keyboards import buttons
 
 from config import data_b
-
 
 
 # ===========================================================================
@@ -28,10 +26,8 @@ async def on_startup(_):
     await create_tables()
 
 
-
-async def on_shutdown(_):
-    await data_b.close()
-
+# async def on_shutdown(_):
+#     await data_b.close()
 
 
 # ===========================================================================
@@ -62,4 +58,4 @@ delete_staff.register_handler_admin(dp)
 # ===========================================================================
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    executor.start_polling(dp, skip_updates=True, on_startup=on_startup, on_shutdown=on_shutdown)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
