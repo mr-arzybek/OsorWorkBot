@@ -16,12 +16,12 @@ bot = Bot(TOKEN)
 dp = Dispatcher(bot=bot, storage=storage)
 
 
-ip = config('ip')
-PostgresUser = config('PostgresUser')
-PostgresPassword = config('PostgresPassword')
-DATABASE = config('DATABASE')
+# ip = config('ip')
+# PostgresUser = config('PostgresUser')
+# PostgresPassword = config('PostgresPassword')
+# DATABASE = config('DATABASE')
 
-POSTGRES_URL = f"postgresql://{PostgresUser}:{PostgresPassword}@{ip}/{DATABASE}"
+POSTGRES_URL = "postgresql://postgres:238484@db:5432/OSOR_DB"
 
 data_b = Database(POSTGRES_URL)
 

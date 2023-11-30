@@ -58,7 +58,8 @@ async def load_category(message: types.Message, state: FSMContext):
                                                                      f"Город: {product[5]}\n"
                                                                      f"Категория: {product[6]}\n"
                                                                      f"Артикул: {product[7]}\n"
-                                                                     f"Количество: {product[8]}\n")
+                                                                     f"Количество: {product[8]}\n",
+                                           reply_markup=buttons.start_admins_markup)
         else:
             await message.answer("Филиал не выбран. Выберите филиал сначала.")
 

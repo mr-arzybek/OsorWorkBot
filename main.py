@@ -26,8 +26,8 @@ async def on_startup(_):
     await create_tables()
 
 
-# async def on_shutdown(_):
-#     await data_b.close()
+async def on_shutdown(_):
+    await data_b.close()
 
 
 # ===========================================================================
@@ -58,4 +58,4 @@ delete_staff.register_handler_admin(dp)
 # ===========================================================================
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
-    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
+    executor.start_polling(dp, skip_updates=True, on_startup=on_startup, on_shutdown=on_shutdown)

@@ -130,7 +130,7 @@ async def load_city(message: types.Message, state: FSMContext):
 async def load_articul(message: types.Message, state: FSMContext):
     if message.text.isdigit():
         async with state.proxy() as data:
-            data['articul'] = int(message.text)
+            data['articul'] = message.text
         async with asyncpg.create_pool(POSTGRES_URL) as pool:
             async with pool.acquire() as connection:
                 global product_coming_data
