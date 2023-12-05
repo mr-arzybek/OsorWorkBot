@@ -5,7 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram.dispatcher.filters import Text
 from keyboards import buttons
 import asyncpg
-from config import POSTGRES_URL
+from config import POSTGRES_URL, DESTINATION
 from db.db_main.ORM_main import sql_product_care_insert
 from db.sql_commands.utils import update_product_coming_quantity, get_product_from_articul
 from datetime import date
@@ -151,10 +151,12 @@ async def load_quantity(message: types.Message, state: FSMContext):
                 data['name'] = product_coming_data[0]
                 data['info'] = product_coming_data[1]
                 data['date'] = date.today()
-
+                with open(f"{product_coming_data[2]}") as photo:
+                    pass
             await FsmCareProducts.next()
+
             await message.answer_photo(
-                product_coming_data[2],
+                photo=photo,
                 caption=f"Данные товара: \n"
                         f"АРТИКУЛ: {data['articul']}\n"
                         f"Название товара: {data['name']}\n"

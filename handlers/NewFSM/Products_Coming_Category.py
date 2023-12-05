@@ -6,8 +6,7 @@ from aiogram.dispatcher.filters import Text
 from db.sql_commands.utils import get_product_from_category
 
 import asyncpg
-from config import POSTGRES_URL
-
+from config import POSTGRES_URL, DESTINATION
 
 cities = ['Бишкек', 'ОШ', 'Москва 1-филиал', 'Москва 2-филиал']
 categories = ["/Обувь", "/Нижнее_белье", "/Акссесуары", "/Верхняя_одежда", "/Штаны"]
@@ -37,7 +36,7 @@ async def load_city(message: types.Message, state: FSMContext):
 async def load_category(message: types.Message, state: FSMContext):
     pool = await asyncpg.create_pool(POSTGRES_URL)
     async with state.proxy() as data_category:
-        if 'city' in data_category:
+        if message.text in categories:
             city = data_category['city']
             category = message.text.replace("/", "")
 
@@ -51,15 +50,16 @@ async def load_category(message: types.Message, state: FSMContext):
                 products = await get_product_from_category(pool=pool, category=category, city=city)
 
             for product in products:
-                await message.answer_photo(photo=product[9], caption=f"Товар: {product[1]}\n"
-                                                                     f"Информация о товаре: {product[2]}\n"
-                                                                     f"Дата прихода: {product[3]}\n"
-                                                                     f"Цена: {product[4]}\n"
-                                                                     f"Город: {product[5]}\n"
-                                                                     f"Категория: {product[6]}\n"
-                                                                     f"Артикул: {product[7]}\n"
-                                                                     f"Количество: {product[8]}\n",
-                                           reply_markup=buttons.start_admins_markup)
+                with open(f"{DESTINATION}{product[9]}") as photo:
+                    await message.answer_photo(photo=photo, caption=f"Товар: {product[1]}\n"
+                                                                    f"Информация о товаре: {product[2]}\n"
+                                                                    f"Дата прихода: {product[3]}\n"
+                                                                    f"Цена: {product[4]}\n"
+                                                                    f"Город: {product[5]}\n"
+                                                                    f"Категория: {product[6]}\n"
+                                                                    f"Артикул: {product[7]}\n"
+                                                                    f"Количество: {product[8]}\n",
+                                               reply_markup=buttons.start_admins_markup)
         else:
             await message.answer("Филиал не выбран. Выберите филиал сначала.")
 

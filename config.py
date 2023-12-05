@@ -8,9 +8,9 @@ storage = MemoryStorage()
 
 TOKEN = config('TOKEN')
 
-Admins = [659106628, 659106628]
+Admins = [908379438]
 
-Director = [659106628, ]
+Director = [908379438, ]
 bot = Bot(TOKEN)
 
 dp = Dispatcher(bot=bot, storage=storage)
@@ -22,7 +22,7 @@ dp = Dispatcher(bot=bot, storage=storage)
 # DATABASE = config('DATABASE')
 
 POSTGRES_URL = "postgresql://postgres:238484@db:5432/OSOR_DB"
-
+DESTINATION = config('DESTINATION')
 data_b = Database(POSTGRES_URL)
 
 
