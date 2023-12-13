@@ -171,7 +171,7 @@ async def cancel_reg(message: types.Message, state: FSMContext):
 # =======================================================================================================================
 
 def register_booking(dp: Dispatcher):
-    dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
+    dp.register_message_handler(cancel_reg, Text(equals='/Cancel', ignore_case=True), state='*')
 
     dp.register_message_handler(fsm_start, commands=['записать_бронь'])
 

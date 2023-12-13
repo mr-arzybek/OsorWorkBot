@@ -230,7 +230,7 @@ async def cancel_reg(message: types.Message, state: FSMContext):
 # =======================================================================================================================
 
 def register_products(dp: Dispatcher):
-    dp.register_message_handler(cancel_reg, Text(equals='Отмена', ignore_case=True), state='*')
+    dp.register_message_handler(cancel_reg, Text(equals='/Cancel', ignore_case=True), state='*')
     dp.register_message_handler(fsm_start, commands=['запись_ухода_товара'])
 
     # dp.register_message_handler(load_name, state=FsmCareProducts.name)

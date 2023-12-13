@@ -191,12 +191,12 @@ control_markup.add(control_day_Bish, control_month_Bish, control_day_Osh, contro
 """-------------------------"""
 
 # ======================================================================================================================
-cancel_button = KeyboardButton('Отмена')
+cancel_button = KeyboardButton('/Cancel')
 cancel_markup = ReplyKeyboardMarkup(resize_keyboard=True,
                                     one_time_keyboard=True,
                                     ).add(cancel_button)
 
-cancel_button_category = KeyboardButton('Отмена!')
+cancel_button_category = KeyboardButton('/сancel')
 cancel_markup_category = ReplyKeyboardMarkup(resize_keyboard=True,
                                     one_time_keyboard=True,
                                     ).add(cancel_button_category)

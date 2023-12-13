@@ -17,6 +17,13 @@ async def start(message: types.Message):
                                reply_markup=buttons.staff_markup)
 
 
+async def support(message: types.Message):
+    await message.answer('Тех поддержка:\n\n'
+                         'Бишкек: +996221825236n\n'
+                         'Ош: +996559618881\n'
+                         '')
+
+
 async def info(message: types.Message):
     text = """
 Для чего нужен этот бот ?
@@ -73,9 +80,6 @@ async def pull_data(message: types.Message):
         await message.answer("Вы не админ!")
 
 
-
-
-
 async def products_coming(message: types.Message):
     if message.from_user.id in Admins or Director:
         await message.answer(f"Вы выбрали приход товаров!"
@@ -97,7 +101,6 @@ async def products_booking(message: types.Message):
         await message.answer(f"Вы выбрали в брони товаров!", reply_markup=buttons.Booking_Buttons)
     else:
         await message.answer("Вы не админ!")
-
 
 
 async def get_bishkek(message: types.Message):
@@ -236,6 +239,7 @@ async def back_for_director(message: types.Message):
 
 def register_commands(dp: Dispatcher):
     dp.register_message_handler(start, commands=['start'])
+    dp.register_message_handler(support, commands=['support'])
 
     dp.register_message_handler(info, commands=['Информация', 'info'])
 
