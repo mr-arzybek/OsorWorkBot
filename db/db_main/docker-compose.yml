@@ -1,0 +1,17 @@
+version: '3.3'
+
+services:
+  db:
+    image: postgres
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_DB: OSOR_DB
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 238484
+    expose:
+      - "5432"
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data  # Монтируйте директорию для сохранения данных
